@@ -8,6 +8,12 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
+  timezone: 'Z', // DATETIME 값을 JS Date로 주고받을 때 UTC로 해석
+});
+
+// 새 연결마다 세션 시간대를 UTC로 맞춘다 → CURRENT_TIMESTAMP·NOW()도 UTC로 저장 (DB 설계 D6)
+pool.on('connection', (connection) => {
+  connection.query("SET time_zone = '+00:00'");
 });
 
 module.exports = pool;
