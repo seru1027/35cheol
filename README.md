@@ -18,8 +18,8 @@
 
 ```
 35cheol/
-├── client/   # React 프론트엔드 (2주차부터 작업)
-└── server/   # Express 백엔드 (1주차부터 작업)
+├── client/   # React 프론트엔드 (화면에 필요한 API가 끝나면 그 화면부터 작업)
+└── server/   # Express 백엔드 (가장 먼저 작업)
 ```
 
 ## 학습 방식
