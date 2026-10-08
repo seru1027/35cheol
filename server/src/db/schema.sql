@@ -1,7 +1,7 @@
 -- =============================================================
--- 35cheol ERD v0.1
+-- 35cheol ERD v0.2
 -- 범위: MVP API 18개 (AUTH-01~04, ORG-01~03, JOIN-01~04, MEMBER-01, NOTICE-01~05)
--- 기준: Wiki 'API 명세서' v0.1, 설계 결정 D1~D9 (Wiki 'ERD 설계서')
+-- 기준: Wiki 'API 명세서' v0.2, 설계 결정 D1~D9 (Wiki 'ERD 설계서')
 --
 -- 실행: mysql -u root -p --default-character-set=utf8mb4 < server/src/db/schema.sql
 --   --default-character-set: mysql 클라이언트의 기본 문자셋이 latin1이면 한글·이모지가 깨지거나
@@ -48,7 +48,7 @@ CREATE TABLE users (
 
 
 -- -------------------------------------------------------------
--- 2. organizations — 동아리 (ORG-01~03, JOIN-01·02)
+-- 2. organizations — 동아리 (ORG-01·02, JOIN-01·02)
 -- -------------------------------------------------------------
 CREATE TABLE organizations (
   id          INT UNSIGNED  NOT NULL AUTO_INCREMENT,
@@ -67,7 +67,7 @@ CREATE TABLE organizations (
 
 -- -------------------------------------------------------------
 -- 3. memberships — 사용자와 조직의 소속 관계, 역할은 여기에 붙는다
---    (ORG-01·02·03, JOIN-02~04, MEMBER-01, 모든 조직 기능의 검문 ②③)
+--    (ORG-01·02·03, JOIN-02~04, MEMBER-01, 모든 조직 API의 멤버십·역할 검사)
 -- -------------------------------------------------------------
 CREATE TABLE memberships (
   id           INT UNSIGNED  NOT NULL AUTO_INCREMENT,  -- API의 membershipId (JOIN-03 목록 → JOIN-04 승인 URL)
@@ -97,6 +97,7 @@ CREATE TABLE memberships (
   -- D8: 상태와 역할·가입 시각의 짝을 DB가 강제한다 (D2·D5). 어기면 3819 에러 → 500 (서버 버그)
   --     핵심 단계에서 LEFT·REMOVED를 추가할 때 이 식도 함께 고친다
   --   ACTIVE면 역할·가입 시각이 반드시 있음 / PENDING이면 둘 다 NULL / 그 밖의 상태는 제한하지 않음
+  --   REJECTED도 역할 NULL(D2)이지만 MVP에는 거절 기능이 없어 아직 강제하지 않는다 → 거절(JOIN-05) 만들 때 추가
   CONSTRAINT chk_memberships_status_role CHECK (
     (status = 'ACTIVE'  AND role IS NOT NULL AND joined_at IS NOT NULL) OR
     (status = 'PENDING' AND role IS NULL     AND joined_at IS NULL) OR
