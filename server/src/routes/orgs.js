@@ -1,5 +1,5 @@
 const express = require('express');
-const { createOrg } = require('../controllers/orgController');
+const { createOrg, getMyOrgs } = require('../controllers/orgController');
 const requireAuth = require('../middlewares/requireAuth');
 
 // /api/orgs 아래 주소 (app.js에서 붙인다)
@@ -9,5 +9,6 @@ const router = express.Router();
 router.use(requireAuth);
 
 router.post('/', createOrg); // ORG-01
+router.get('/', getMyOrgs); // ORG-02
 
 module.exports = router;

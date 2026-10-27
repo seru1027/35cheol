@@ -39,4 +39,28 @@ async function createOrg(req, res) {
   return sendResponse(res, 201, 'CREATE_ORG_SUCCESS', { orgId });
 }
 
-module.exports = { createOrg };
+// ORG-02 내 조직 목록: 내 멤버십이 ACTIVE·PENDING인 조직. 사용자는 토큰에서만 꺼낸다 (req.userId)
+async function getMyOrgs(req, res) {
+  // memberships에서 내 행을 찾고, 같은 org_id의 organizations 행을 붙여 이름을 읽는다
+  // 정렬: 먼저 들어간 동아리가 앞. requested_at은 초 단위라 같은 초면 id(들어간 순서)로 고정한다
+  const [rows] = await pool.query(
+    `SELECT o.id, o.name, m.role, m.status
+     FROM memberships m
+     JOIN organizations o ON o.id = m.org_id
+     WHERE m.user_id = ? AND m.status IN ('ACTIVE', 'PENDING')
+     ORDER BY m.requested_at, m.id`,
+    [req.userId],
+  );
+
+  // 0개면 빈 배열 (404 아님). PENDING이면 role이 NULL이라 myRole도 null (D2)
+  const orgs = rows.map((row) => ({
+    orgId: row.id,
+    name: row.name,
+    myRole: row.role,
+    myStatus: row.status,
+  }));
+
+  return sendResponse(res, 200, 'GET_MY_ORGS_SUCCESS', { orgs });
+}
+
+module.exports = { createOrg, getMyOrgs };
