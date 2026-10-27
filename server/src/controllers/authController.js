@@ -14,6 +14,14 @@ const DUMMY_HASH = bcrypt.hashSync('dummy-password-for-timing', BCRYPT_COST);
 // Access Token 유효 시간 30분: 토큰 만료(exp)와 쿠키 Max-Age를 같게 둔다
 const ACCESS_TOKEN_MINUTES = 30;
 
+// 토큰 쿠키 옵션. 로그아웃도 같은 옵션이어야 브라우저가 같은 쿠키로 보고 지운다 (API 명세서 AUTH-04)
+const ACCESS_TOKEN_COOKIE_OPTIONS = {
+  httpOnly: true, // JS(document.cookie)로 읽을 수 없음
+  sameSite: 'lax', // 다른 사이트에서 보내는 POST 등에는 실리지 않음
+  secure: process.env.NODE_ENV === 'production', // 배포(HTTPS)에서만. localhost는 HTTP
+  path: '/',
+};
+
 // AUTH-01 회원가입
 async function signup(req, res) {
   // 검사는 명세의 body 순서(loginId → name → password)로, 처음 걸린 하나만 응답한다 (API 명세서 0-3)
@@ -84,10 +92,7 @@ async function login(req, res) {
     expiresIn: `${ACCESS_TOKEN_MINUTES}m`,
   });
   res.cookie('access_token', token, {
-    httpOnly: true, // JS(document.cookie)로 읽을 수 없음
-    sameSite: 'lax', // 다른 사이트에서 보내는 POST 등에는 실리지 않음
-    secure: process.env.NODE_ENV === 'production', // 배포(HTTPS)에서만. localhost는 HTTP
-    path: '/',
+    ...ACCESS_TOKEN_COOKIE_OPTIONS,
     maxAge: ACCESS_TOKEN_MINUTES * 60 * 1000, // Express는 ms로 받아 Max-Age=1800(초)로 보낸다
   });
 
@@ -119,4 +124,12 @@ async function me(req, res) {
   });
 }
 
-module.exports = { signup, login, me };
+// AUTH-04 로그아웃: 인증 미들웨어를 거치지 않는다. 쿠키가 없거나 만료돼도 결과가 같으므로 성공 (멱등성)
+// 서버에 저장된 토큰이 없어 지울 것은 쿠키뿐이다. 이미 복사된 토큰은 30분 만료까지 유효 (범위 밖)
+function logout(req, res) {
+  // Express는 Max-Age=0 대신 Expires=Thu, 01 Jan 1970 00:00:00 GMT로 보낸다. 둘 다 브라우저가 지운다
+  res.clearCookie('access_token', ACCESS_TOKEN_COOKIE_OPTIONS);
+  return sendResponse(res, 200, 'LOGOUT_SUCCESS');
+}
+
+module.exports = { signup, login, me, logout };
