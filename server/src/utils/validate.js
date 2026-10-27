@@ -2,7 +2,8 @@
 // 통과 → { value: 정리된 값, code: null }, 실패 → { value: null, code: 처음 걸린 코드 }
 // field: 코드에 들어갈 이름 ('LOGIN_ID' → REQUIRED_LOGIN_ID, INVALID_LOGIN_ID_TYPE ...)
 // trim: false면 비밀번호 규칙. 공백을 지우지 않고, 빈 문자열만 REQUIRED, 길이도 입력 그대로 센다
-function validateString(value, { field, min, max, pattern, trim = true, lowercase = false }) {
+// min·max·pattern을 넘기지 않으면 그 검사를 건너뛴다 (AUTH-02 로그인은 REQUIRED·TYPE만)
+function validateString(value, { field, min = 0, max = Infinity, pattern, trim = true, lowercase = false }) {
   const fail = (code) => ({ value: null, code });
 
   // 정리는 문자열일 때만. 아이디는 공백 제거 후 소문자로 바꾼 값으로 검사·저장한다

@@ -1,10 +1,18 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const pool = require('../db/connection');
 const { sendResponse } = require('../utils/response');
 const { validateString } = require('../utils/validate');
 
 // bcrypt 해시 강도 (1 올릴 때마다 시간 2배). AUTH-02의 가짜 해시도 이 값으로 만든다 (API 명세서 AUTH-02)
 const BCRYPT_COST = 10;
+
+// 없는 아이디로 로그인할 때 비교할 가짜 해시. 실제 해시와 같은 cost의 유효한 bcrypt 해시여야
+// 비교 시간이 같아진다 (API 명세서 AUTH-02). 서버 시작 때 한 번만 만든다
+const DUMMY_HASH = bcrypt.hashSync('dummy-password-for-timing', BCRYPT_COST);
+
+// Access Token 유효 시간 30분: 토큰 만료(exp)와 쿠키 Max-Age를 같게 둔다
+const ACCESS_TOKEN_MINUTES = 30;
 
 // AUTH-01 회원가입
 async function signup(req, res) {
@@ -47,4 +55,48 @@ async function signup(req, res) {
   });
 }
 
-module.exports = { signup };
+// AUTH-02 로그인
+async function login(req, res) {
+  // 아이디·비밀번호 모두 필수값과 문자열 타입만 검사한다. 형식이 틀린 아이디는 어차피 조회에 실패해 401
+  const loginId = validateString(req.body.loginId, { field: 'LOGIN_ID', lowercase: true });
+  if (loginId.code) return sendResponse(res, 400, loginId.code);
+
+  // 비밀번호는 공백을 지우지 않고 원문 그대로 비교한다. 공백뿐인 값도 그대로 비교해 401
+  const password = validateString(req.body.password, { field: 'PASSWORD', trim: false });
+  if (password.code) return sendResponse(res, 400, password.code);
+
+  const [rows] = await pool.query(
+    'SELECT id, login_id, name, password_hash FROM users WHERE login_id = ?',
+    [loginId.value],
+  );
+  const user = rows[0];
+
+  // 아이디가 없어도 가짜 해시로 비교해 두 경우의 응답 시간을 맞춘다.
+  // 아이디 미존재와 비밀번호 불일치는 같은 코드: "아이디는 맞았다"는 힌트를 주지 않는다
+  const isMatch = await bcrypt.compare(password.value, user ? user.password_hash : DUMMY_HASH);
+  if (!user || !isMatch) {
+    return sendResponse(res, 401, 'INVALID_LOGIN_ID_OR_PASSWORD');
+  }
+
+  // 토큰 내용은 사용자 ID만 (sub: JWT 표준 '주인' 항목, 문자열). body에는 담지 않고 쿠키로만 보낸다
+  const token = jwt.sign({}, process.env.JWT_SECRET, {
+    subject: String(user.id),
+    expiresIn: `${ACCESS_TOKEN_MINUTES}m`,
+  });
+  res.cookie('access_token', token, {
+    httpOnly: true, // JS(document.cookie)로 읽을 수 없음
+    sameSite: 'lax', // 다른 사이트에서 보내는 POST 등에는 실리지 않음
+    secure: process.env.NODE_ENV === 'production', // 배포(HTTPS)에서만. localhost는 HTTP
+    path: '/',
+    maxAge: ACCESS_TOKEN_MINUTES * 60 * 1000, // Express는 ms로 받아 Max-Age=1800(초)로 보낸다
+  });
+
+  // 응답 data는 AUTH-03 내 정보 조회와 같은 모양
+  return sendResponse(res, 200, 'LOGIN_SUCCESS', {
+    userId: user.id,
+    loginId: user.login_id,
+    name: user.name,
+  });
+}
+
+module.exports = { signup, login };
