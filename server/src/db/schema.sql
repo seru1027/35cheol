@@ -1,7 +1,7 @@
 -- =============================================================
--- 35cheol ERD v0.2
+-- 35cheol ERD v0.3
 -- 범위: MVP API 18개 (AUTH-01~04, ORG-01~03, JOIN-01~04, MEMBER-01, NOTICE-01~05)
--- 기준: Wiki 'API 명세서' v0.2, 설계 결정 D1~D9 (Wiki 'ERD 설계서')
+-- 기준: Wiki 'API 명세서' v0.4, 설계 결정 D1~D9 (Wiki 'ERD 설계서')
 --
 -- 실행: mysql -u root -p --default-character-set=utf8mb4 < server/src/db/schema.sql
 --   --default-character-set: mysql 클라이언트의 기본 문자셋이 latin1이면 한글·이모지가 깨지거나
