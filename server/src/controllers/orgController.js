@@ -63,4 +63,14 @@ async function getMyOrgs(req, res) {
   return sendResponse(res, 200, 'GET_MY_ORGS_SUCCESS', { orgs });
 }
 
-module.exports = { createOrg, getMyOrgs };
+// ORG-03 조직 조회 (동아리 홈 진입 확인). checkIds·requireMembership을 통과해야 여기 온다
+// 응답은 이미 가진 값(숫자로 바꾼 URL의 조직 ID, 미들웨어가 읽은 내 역할)만으로 만들어 추가 SQL이 없다.
+// 동아리 이름은 담지 않는다 (화면은 ORG-02 목록에서 찾음)
+function getOrg(req, res) {
+  return sendResponse(res, 200, 'GET_ORG_SUCCESS', {
+    orgId: req.orgId,
+    myRole: req.membership.role,
+  });
+}
+
+module.exports = { createOrg, getMyOrgs, getOrg };
