@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const notFound = require('./middlewares/notFound');
 const errorHandler = require('./middlewares/errorHandler');
+const authRouter = require('./routes/auth');
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.use((req, res, next) => {
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
+
+app.use('/api/auth', authRouter);
 
 app.use(notFound);
 app.use(errorHandler);
