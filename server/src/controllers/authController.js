@@ -99,4 +99,24 @@ async function login(req, res) {
   });
 }
 
-module.exports = { signup, login };
+// AUTH-03 내 정보 조회 (requireAuth 뒤에서 실행되어 req.userId가 있다)
+async function me(req, res) {
+  const [rows] = await pool.query(
+    'SELECT id, login_id, name FROM users WHERE id = ?',
+    [req.userId],
+  );
+  const user = rows[0];
+
+  // 토큰은 유효하지만 사용자가 없음 → 다른 401과 같은 코드
+  if (!user) {
+    return sendResponse(res, 401, 'UNAUTHORIZED');
+  }
+
+  return sendResponse(res, 200, 'GET_ME_SUCCESS', {
+    userId: user.id,
+    loginId: user.login_id,
+    name: user.name,
+  });
+}
+
+module.exports = { signup, login, me };
