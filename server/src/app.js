@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const notFound = require('./middlewares/notFound');
 const errorHandler = require('./middlewares/errorHandler');
 const authRouter = require('./routes/auth');
+const orgsRouter = require('./routes/orgs');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/auth', authRouter);
+app.use('/api/orgs', orgsRouter);
 
 app.use(notFound);
 app.use(errorHandler);
