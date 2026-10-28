@@ -5,6 +5,7 @@ const notFound = require('./middlewares/notFound');
 const errorHandler = require('./middlewares/errorHandler');
 const authRouter = require('./routes/auth');
 const orgsRouter = require('./routes/orgs');
+const joinRequestsRouter = require('./routes/joinRequests');
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.get('/health', (req, res) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/orgs', orgsRouter);
+app.use('/api/join-requests', joinRequestsRouter);
 
 app.use(notFound);
 app.use(errorHandler);

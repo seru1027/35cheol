@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const pool = require('../db/connection');
 const { sendResponse } = require('../utils/response');
+const { validateString } = require('../utils/validate');
 
 // 초대 코드: 8자리, 영문 대문자+숫자 36자에서 헷갈리는 0 O 1 I L을 뺀 31자 (API 명세서 JOIN-01)
 const INVITE_CODE_CHARS = '23456789ABCDEFGHJKMNPQRSTUVWXYZ';
@@ -48,4 +49,65 @@ async function getInviteCode(req, res) {
   return sendResponse(res, 200, 'GET_INVITE_CODE_SUCCESS', { inviteCode: rows[0].invite_code });
 }
 
-module.exports = { createInviteCode, getInviteCode };
+// JOIN-02 가입 신청. 신청자는 조직 ID를 모르고 코드만 알아서, 멤버십 미들웨어 없이 코드로 조직을 찾는다
+async function createJoinRequest(req, res) {
+  // 필수값·문자열 타입만 검사하고 형식은 보지 않는다. 형식이 틀린 코드는 어차피 조회에 실패해 404
+  const inviteCode = validateString(req.body.inviteCode, { field: 'INVITE_CODE', uppercase: true });
+  if (inviteCode.code) return sendResponse(res, 400, inviteCode.code);
+
+  // 재발급으로 무효가 된 코드도 DB에 없으므로 여기서 404
+  const [orgRows] = await pool.query(
+    'SELECT id, name FROM organizations WHERE invite_code = ?',
+    [inviteCode.value],
+  );
+  const org = orgRows[0];
+  if (!org) {
+    return sendResponse(res, 404, 'INVITE_CODE_NOT_FOUND');
+  }
+
+  // 새 행이든 재사용이든 '신청이 새로 생김'이라 같은 201, 응답은 ORG-02 목록 항목과 같은 모양
+  const created = () => sendResponse(res, 201, 'JOIN_REQUEST_SUCCESS', {
+    orgId: org.id,
+    name: org.name,
+    myRole: null,
+    myStatus: 'PENDING',
+  });
+
+  // (1) INSERT를 먼저 시도한다. role·joined_at은 NULL, requested_at은 기본값(지금, UTC) (D2·D5·D6)
+  try {
+    await pool.query(
+      "INSERT INTO memberships (user_id, org_id, status) VALUES (?, ?, 'PENDING')",
+      [req.userId, org.id],
+    );
+    return created();
+  } catch (err) {
+    if (err.code !== 'ER_DUP_ENTRY') throw err;
+  }
+
+  // (2) 1062: 이 사람·이 조직의 행이 이미 있다 (UNIQUE (user_id, org_id)).
+  // 신청할 수 있는 상태(PENDING·ACTIVE가 아님)일 때만 그 행을 PENDING으로 재사용한다.
+  // 상태 조건을 UPDATE에 같이 걸어서, 버튼을 두 번 눌러도 첫 요청만 바뀐다
+  const [updateResult] = await pool.query(
+    `UPDATE memberships
+     SET role = NULL, status = 'PENDING', requested_at = CURRENT_TIMESTAMP, joined_at = NULL
+     WHERE user_id = ? AND org_id = ? AND status NOT IN ('PENDING', 'ACTIVE')`,
+    [req.userId, org.id],
+  );
+  if (updateResult.affectedRows === 1) {
+    return created();
+  }
+
+  // (3) 바뀐 행이 0개: 이미 대기 중이거나 회원이다. 지금 상태를 보고 409를 고른다
+  const [rows] = await pool.query(
+    'SELECT status FROM memberships WHERE user_id = ? AND org_id = ?',
+    [req.userId, org.id],
+  );
+  const status = rows[0]?.status;
+  if (status === 'PENDING') return sendResponse(res, 409, 'JOIN_ALREADY_REQUESTED');
+  if (status === 'ACTIVE') return sendResponse(res, 409, 'ALREADY_ORG_MEMBER');
+
+  // MVP에는 거절 기능이 없어 일어나지 않는 경우. 생기면 버그라 숨기지 않고 500
+  throw new Error(`가입 신청: 예상하지 못한 멤버십 상태 ${status}`);
+}
+
+module.exports = { createInviteCode, getInviteCode, createJoinRequest };
