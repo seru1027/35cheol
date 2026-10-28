@@ -1,5 +1,7 @@
 const express = require('express');
-const { createOrg, getMyOrgs, getOrg } = require('../controllers/orgController');
+const {
+  createOrg, getMyOrgs, getOrg, getMembers,
+} = require('../controllers/orgController');
 const requireAuth = require('../middlewares/requireAuth');
 const checkIds = require('../middlewares/checkIds');
 const requireMembership = require('../middlewares/requireMembership');
@@ -21,6 +23,7 @@ const orgMember = [checkIds, requireMembership];
 router.post('/', createOrg); // ORG-01
 router.get('/', getMyOrgs); // ORG-02
 router.get('/:orgId', orgMember, getOrg); // ORG-03
+router.get('/:orgId/members', orgMember, getMembers); // MEMBER-01: 역할 검사 없음, 역할에 따라 항목이 다름
 
 // 회장·운영진 전용: 멤버십 검사 다음에 역할 검사
 const ownerOrAdmin = requireRole('OWNER', 'ADMIN');

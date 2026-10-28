@@ -73,4 +73,35 @@ function getOrg(req, res) {
   });
 }
 
-module.exports = { createOrg, getMyOrgs, getOrg };
+// 회원 목록에서 관리용 항목(membershipId, loginId, joinedAt)까지 보는 역할
+// '넣는 목록'으로 둔다: 새 역할이 생겨도 여기에 넣기 전까지는 일반 회원 항목만 받는다 (API 명세서 MEMBER-01)
+const MANAGER_ROLES = ['OWNER', 'ADMIN'];
+
+// MEMBER-01 회원 목록: 이 조직의 ACTIVE 회원. 허용 역할: 모두 (역할 검사 없음)
+// 단 내 역할에 따라 응답 항목이 다르다. 일반 회원 응답에서는 서버가 항목을 아예 뺀다 (프론트에서 숨기기 아님)
+async function getMembers(req, res) {
+  // 데이터 격리: 조직 ID 조건. 정렬: 역할 순(ENUM 선언 순서 OWNER → ADMIN → MEMBER, D3) → 가입 순 → 같은 초면 id
+  const [rows] = await pool.query(
+    `SELECT m.id, u.login_id, u.name, m.role, m.joined_at
+     FROM memberships m
+     JOIN users u ON u.id = m.user_id
+     WHERE m.org_id = ? AND m.status = 'ACTIVE'
+     ORDER BY m.role, m.joined_at, m.id`,
+    [req.orgId],
+  );
+
+  const isManager = MANAGER_ROLES.includes(req.membership.role);
+  const members = rows.map((row) => (isManager
+    ? {
+      membershipId: row.id,
+      loginId: row.login_id,
+      name: row.name,
+      role: row.role,
+      joinedAt: row.joined_at,
+    }
+    : { name: row.name, role: row.role }));
+
+  return sendResponse(res, 200, 'GET_MEMBERS_SUCCESS', { members });
+}
+
+module.exports = { createOrg, getMyOrgs, getOrg, getMembers };
