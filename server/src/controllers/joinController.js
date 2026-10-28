@@ -134,4 +134,35 @@ async function getJoinRequests(req, res) {
   return sendResponse(res, 200, 'GET_JOIN_REQUESTS_SUCCESS', { joinRequests });
 }
 
-module.exports = { createInviteCode, getInviteCode, createJoinRequest, getJoinRequests };
+// JOIN-04 가입 승인: 대기 중인 신청 하나를 회원(ACTIVE, MEMBER)으로. 허용 역할: OWNER, ADMIN
+// URL의 membershipId는 checkIds가 형식을 검사해 req.membershipId에 붙여 둔다
+async function approveJoinRequest(req, res) {
+  // 한 문장으로 데이터 격리와 동시 승인을 함께 처리한다
+  //   org_id = ?            → 다른 조직의 신청 번호를 넣어도 바뀌지 않음 (IDOR 방어)
+  //   status = 'PENDING'    → 두 운영진이 동시에 승인해도 먼저 온 요청만 바뀜
+  // ACTIVE면 역할·가입 시각이 반드시 있어야 한다 (D8 CHECK)
+  const [result] = await pool.query(
+    `UPDATE memberships
+     SET status = 'ACTIVE', role = 'MEMBER', joined_at = CURRENT_TIMESTAMP
+     WHERE id = ? AND org_id = ? AND status = 'PENDING'`,
+    [req.membershipId, req.orgId],
+  );
+  if (result.affectedRows === 1) {
+    return sendResponse(res, 200, 'APPROVE_JOIN_REQUEST_SUCCESS');
+  }
+
+  // 바뀐 행이 0개: 이 조직에 그 신청이 아예 없는지, 있는데 이미 처리됐는지 가른다
+  const [rows] = await pool.query(
+    'SELECT id FROM memberships WHERE id = ? AND org_id = ?',
+    [req.membershipId, req.orgId],
+  );
+  if (rows.length === 0) {
+    // 없는 ID, 또는 다른 조직의 ID: 같은 404로 다른 조직의 신청이 있는지 알려주지 않는다
+    return sendResponse(res, 404, 'JOIN_REQUEST_NOT_FOUND');
+  }
+  return sendResponse(res, 409, 'JOIN_REQUEST_ALREADY_PROCESSED');
+}
+
+module.exports = {
+  createInviteCode, getInviteCode, createJoinRequest, getJoinRequests, approveJoinRequest,
+};

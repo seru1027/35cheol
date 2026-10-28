@@ -4,7 +4,9 @@ const requireAuth = require('../middlewares/requireAuth');
 const checkIds = require('../middlewares/checkIds');
 const requireMembership = require('../middlewares/requireMembership');
 const requireRole = require('../middlewares/requireRole');
-const { createInviteCode, getInviteCode, getJoinRequests } = require('../controllers/joinController');
+const {
+  createInviteCode, getInviteCode, getJoinRequests, approveJoinRequest,
+} = require('../controllers/joinController');
 
 // /api/orgs 아래 주소 (app.js에서 붙인다)
 const router = express.Router();
@@ -25,5 +27,7 @@ const ownerOrAdmin = requireRole('OWNER', 'ADMIN');
 router.post('/:orgId/invite-code', orgMember, ownerOrAdmin, createInviteCode); // JOIN-01 발급
 router.get('/:orgId/invite-code', orgMember, ownerOrAdmin, getInviteCode); // JOIN-01 조회
 router.get('/:orgId/join-requests', orgMember, ownerOrAdmin, getJoinRequests); // JOIN-03
+// JOIN-04: checkIds가 조직 ID 다음에 membershipId 형식도 검사한다
+router.post('/:orgId/join-requests/:membershipId/approve', orgMember, ownerOrAdmin, approveJoinRequest);
 
 module.exports = router;
