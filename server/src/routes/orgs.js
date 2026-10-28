@@ -9,6 +9,7 @@ const requireRole = require('../middlewares/requireRole');
 const {
   createInviteCode, getInviteCode, getJoinRequests, approveJoinRequest,
 } = require('../controllers/joinController');
+const { getNotices } = require('../controllers/noticeController');
 
 // /api/orgs 아래 주소 (app.js에서 붙인다)
 const router = express.Router();
@@ -32,5 +33,8 @@ router.get('/:orgId/invite-code', orgMember, ownerOrAdmin, getInviteCode); // JO
 router.get('/:orgId/join-requests', orgMember, ownerOrAdmin, getJoinRequests); // JOIN-03
 // JOIN-04: checkIds가 조직 ID 다음에 membershipId 형식도 검사한다
 router.post('/:orgId/join-requests/:membershipId/approve', orgMember, ownerOrAdmin, approveJoinRequest);
+
+// 공지 (NOTICE-01~05)
+router.get('/:orgId/notices', orgMember, getNotices); // NOTICE-01: 역할 검사 없음
 
 module.exports = router;
