@@ -116,6 +116,20 @@ async function updateNotice(req, res) {
   return sendResponse(res, 200, 'UPDATE_NOTICE_SUCCESS', notice);
 }
 
+// NOTICE-05 공지 삭제 (행을 DB에서 지움). 허용 역할: OWNER, ADMIN (작성자 본인 제한 없음)
+async function deleteNotice(req, res) {
+  // AND org_id = ?: A 회원이 B 공지 ID로 삭제하면 지운 행이 0 → 404 (MVP 완료 기준)
+  // 없는 공지, 다른 운영진이 먼저 지운 공지도 같은 404
+  const [result] = await pool.query(
+    'DELETE FROM notices WHERE id = ? AND org_id = ?',
+    [req.noticeId, req.orgId],
+  );
+  if (result.affectedRows === 0) {
+    return sendResponse(res, 404, 'NOTICE_NOT_FOUND');
+  }
+  return sendResponse(res, 200, 'DELETE_NOTICE_SUCCESS');
+}
+
 module.exports = {
-  getNotices, getNotice, createNotice, updateNotice,
+  getNotices, getNotice, createNotice, updateNotice, deleteNotice,
 };

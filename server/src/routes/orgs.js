@@ -10,7 +10,7 @@ const {
   createInviteCode, getInviteCode, getJoinRequests, approveJoinRequest,
 } = require('../controllers/joinController');
 const {
-  getNotices, getNotice, createNotice, updateNotice,
+  getNotices, getNotice, createNotice, updateNotice, deleteNotice,
 } = require('../controllers/noticeController');
 
 // /api/orgs 아래 주소 (app.js에서 붙인다)
@@ -41,5 +41,6 @@ router.get('/:orgId/notices', orgMember, getNotices); // NOTICE-01: 역할 검�
 router.get('/:orgId/notices/:noticeId', orgMember, getNotice); // NOTICE-02: checkIds가 noticeId도 검사
 router.post('/:orgId/notices', orgMember, ownerOrAdmin, createNotice); // NOTICE-03
 router.put('/:orgId/notices/:noticeId', orgMember, ownerOrAdmin, updateNotice); // NOTICE-04
+router.delete('/:orgId/notices/:noticeId', orgMember, ownerOrAdmin, deleteNotice); // NOTICE-05
 
 module.exports = router;
