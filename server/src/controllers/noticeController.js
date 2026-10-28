@@ -89,4 +89,33 @@ async function createNotice(req, res) {
   return sendResponse(res, 201, 'CREATE_NOTICE_SUCCESS', { noticeId: result.insertId });
 }
 
-module.exports = { getNotices, getNotice, createNotice };
+// NOTICE-04 공지 수정 (제목·본문 통째로 교체 → PUT). 허용 역할: OWNER, ADMIN (작성자 본인 제한 없음)
+// 검사 순서: 로그인 → ID 형식 → 멤버십 → 역할 → 입력값 → 데이터 격리
+async function updateNotice(req, res) {
+  const input = validateNoticeBody(req.body);
+  if (input.code) return sendResponse(res, 400, input.code);
+
+  // AND org_id = ?: A 회원이 B 공지 ID로 수정하면 바뀐 행이 0 → 404 (MVP 완료 기준)
+  // 조직·작성자·작성 시각은 바꾸지 않는다. 동시 수정은 나중에 저장한 쪽이 덮어쓴다
+  const [result] = await pool.query(
+    `UPDATE notices
+     SET title = ?, content = ?, updated_at = CURRENT_TIMESTAMP
+     WHERE id = ? AND org_id = ?`,
+    [input.title, input.content, req.noticeId, req.orgId],
+  );
+  if (result.affectedRows === 0) {
+    return sendResponse(res, 404, 'NOTICE_NOT_FOUND');
+  }
+
+  // 상세와 같은 모양으로 돌려줘 화면이 다시 조회하지 않게 한다
+  const notice = await findNotice(req.noticeId, req.orgId);
+  if (!notice) {
+    // UPDATE와 이 조회 사이에 다른 운영진이 지운 경우
+    return sendResponse(res, 404, 'NOTICE_NOT_FOUND');
+  }
+  return sendResponse(res, 200, 'UPDATE_NOTICE_SUCCESS', notice);
+}
+
+module.exports = {
+  getNotices, getNotice, createNotice, updateNotice,
+};

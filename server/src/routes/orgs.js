@@ -9,7 +9,9 @@ const requireRole = require('../middlewares/requireRole');
 const {
   createInviteCode, getInviteCode, getJoinRequests, approveJoinRequest,
 } = require('../controllers/joinController');
-const { getNotices, getNotice, createNotice } = require('../controllers/noticeController');
+const {
+  getNotices, getNotice, createNotice, updateNotice,
+} = require('../controllers/noticeController');
 
 // /api/orgs 아래 주소 (app.js에서 붙인다)
 const router = express.Router();
@@ -38,5 +40,6 @@ router.post('/:orgId/join-requests/:membershipId/approve', orgMember, ownerOrAdm
 router.get('/:orgId/notices', orgMember, getNotices); // NOTICE-01: 역할 검사 없음
 router.get('/:orgId/notices/:noticeId', orgMember, getNotice); // NOTICE-02: checkIds가 noticeId도 검사
 router.post('/:orgId/notices', orgMember, ownerOrAdmin, createNotice); // NOTICE-03
+router.put('/:orgId/notices/:noticeId', orgMember, ownerOrAdmin, updateNotice); // NOTICE-04
 
 module.exports = router;
