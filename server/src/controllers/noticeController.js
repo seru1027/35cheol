@@ -1,5 +1,6 @@
 const pool = require('../db/connection');
 const { sendResponse } = require('../utils/response');
+const { validateString } = require('../utils/validate');
 
 // 모든 공지 SQL에 org_id 조건을 건다: URL의 조직 것만 보고·고치고·지운다 (데이터 격리, IDOR 방어)
 // 작성자 이름은 users와 JOIN한 현재 이름 (D9)
@@ -60,4 +61,32 @@ async function getNotice(req, res) {
   return sendResponse(res, 200, 'GET_NOTICE_SUCCESS', notice);
 }
 
-module.exports = { getNotices, getNotice };
+// 제목·본문 검사 (NOTICE-03 작성과 NOTICE-04 수정이 같은 규칙)
+// 앞뒤 공백만 지우고 나머지(줄바꿈, <script> 같은 글자)는 입력 그대로. 안전한 출력은 화면의 일 (NOTICE-02)
+// 검사 순서는 body 순서: title → content. 처음 걸린 코드 하나, 통과하면 code가 null
+function validateNoticeBody(body) {
+  const title = validateString(body.title, { field: 'TITLE', min: 1, max: 100 });
+  if (title.code) return { code: title.code };
+
+  const content = validateString(body.content, { field: 'CONTENT', min: 1, max: 5000 });
+  if (content.code) return { code: content.code };
+
+  return { code: null, title: title.value, content: content.value };
+}
+
+// NOTICE-03 공지 작성. 허용 역할: OWNER, ADMIN. 검사 순서: 로그인 → ID 형식 → 멤버십 → 역할 → 입력값
+async function createNotice(req, res) {
+  const input = validateNoticeBody(req.body);
+  if (input.code) return sendResponse(res, 400, input.code);
+
+  // 조직은 URL의 조직 ID, 작성자는 토큰의 사용자 ID로 서버가 넣는다.
+  // body에 orgId·authorId가 와도 쓰지 않는다 (Mass Assignment 방어)
+  const [result] = await pool.query(
+    'INSERT INTO notices (org_id, author_id, title, content) VALUES (?, ?, ?, ?)',
+    [req.orgId, req.userId, input.title, input.content],
+  );
+
+  return sendResponse(res, 201, 'CREATE_NOTICE_SUCCESS', { noticeId: result.insertId });
+}
+
+module.exports = { getNotices, getNotice, createNotice };
