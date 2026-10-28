@@ -4,7 +4,7 @@ const requireAuth = require('../middlewares/requireAuth');
 const checkIds = require('../middlewares/checkIds');
 const requireMembership = require('../middlewares/requireMembership');
 const requireRole = require('../middlewares/requireRole');
-const { createInviteCode, getInviteCode } = require('../controllers/joinController');
+const { createInviteCode, getInviteCode, getJoinRequests } = require('../controllers/joinController');
 
 // /api/orgs 아래 주소 (app.js에서 붙인다)
 const router = express.Router();
@@ -24,5 +24,6 @@ router.get('/:orgId', orgMember, getOrg); // ORG-03
 const ownerOrAdmin = requireRole('OWNER', 'ADMIN');
 router.post('/:orgId/invite-code', orgMember, ownerOrAdmin, createInviteCode); // JOIN-01 발급
 router.get('/:orgId/invite-code', orgMember, ownerOrAdmin, getInviteCode); // JOIN-01 조회
+router.get('/:orgId/join-requests', orgMember, ownerOrAdmin, getJoinRequests); // JOIN-03
 
 module.exports = router;

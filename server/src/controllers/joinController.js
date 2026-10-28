@@ -110,4 +110,28 @@ async function createJoinRequest(req, res) {
   throw new Error(`가입 신청: 예상하지 못한 멤버십 상태 ${status}`);
 }
 
-module.exports = { createInviteCode, getInviteCode, createJoinRequest };
+// JOIN-03 가입 신청 목록: 이 조직의 대기 중(PENDING) 신청. 허용 역할: OWNER, ADMIN
+async function getJoinRequests(req, res) {
+  // 데이터 격리: 조직 ID 조건을 반드시 건다 → 다른 조직의 신청은 섞이지 않는다
+  // 신청자 아이디·이름은 users에서 JOIN으로. 정렬은 오래된 신청 먼저, 같은 초면 id (API 명세서 v0.4)
+  const [rows] = await pool.query(
+    `SELECT m.id, u.login_id, u.name, m.requested_at
+     FROM memberships m
+     JOIN users u ON u.id = m.user_id
+     WHERE m.org_id = ? AND m.status = 'PENDING'
+     ORDER BY m.requested_at, m.id`,
+    [req.orgId],
+  );
+
+  // membershipId는 JOIN-04 승인 URL에 쓴다. requestedAt은 Date → JSON에서 ISO 8601 UTC 문자열
+  const joinRequests = rows.map((row) => ({
+    membershipId: row.id,
+    loginId: row.login_id,
+    name: row.name,
+    requestedAt: row.requested_at,
+  }));
+
+  return sendResponse(res, 200, 'GET_JOIN_REQUESTS_SUCCESS', { joinRequests });
+}
+
+module.exports = { createInviteCode, getInviteCode, createJoinRequest, getJoinRequests };
