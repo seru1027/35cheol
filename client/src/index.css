@@ -51,11 +51,14 @@
   --radius-pill: 9999px;
 
   /* 상태·크기 */
+  --border-width: 1px;
   --focus-ring: 2px solid var(--color-primary-focus);
+  --focus-offset: 2px;
   --press-scale: 0.95;
   --disabled-opacity: 0.4;
   --control-height: 44px;
   --content-max: 1440px;
+  --form-width: 400px;
 }
 
 *,

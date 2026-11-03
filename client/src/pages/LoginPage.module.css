@@ -1,0 +1,149 @@
+/* SCR-AUTH-01. 값은 index.css의 :root만 쓴다 (client/DESIGN.md) */
+
+/* 화면을 좌우 반으로: 왼쪽 ① 이미지 영역, 오른쪽 입력 영역 */
+.page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+.visual {
+  background: var(--color-canvas-parchment);
+}
+
+/* 세로 가운데 정렬을 하지 않는다: 회원가입 폼이 로그인보다 길어서, 가운데에 두면 탭을 바꿀 때 제목·탭이 위아래로 움직인다
+   위에서부터 같은 거리에 두어 두 탭의 제목·탭·첫 칸이 같은 자리에 있게 한다 */
+.panel {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-section) var(--space-xxl);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  width: var(--form-width);
+}
+
+.title {
+  margin: 0;
+  font: var(--type-display-lg) var(--font-sans);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* ② 탭 (DESIGN.md segmented-tabs) */
+.tabs {
+  display: flex;
+  padding: var(--space-xxs);
+  background: var(--color-canvas-parchment);
+  border-radius: var(--radius-pill);
+}
+
+.tab {
+  flex: 1;
+  padding: var(--space-xs) var(--space-md);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-ink-muted-80);
+  font: var(--type-button-utility) var(--font-sans);
+  cursor: pointer;
+}
+
+.tabActive {
+  border-color: var(--color-hairline);
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.tab:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+/* 칸 묶음. fieldset의 브라우저 기본 테두리·여백을 지운다 */
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* 입력칸 (DESIGN.md form-field) */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.label {
+  font: var(--type-caption-strong) var(--font-sans);
+}
+
+.input {
+  height: var(--control-height);
+  padding: 0 var(--space-md);
+  border: var(--border-width) solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-canvas);
+}
+
+.input:focus {
+  outline: var(--focus-ring);
+}
+
+.inputError {
+  border-color: var(--color-danger);
+}
+
+.input:disabled {
+  background: var(--color-canvas-parchment);
+  color: var(--color-ink-muted-48);
+}
+
+.help,
+.error {
+  margin: 0;
+  font: var(--type-fine-print) var(--font-sans);
+  letter-spacing: var(--tracking-none);
+}
+
+.help {
+  color: var(--color-ink-secondary);
+}
+
+.error {
+  color: var(--color-danger);
+}
+
+/* 주 버튼 (DESIGN.md button-primary). 폼 폭을 꽉 채운다 */
+.submit {
+  height: var(--control-height);
+  padding: 0 var(--space-lg);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  cursor: pointer;
+}
+
+.submit:active {
+  transform: scale(var(--press-scale));
+}
+
+.submit:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.submit:disabled {
+  opacity: var(--disabled-opacity);
+  cursor: default;
+  transform: none;
+}
