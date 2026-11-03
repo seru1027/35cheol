@@ -1,0 +1,4 @@
+/* 임시 / 화면 (F2에서 교체) */
+.page {
+  padding: var(--space-section) var(--space-xxl);
+}

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { Route, Routes } from 'react-router';
 import { api } from './api.js';
+import HomePage from './pages/HomePage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 
 // 토스트 모양 (client/DESIGN.md Project Components: 어두운 바탕, 그림자 없음, 성공 파랑·오류 빨강)
@@ -31,6 +32,7 @@ export default function App() {
   return (
     <>
       <Routes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
       {/* 화면을 옮겨도 토스트가 남도록 라우트 밖에 하나만 둔다 (화면정의서: 결과 알림은 화면을 옮겨도 보여야 함) */}

@@ -17,6 +17,10 @@ const MESSAGES = {
   PASSWORD_MISMATCH: '비밀번호가 일치하지 않습니다', // 프론트 전용
   SIGNUP_SUCCESS: '가입이 완료되었어요. 로그인해 주세요',
 
+  // AUTH-02 로그인
+  LOGIN_FIELDS_REQUIRED: '아이디와 비밀번호를 입력하세요', // 프론트 전용 (빈 칸이면 요청하지 않음)
+  INVALID_LOGIN_ID_OR_PASSWORD: '아이디 또는 비밀번호가 올바르지 않습니다',
+
   // 공통
   INTERNAL_SERVER_ERROR: '잠시 후 다시 시도하세요',
   NETWORK_ERROR: '잠시 후 다시 시도하세요', // 프론트 전용 (api.js)

@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router';
 import { api } from '../api.js';
 import { messageOf } from '../messages.js';
 import { validateSignup } from '../validate.js';
 import styles from './LoginPage.module.css';
 
 // SCR-AUTH-01 로그인 / 회원가입 (한 화면, 탭 전환. URL은 /login 그대로)
-// F1-1: 회원가입(AUTH-01). 로그인 요청은 F1-2
+// 로그인(AUTH-02)과 회원가입(AUTH-01)
+// F2에서 붙일 것: 로그인 상태로 들어오면 / 로 보냄, ③ 만료 안내, AUTH-03 응답 전에는 그리지 않음
 
 const EMPTY_LOGIN = { loginId: '', password: '' };
 const EMPTY_SIGNUP = { loginId: '', name: '', password: '', passwordConfirm: '' };
@@ -22,8 +24,10 @@ export default function LoginPage() {
   const [tab, setTab] = useState('login'); // 처음 열면 로그인 탭 (화면정의서 ②)
   const [loginForm, setLoginForm] = useState(EMPTY_LOGIN);
   const [signupForm, setSignupForm] = useState(EMPTY_SIGNUP);
-  const [errors, setErrors] = useState({}); // { 칸 이름: code }
+  const [errors, setErrors] = useState({}); // 회원가입 { 칸 이름: code }
+  const [loginError, setLoginError] = useState(null); // 로그인 버튼 아래 문구의 code (화면정의서 ⑥⑦)
   const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   // 탭을 바꾸면 입력값·오류 문구를 모두 지운다 (결정 F). 가입 성공 때만 로그인 아이디를 넘겨받는다 (결정 G)
   function switchTab(next, loginId = '') {
@@ -31,6 +35,7 @@ export default function LoginPage() {
     setLoginForm({ ...EMPTY_LOGIN, loginId });
     setSignupForm(EMPTY_SIGNUP);
     setErrors({});
+    setLoginError(null);
   }
 
   // 칸을 고치면 그 칸의 오류 문구만 사라진다 (결정 H)
@@ -40,9 +45,11 @@ export default function LoginPage() {
     setErrors((prev) => ({ ...prev, [name]: undefined }));
   }
 
+  // 로그인 문구는 칸 하나가 아니라 둘 다에 대한 것이라, 어느 칸을 고쳐도 사라진다
   function changeLogin(event) {
     const { name, value } = event.target;
     setLoginForm((prev) => ({ ...prev, [name]: value }));
+    setLoginError(null);
   }
 
   async function submitSignup(event) {
@@ -75,9 +82,33 @@ export default function LoginPage() {
     }
   }
 
-  function submitLogin(event) {
+  async function submitLogin(event) {
     event.preventDefault();
-    // F1-2: AUTH-02 로그인 요청
+
+    // 빈 칸이면 요청하지 않는다 (⑥). 아이디는 서버처럼 앞뒤 공백을 지우고, 비밀번호는 빈 문자열만 빈 칸으로 본다
+    const { loginId, password } = loginForm;
+    if (loginId.trim() === '' || password === '') {
+      setLoginError('LOGIN_FIELDS_REQUIRED');
+      return;
+    }
+
+    setSubmitting(true);
+    // api()가 credentials: 'include'를 넣어서, 응답의 Set-Cookie(access_token)를 브라우저가 저장한다
+    const { status, code } = await api('/api/auth/login', {
+      method: 'POST',
+      body: { loginId, password },
+    });
+    setSubmitting(false);
+
+    if (status === 200) {
+      // 뒤로 가기로 /login에 돌아오지 않게 이동 기록을 대체한다 (⑥). 화면이 바뀌는 것으로 충분해 토스트는 없음
+      navigate('/', { replace: true });
+    } else if (status === 401 || status === 400) {
+      // 이 401은 INVALID_LOGIN_ID_OR_PASSWORD라 공통 401 처리(UNAUTHORIZED → /login, F2)에 걸리면 안 된다 (⑦)
+      setLoginError(code);
+    } else {
+      toast.error(messageOf(code)); // 500·네트워크. 입력값은 그대로 둔다
+    }
   }
 
   return (
@@ -113,10 +144,14 @@ export default function LoginPage() {
 
           {tab === 'login' ? (
             <form onSubmit={submitLogin}>
-              <fieldset className={styles.fields}>
+              <fieldset className={styles.fields} disabled={submitting}>
                 <Field label="아이디" name="loginId" value={loginForm.loginId} onChange={changeLogin} autoComplete="username" />
                 <Field label="비밀번호" name="password" type="password" value={loginForm.password} onChange={changeLogin} autoComplete="current-password" />
-                <button type="submit" className={styles.submit}>로그인</button>
+                <div className={styles.field}>
+                  <button type="submit" className={styles.submit}>로그인</button>
+                  {/* ⑥⑦ 버튼 아래 문구. 무엇이 틀렸는지 구분하지 않는다 */}
+                  {loginError && <p className={styles.error} role="alert">{messageOf(loginError)}</p>}
+                </div>
               </fieldset>
             </form>
           ) : (
