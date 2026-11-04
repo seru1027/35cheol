@@ -20,7 +20,7 @@ export default function HomePage() {
       {/* 본문 제목 줄 (화면정의서 결정 B: 페이지명은 상단바가 아니라 여기) */}
       <h1 className={styles.title}>내 동아리</h1>
       {/* F2-2에서 공통 상태 패널로 바꾼다 */}
-      {orgs === undefined && <p className={styles.note}>불러오는 중…</p>}
+      {orgs === undefined && <p className={styles.note} role="status">불러오는 중…</p>}
       {orgs === null && <p className={styles.note}>{messageOf('INTERNAL_SERVER_ERROR')}</p>}
       {orgs?.length === 0 && <p className={styles.note}>{messageOf('MY_ORGS_EMPTY')}</p>}
       {orgs?.length > 0 && (

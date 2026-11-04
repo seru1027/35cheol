@@ -68,8 +68,15 @@
   --border-width: 1px;
   --focus-ring: 2px solid var(--color-primary);
   --focus-offset: 2px;
-  --press-scale: 0.9; /* 원형 아이콘 버튼만 */
+  --press-scale: 0.96; /* 원형 아이콘 버튼만. 원본 0.9는 32px 원에서 과해서 0.96 (DESIGN.md motion) */
   --disabled-opacity: 0.4;
+  --hit-area-min: 40px; /* 데스크톱에서 누를 수 있는 최소 크기. 보이는 크기가 작으면 ::after로 넓힌다 */
+
+  /* 움직임 (DESIGN.md motion). 색 바뀜은 ease, 나타남은 강한 ease-out. 모두 300ms 아래 */
+  --duration-fast: 150ms;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --menu-enter-offset: -4px; /* 메뉴가 아이콘 쪽에서 살짝 내려오며 나타남 */
+  --menu-enter-scale: 0.97;
   --form-width: 400px;
 
   /* 공통 레이아웃 (DESIGN.md app-layout) */
@@ -93,6 +100,19 @@ body {
   color: var(--color-ink);
   font: var(--type-body) var(--font-sans);
   letter-spacing: var(--tracking-none);
+  /* macOS에서 글자가 두껍게 번지지 않게 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 제목은 줄을 고르게 나누고, 본문은 마지막 줄에 한 글자만 남지 않게 */
+h1,
+h2 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 /* 입력칸·버튼은 브라우저 기본 글꼴 대신 body 글꼴을 물려받는다 */
@@ -101,4 +121,13 @@ input {
   font: inherit;
   letter-spacing: inherit;
   color: inherit;
+}
+
+/* 움직임 줄이기 설정: 위치·크기 움직임은 없애고, 색·투명도 변화만 남긴다 (화면 이해에 도움이 되는 것) */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --menu-enter-offset: 0px;
+    --menu-enter-scale: 1;
+    --press-scale: 1;
+  }
 }

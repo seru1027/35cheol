@@ -330,6 +330,20 @@ SCR-AUTH-01의 로그인 / 회원가입 탭. 원본에 탭이 없어서 utility 
 | 글자 | `{typography.caption}`, `{colors.ink}` |
 | 아이콘 | 성공 `{colors.primary}`, 오류 `{colors.danger}` |
 
+### `motion` — 움직임·hover·누르는 범위
+원본은 "No hover states documented"(Default·Pressed만 있음)라서, 앱으로 쓰려고 채운 규칙이다. UI 스킬(make-interfaces-feel-better, emil-design-eng, fixing-accessibility) 기준.
+
+| 규칙 | 값 | 이유 |
+|---|---|---|
+| hover | 마우스가 있는 기기에서만 (`@media (hover: hover) and (pointer: fine)`). 행·메뉴 행은 바탕 `{colors.fill-subtle}`, 선택 안 된 탭은 글자 `{colors.ink}`, Primary는 바탕 `{colors.primary-active}` | 터치에서 누른 뒤 hover 모양이 남지 않게. 원본 utility 문법(옅은 회색 면) 안에서 |
+| 색 바뀜 | `background-color`·`color`·`border-color`·`box-shadow`만 150ms `ease` (`--duration-fast`) | 자주 쓰는 조작이라 짧게. `transition: all`은 쓰지 않는다 |
+| 팝오버(프로필 메뉴) 열림 | 150ms 강한 ease-out (`--ease-out`), `opacity 0 → 1` + `translateY(-4px) scale(0.97) → 제자리`, 기준점은 아이콘 쪽(`top right`). 닫힐 때는 바로 사라짐 | 아이콘에서 나온다는 위치 단서. 닫힘은 열림보다 빨라야 한다 |
+| 움직임 줄이기 설정 | `prefers-reduced-motion: reduce`면 위치·크기 움직임(메뉴 이동, 누름 축소)을 없애고 색·투명도만 남긴다 | 멀미 방지. 이해를 돕는 색 변화는 남긴다 |
+| 누르는 범위 | 데스크톱 최소 40 × 40 (`--hit-area-min`). 보이는 크기가 작으면(프로필 아이콘 32px) `::after`로 범위만 넓힌다 | 모양은 원본 그대로 두고 누르기 쉽게 |
+| 누름 | 앱 버튼(Primary·Secondary 등)은 색만 바뀌고 크기는 그대로 (`버튼` 표 Active). 원형 아이콘 버튼만 `scale(0.96)`, 150ms ease-out. 원본은 `scale(0.9)`지만 32px 원에서는 3px 넘게 줄어 튀어 보여서, 0.95 이상으로 둔다 | 작은 아이콘도 눌린 느낌은 주되 과하지 않게 |
+| 햄버거바 행 높이 | 원본 여백(6px) 그대로, 약 32px. 40px로 넓히지 않는다 | 행끼리 붙어 있어 범위를 넓히면 서로 겹친다. 원본 행 밀도 유지 |
+| 글자 | 화면 전체 `-webkit-font-smoothing: antialiased`, 제목 `text-wrap: balance`, 문단 `text-wrap: pretty` | macOS에서 글자가 번지지 않게, 줄 끝에 한 글자만 남지 않게 |
+
 ### `app-layout` — 공통 레이아웃 (SCR-COMMON-01)
 Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 상단바, 그 아래 본문 자리.
 
@@ -343,7 +357,7 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 빈 목록·실패 문구 | `{typography.caption}`, `{colors.ink-muted}` |
 | 상단바 | 원본 `nav-bar`: 흰색, 아래 1px hairline, 높이 48px (`--header-height`, 아이콘 32 + 위아래 `{spacing.xs}`), 좌우 여백 `{spacing.md}` |
 | 서비스명 | `{typography.title}`, `{colors.ink}` (워드마크 자리라 파랑을 쓰지 않음) |
-| 프로필 아이콘 | 원본 `button-icon-circular`: 32 × 32 (`--icon-button-size`), `{colors.fill-subtle}`, 이름 첫 글자 `{typography.caption}` weight 600 `{colors.ink}` (흰 바탕이라 원본의 흰 글자 대신 ink), 누르면 `scale(0.9)` |
+| 프로필 아이콘 | 원본 `button-icon-circular`: 32 × 32 (`--icon-button-size`), `{colors.fill-subtle}`, 이름 첫 글자 `{typography.caption}` weight 600 `{colors.ink}` (흰 바탕이라 원본의 흰 글자 대신 ink), 누르면 `scale(0.96)` (`motion` 참고) |
 | 프로필 메뉴 | 팝오버: 흰색, 1px hairline, `{rounded.lg}`, Level 2 그림자, 여백 `{spacing.xs}`, 폭 240px. 이름 `{typography.body-sm}` weight 600 / 아이디 `{typography.caption}` `{colors.ink-muted}`, 구분선 hairline, 로그아웃은 메뉴 행 (`{rounded.sm}`, `{typography.body-sm}`) |
 | 본문 자리 | `{colors.canvas-soft}` 위에 여백 `{spacing.xxl}`. 제목 줄은 `{typography.heading-2}` |
 | 앱 시작 | 화면 전체 가운데에 '불러오는 중…' `{typography.body-md}` `{colors.ink-muted}`, 글자만 |

@@ -61,6 +61,10 @@
   color: var(--color-ink-muted);
   font: var(--type-body-sm) var(--font-sans);
   cursor: pointer;
+  /* 탭을 바꿀 때 흰 면이 툭 바뀌지 않고 옅게 넘어간다 */
+  transition-property: background-color, color, box-shadow;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: ease;
 }
 
 .tabActive {
@@ -68,6 +72,17 @@
   box-shadow: var(--shadow-1);
   color: var(--color-ink);
   font-weight: 600;
+}
+
+/* hover는 마우스가 있는 기기에서만 (터치에서 눌린 채 남지 않게) */
+@media (hover: hover) and (pointer: fine) {
+  .tab:not(.tabActive):hover {
+    color: var(--color-ink);
+  }
+
+  .submit:not(:disabled):hover {
+    background: var(--color-primary-active);
+  }
 }
 
 .tab:focus-visible {
@@ -103,6 +118,9 @@
   border-radius: var(--radius-xs);
   background: var(--color-canvas);
   font: var(--type-body-sm) var(--font-sans);
+  transition-property: border-color, box-shadow;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: ease;
 }
 
 .input::placeholder {
@@ -149,6 +167,7 @@
   color: var(--color-on-primary);
   font: var(--type-button) var(--font-sans);
   cursor: pointer;
+  transition: background-color var(--duration-fast) ease;
 }
 
 .submit:active {

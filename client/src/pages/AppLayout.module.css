@@ -41,6 +41,9 @@
   text-align: left;
   text-decoration: none;
   cursor: pointer;
+  transition-property: background-color, color;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: ease;
 }
 
 .orgList {
@@ -64,6 +67,19 @@
 .rowActive {
   color: var(--color-primary);
   font-weight: 600;
+}
+
+/* hover는 마우스가 있는 기기에서만. 행·메뉴 행은 옅은 회색 면 (원본 utility 문법) */
+@media (hover: hover) and (pointer: fine) {
+  .navItem:hover,
+  .org:hover,
+  .logout:not(:disabled):hover {
+    background: var(--color-fill-subtle);
+  }
+
+  .retry:hover {
+    background: var(--color-primary-active);
+  }
 }
 
 .orgNote {
@@ -113,6 +129,13 @@
   position: relative;
 }
 
+/* 아이콘(32px)은 그대로 두고, 누를 수 있는 범위만 --hit-area-min(40px)까지 넓힌다 */
+.profileButton::after {
+  content: '';
+  position: absolute;
+  inset: calc((var(--icon-button-size) - var(--hit-area-min)) / 2);
+}
+
 /* 원형 아이콘 버튼 (button-icon-circular) */
 .profileButton {
   width: var(--icon-button-size);
@@ -124,6 +147,8 @@
   color: var(--color-ink);
   font: var(--type-label) var(--font-sans);
   cursor: pointer;
+  position: relative;
+  transition: transform var(--duration-fast) var(--ease-out);
 }
 
 .profileButton:active {
@@ -142,6 +167,19 @@
   border-radius: var(--radius-lg);
   background: var(--color-canvas);
   box-shadow: var(--shadow-2);
+  /* 아이콘이 있는 오른쪽 위에서 나타난다. 닫힐 때는 바로 사라진다 (닫힘은 열림보다 빨라야 함) */
+  transform-origin: top right;
+  transition-property: opacity, transform;
+  transition-duration: var(--duration-fast);
+  transition-timing-function: var(--ease-out);
+}
+
+/* 처음 그려지는 순간의 모양. 여기서 위 transition으로 제자리에 온다 */
+@starting-style {
+  .menu {
+    opacity: 0;
+    transform: translateY(var(--menu-enter-offset)) scale(var(--menu-enter-scale));
+  }
 }
 
 .menuName,
@@ -179,6 +217,7 @@
   font: var(--type-body-sm) var(--font-sans);
   text-align: left;
   cursor: pointer;
+  transition: background-color var(--duration-fast) ease;
 }
 
 .logout:disabled {
@@ -215,6 +254,7 @@
   color: var(--color-on-primary);
   font: var(--type-button) var(--font-sans);
   cursor: pointer;
+  transition: background-color var(--duration-fast) ease;
 }
 
 .retry:active {
