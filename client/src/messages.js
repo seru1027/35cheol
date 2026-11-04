@@ -26,6 +26,20 @@ const MESSAGES = {
   MY_ORGS_EMPTY: '가입한 동아리가 없습니다', // ORG-02 200 + 빈 배열
   MY_ORGS_LOAD_FAILED: '목록을 불러오지 못했습니다', // 햄버거바의 ORG-02 500·네트워크
 
+  // SCR-COMMON-02 공통 상태 패널 (Figma 03 문구 그대로). 프론트 전용
+  LOADING: '불러오는 중…',
+  PANEL_PENDING_TITLE: '가입 승인 대기중입니다',
+  PANEL_PENDING_DESC: '회장·운영진이 승인하면 동아리를 볼 수 있어요.',
+  PANEL_FORBIDDEN_TITLE: '권한이 없습니다',
+  PANEL_FORBIDDEN_DESC: '회장·운영진만 볼 수 있는 페이지입니다.',
+  PANEL_NOT_FOUND_TITLE: '페이지를 찾을 수 없습니다',
+  PANEL_NOT_FOUND_DESC: '주소가 틀렸거나 볼 수 없는 동아리·공지입니다.',
+  PANEL_ERROR_TITLE: '잠시 후 다시 시도하세요',
+  PANEL_ERROR_DESC: '서버에 문제가 생겼습니다.',
+  BUTTON_GO_MAIN: '메인으로',
+  BUTTON_GO_ORG_HOME: '동아리 홈으로',
+  BUTTON_RETRY: '다시 시도',
+
   // 공통
   INTERNAL_SERVER_ERROR: '잠시 후 다시 시도하세요',
   NETWORK_ERROR: '잠시 후 다시 시도하세요', // 프론트 전용 (api.js)

@@ -1,7 +1,8 @@
 import { Toaster } from 'react-hot-toast';
 import { Route, Routes } from 'react-router';
 import { GuestOnly, RequireAuth, useAuth } from './auth.jsx';
-import AppLayout, { AppStart } from './pages/AppLayout.jsx';
+import StatusPanel from './components/StatusPanel.jsx';
+import AppLayout from './pages/AppLayout.jsx';
 import HomePage from './pages/HomePage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 
@@ -34,10 +35,13 @@ export default function App() {
           {/* 중첩 라우트: path 없는 부모가 레이아웃을 그리고, 자식 화면은 레이아웃 안의 <Outlet /> 자리에 들어간다 */}
           <Route element={<RequireAuth><AppLayout /></RequireAuth>}>
             <Route index element={<HomePage />} />
+            {/* ④ 정의되지 않은 URL → 404 패널. 레이아웃 안에 두어서, 로그아웃 상태면 RequireAuth가 먼저 /login으로 보낸다 */}
+            <Route path="*" element={<StatusPanel kind="notFound" titleAs="h1" />} />
           </Route>
         </Routes>
       ) : (
-        <AppStart failed={status === 'failed'} onRetry={retry} />
+        // 앱 시작 (레이아웃 밖, 화면 전체): AUTH-03 응답 전 ① 로딩, 500·네트워크면 ⑤ [다시 시도] = AUTH-03 다시 요청
+        <StatusPanel kind={status === 'failed' ? 'error' : 'loading'} onRetry={retry} fullScreen titleAs="h1" />
       )}
       {/* 화면을 옮겨도 토스트가 남도록 라우트 밖에 하나만 둔다 (화면정의서: 결과 알림은 화면을 옮겨도 보여야 함) */}
       <Toaster position="bottom-right" toastOptions={TOAST_OPTIONS} />

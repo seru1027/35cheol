@@ -143,20 +143,3 @@ function OrgList({ orgs }) {
 function rowClass(base) {
   return ({ isActive }) => (isActive ? `${base} ${styles.rowActive}` : base);
 }
-
-// 앱 시작 상태 (화면 전체): AUTH-03 응답 전 '불러오는 중…', 500·네트워크면 [다시 시도]
-// F2-2에서 공통 상태 패널(SCR-COMMON-02)로 바꾼다
-export function AppStart({ failed, onRetry }) {
-  return (
-    <div className={styles.appStart}>
-      {failed ? (
-        <>
-          <p className={styles.appStartText}>{messageOf('INTERNAL_SERVER_ERROR')}</p>
-          <button type="button" className={styles.retry} onClick={onRetry}>다시 시도</button>
-        </>
-      ) : (
-        <p className={styles.appStartText} role="status">불러오는 중…</p>
-      )}
-    </div>
-  );
-}

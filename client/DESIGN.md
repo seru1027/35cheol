@@ -360,4 +360,17 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 프로필 아이콘 | 원본 `button-icon-circular`: 32 × 32 (`--icon-button-size`), `{colors.fill-subtle}`, 이름 첫 글자 `{typography.caption}` weight 600 `{colors.ink}` (흰 바탕이라 원본의 흰 글자 대신 ink), 누르면 `scale(0.96)` (`motion` 참고) |
 | 프로필 메뉴 | 팝오버: 흰색, 1px hairline, `{rounded.lg}`, Level 2 그림자, 여백 `{spacing.xs}`, 폭 240px. 이름 `{typography.body-sm}` weight 600 / 아이디 `{typography.caption}` `{colors.ink-muted}`, 구분선 hairline, 로그아웃은 메뉴 행 (`{rounded.sm}`, `{typography.body-sm}`) |
 | 본문 자리 | `{colors.canvas-soft}` 위에 여백 `{spacing.xxl}`. 제목 줄은 `{typography.heading-2}` |
-| 앱 시작 | 화면 전체 가운데에 '불러오는 중…' `{typography.body-md}` `{colors.ink-muted}`, 글자만 |
+| 앱 시작 | `status-panel`을 화면 전체 가운데에 (로딩, 실패면 500 패널 + [다시 시도] = AUTH-03 다시 요청) |
+
+### `status-panel` — 공통 상태 패널 (SCR-COMMON-02)
+조회 화면의 로딩·403·404·500을 그리는 부품 하나 (`components/StatusPanel.jsx`). 동작과 문구는 Figma 03 SCR-COMMON-02, 문구는 `messages.js`.
+
+| 부분 | 값 |
+|---|---|
+| 자리 | 상자 없이 본문 자리 가운데, 위 여백 `{spacing.section}` (원본 Do: 바탕 위에 바로. 비어 있는 상태라 면을 더하지 않는다). 앱 시작(레이아웃 밖)은 화면 전체의 세로 가운데 |
+| 로딩 | '불러오는 중…' `{typography.body-md}` `{colors.ink-muted}`, 글자만 (스피너 없음) |
+| 제목 | `{typography.title}` (heading 계열 중 본문 제목 `heading-2`보다 한 단계 아래), `{colors.ink}` |
+| 설명 | `{typography.caption}`, `{colors.ink-muted}`. 제목과 간격 `{spacing.xs}`, 버튼과 간격 `{spacing.lg}` |
+| [메인으로]·[동아리 홈으로] | button-secondary (흰 pill + Level 1 그림자). hover는 Level 2 그림자, 누르면 바탕 `{colors.canvas-soft}` |
+| [다시 시도] | button-primary. 누르면 로딩 패널로 바뀌었다가 결과를 그림 |
+| 본문 제목 | 화면에 제목 줄이 있으면 남기고 그 아래에 패널 (어느 화면의 실패인지 보이게). 404처럼 화면 자체가 없으면 패널만 |
