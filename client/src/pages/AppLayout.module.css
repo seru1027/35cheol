@@ -1,0 +1,200 @@
+/* SCR-COMMON-01. 값은 index.css의 :root만 쓴다 (client/DESIGN.md app-layout·app-header·profile-menu·side-nav) */
+
+/* 왼쪽 햄버거바(화면 높이 전체) | 오른쪽 상단바 + 본문 */
+.layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
+}
+
+/* 햄버거바 (side-nav) */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 var(--space-md);
+  background: var(--color-canvas-parchment);
+}
+
+.sidebarTitle {
+  display: flex;
+  align-items: center;
+  height: var(--header-height); /* 상단바와 같은 줄 */
+  margin: 0;
+  color: var(--color-ink-secondary);
+  font: var(--type-caption-strong) var(--font-sans);
+}
+
+/* 홈, 내 동아리 ▾: 링크와 버튼을 같은 모양으로 */
+.navItem {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink);
+  font: var(--type-body-strong) var(--font-sans);
+  line-height: var(--line-height-dense);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.orgList {
+  width: 100%;
+  margin: 0;
+  padding: 0 0 0 var(--space-md);
+  list-style: none;
+}
+
+.org {
+  display: block;
+  overflow: hidden;
+  color: var(--color-ink);
+  font: var(--type-dense-link) var(--font-sans);
+  text-decoration: none;
+  text-overflow: ellipsis; /* 이름이 길면 말줄임 */
+  white-space: nowrap;
+}
+
+.orgPending {
+  color: var(--color-ink-secondary);
+}
+
+.orgNote {
+  margin: 0;
+  padding-left: var(--space-md);
+  color: var(--color-ink-secondary);
+  font: var(--type-caption) var(--font-sans);
+}
+
+.navItem:focus-visible,
+.org:focus-visible,
+.serviceName:focus-visible,
+.profileButton:focus-visible,
+.logout:focus-visible,
+.retry:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+/* 오른쪽: 상단바 + 본문. min-width 0: 긴 내용이 그리드 칸을 밀어 넓히지 않게 */
+.main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* 상단바 (app-header) */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  padding: 0 var(--space-lg);
+  border-bottom: var(--border-width) solid var(--color-hairline);
+  background: var(--color-canvas);
+}
+
+.serviceName {
+  color: var(--color-ink);
+  font: var(--type-tagline) var(--font-sans);
+  text-decoration: none;
+}
+
+/* 메뉴를 아이콘 기준으로 놓기 위한 기준점 */
+.profile {
+  position: relative;
+}
+
+.profileButton {
+  width: var(--control-height);
+  height: var(--control-height);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-canvas-parchment);
+  font: var(--type-caption-strong) var(--font-sans);
+  cursor: pointer;
+}
+
+.profileButton:active {
+  transform: scale(var(--press-scale));
+}
+
+/* 프로필 메뉴 (profile-menu). 그림자 없이 hairline 테두리로 본문과 나눈다 */
+.menu {
+  position: absolute;
+  top: calc(100% + var(--space-xs));
+  right: 0;
+  z-index: var(--z-menu);
+  width: var(--menu-width);
+  padding: var(--space-md);
+  border: var(--border-width) solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  background: var(--color-canvas);
+}
+
+.menuName {
+  margin: 0;
+  font: var(--type-body-strong) var(--font-sans);
+}
+
+.menuId {
+  margin: 0;
+  color: var(--color-ink-secondary);
+  font: var(--type-caption) var(--font-sans);
+}
+
+.menuDivider {
+  margin: var(--space-sm) 0;
+  border: 0;
+  border-top: var(--border-width) solid var(--color-hairline);
+}
+
+.logout {
+  width: 100%;
+  padding: var(--space-xs) 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-ink);
+  font: var(--type-button-utility) var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+}
+
+.logout:disabled {
+  opacity: var(--disabled-opacity);
+  cursor: default;
+}
+
+/* 본문 자리 */
+.content {
+  padding: var(--space-xl);
+}
+
+/* 앱 시작 (화면 전체 가운데) */
+.appStart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  min-height: 100vh;
+}
+
+.appStartText {
+  margin: 0;
+  color: var(--color-ink-secondary);
+}
+
+/* [다시 시도] (button-primary) */
+.retry {
+  height: var(--control-height);
+  padding: 0 var(--space-lg);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  cursor: pointer;
+}
+
+.retry:active {
+  transform: scale(var(--press-scale));
+}

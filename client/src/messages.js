@@ -21,6 +21,11 @@ const MESSAGES = {
   LOGIN_FIELDS_REQUIRED: '아이디와 비밀번호를 입력하세요', // 프론트 전용 (빈 칸이면 요청하지 않음)
   INVALID_LOGIN_ID_OR_PASSWORD: '아이디 또는 비밀번호가 올바르지 않습니다',
 
+  // SCR-COMMON-01 공통 레이아웃
+  SESSION_EXPIRED: '다시 로그인해 주세요', // 프론트 전용 (사용 중 401, 화면정의서 결정 D 문구 그대로)
+  MY_ORGS_EMPTY: '가입한 동아리가 없습니다', // ORG-02 200 + 빈 배열
+  MY_ORGS_LOAD_FAILED: '목록을 불러오지 못했습니다', // 햄버거바의 ORG-02 500·네트워크
+
   // 공통
   INTERNAL_SERVER_ERROR: '잠시 후 다시 시도하세요',
   NETWORK_ERROR: '잠시 후 다시 시도하세요', // 프론트 전용 (api.js)

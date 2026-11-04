@@ -375,10 +375,60 @@ SCR-AUTH-01의 로그인 / 회원가입 탭. 원본에 탭이 없어서, 원본�
 ### 자리만 (그 단계에서 채움)
 | 부품 (Figma 04) | 원본에서 가져올 것 | 단계 |
 |---|---|---|
-| 토스트 | 원본에 없음. 아래 충돌 목록 참고 | 토스트를 처음 쓰는 단계 |
-| 상단바 | `global-nav` / `sub-nav-frosted` 중 하나 | F2 |
-| 햄버거바 | 원본에 없음 (`dense-link`, parchment 바탕 후보) | F2 |
 | 박스 | `store-utility-card` | F4 |
+
+### `toast` — 결과 알림 **[추가함]**
+F1(회원가입 성공)에서 쓰기 시작했다. 라이브러리(react-hot-toast)가 모양을 인라인 style로 넣어서, 값은 `App.jsx`의 `TOAST_OPTIONS`에 `var(--...)`로 넘긴다.
+
+| 부분 | 값 |
+|---|---|
+| 자리·시간 | 화면 오른쪽 아래, 3초 |
+| 바탕 | `{colors.ink}`, 그림자 없음 (원본 "그림자는 제품 사진에만"), `{rounded.sm}`, 여백 `{spacing.sm}` × `{spacing.md}` |
+| 글자 | `{typography.caption}`, `{colors.on-primary}` |
+| 아이콘 | 성공 `{colors.primary}`, 오류 `{colors.danger}` (아이콘 점에만) |
+
+### `app-layout` — 공통 레이아웃 뼈대 **[추가함]**
+Figma 03 SCR-COMMON-01 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 상단바, 그 아래 본문 자리. 영역은 surface 대비(햄버거바 parchment ↔ 본문 white)로 나눈다 (원본 "The color change IS the divider").
+
+| 부분 | 값 |
+|---|---|
+| 햄버거바 폭 | 240px (`--sidebar-width`, 8 × 30) |
+| 본문 자리 여백 | `{spacing.xl}` |
+| 앱 시작 (AUTH-03 응답 전) | 화면 전체 가운데에 '불러오는 중…' `{typography.body}` `{colors.ink-secondary}`, 글자만 |
+
+### `app-header` — 상단바 **[추가함]**
+원본 `sub-nav-frosted`(밝은 바탕, 52px)에서 흐림 효과를 뺐다. `global-nav`(검정 44px)는 마케팅 사이트 맨 위의 띠라, 계속 보고 있는 관리 화면에서는 검정 띠가 내용보다 먼저 눈에 들어온다 ("내용이 주인공").
+
+| 부분 | 값 |
+|---|---|
+| 바탕 | `{colors.canvas}`, 아래 1px `{colors.hairline}`, 높이 52px (`--header-height`, 원본 sub-nav) |
+| 서비스명 | `{typography.tagline}`, `{colors.ink}`, 왼쪽 여백 `{spacing.lg}`. 누르는 글자지만 파랑을 쓰지 않는다 (로고 자리) |
+| `> 동아리명` | F4 |
+| 프로필 아이콘 | `button-icon-circular` 크기(44 × 44), 바탕 `{colors.canvas-parchment}`, 이름 첫 글자 `{typography.caption-strong}`, `{rounded.pill}`. 오른쪽 여백 `{spacing.lg}` |
+
+| 상태 | 모양 |
+|---|---|
+| Active | `transform: scale(0.95)` (프로필 아이콘) |
+| Focus | 버튼과 같은 outline |
+
+### `profile-menu` — 프로필 메뉴 **[추가함]**
+| 부분 | 값 |
+|---|---|
+| 상자 | `{colors.canvas}`, 1px `{colors.hairline}` (원본 Elevation의 Soft hairline 단계), `{rounded.lg}`, 여백 `{spacing.md}`, 폭 240px (`--menu-width`), **그림자 없음**. 아이콘 아래 `{spacing.xs}`, 오른쪽 끝 맞춤 |
+| 이름 / 아이디 | `{typography.body-strong}` `{colors.ink}` / `{typography.caption}` `{colors.ink-secondary}` |
+| 구분선 | 1px `{colors.hairline}`, 위아래 `{spacing.sm}` |
+| 로그아웃 | `{typography.button-utility}`, `{colors.ink}`, 왼쪽 정렬 글자 버튼. Focus outline |
+
+### `side-nav` — 햄버거바 **[추가함]**
+| 부분 | 값 |
+|---|---|
+| 바탕 | `{colors.canvas-parchment}`, 여백 0 × `{spacing.md}` |
+| 제목 줄 '☰ 메뉴' | `{typography.caption-strong}`, `{colors.ink-secondary}`, 높이 52px (상단바와 같은 줄). 접기 동작 없음 (카드에 없음) |
+| 항목 (홈, 내 동아리 ▾) | `{typography.body-strong}`, `{colors.ink}`, 줄 높이 2.2 (`{typography.dense-link}`의 줄 간격) |
+| 동아리 | `{typography.dense-link}`, `{colors.ink}`, 들여쓰기 `{spacing.md}`. 이름이 길면 말줄임 |
+| PENDING | `{colors.ink-secondary}` + ' · 대기중' (회색이지만 읽어야 하는 글자라 ink-muted-48이 아님) |
+| 빈 목록·실패 문구 | `{typography.caption}`, `{colors.ink-secondary}`, 들여쓰기 `{spacing.md}` |
+| Focus | 버튼과 같은 outline. 현재 위치 강조는 두지 않음 (카드에 없음) |
 
 ## 원본 라이선스
 

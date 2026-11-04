@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router';
 import { api } from '../api.js';
+import { useAuth } from '../auth.jsx';
 import { messageOf } from '../messages.js';
 import { validateSignup } from '../validate.js';
 import styles from './LoginPage.module.css';
 
 // SCR-AUTH-01 로그인 / 회원가입 (한 화면, 탭 전환. URL은 /login 그대로)
 // 로그인(AUTH-02)과 회원가입(AUTH-01)
-// F2에서 붙일 것: 로그인 상태로 들어오면 / 로 보냄, ③ 만료 안내, AUTH-03 응답 전에는 그리지 않음
+// 로그인 상태로 들어오면 / 로 보내는 것과 AUTH-03 응답 전에 그리지 않는 것은 App.jsx·auth.jsx(GuestOnly)가 맡는다
 
 const EMPTY_LOGIN = { loginId: '', password: '' };
 const EMPTY_SIGNUP = { loginId: '', name: '', password: '', passwordConfirm: '' };
@@ -27,7 +27,7 @@ export default function LoginPage() {
   const [errors, setErrors] = useState({}); // 회원가입 { 칸 이름: code }
   const [loginError, setLoginError] = useState(null); // 로그인 버튼 아래 문구의 code (화면정의서 ⑥⑦)
   const [submitting, setSubmitting] = useState(false);
-  const navigate = useNavigate();
+  const { sessionExpired, signIn } = useAuth();
 
   // 탭을 바꾸면 입력값·오류 문구를 모두 지운다 (결정 F). 가입 성공 때만 로그인 아이디를 넘겨받는다 (결정 G)
   function switchTab(next, loginId = '') {
@@ -94,17 +94,18 @@ export default function LoginPage() {
 
     setSubmitting(true);
     // api()가 credentials: 'include'를 넣어서, 응답의 Set-Cookie(access_token)를 브라우저가 저장한다
-    const { status, code } = await api('/api/auth/login', {
+    const { status, code, data } = await api('/api/auth/login', {
       method: 'POST',
       body: { loginId, password },
     });
     setSubmitting(false);
 
     if (status === 200) {
-      // 뒤로 가기로 /login에 돌아오지 않게 이동 기록을 대체한다 (⑥). 화면이 바뀌는 것으로 충분해 토스트는 없음
-      navigate('/', { replace: true });
+      // 로그인 상태를 바꾸면 GuestOnly가 / 로 보낸다 (replace: 뒤로 가기로 /login에 돌아오지 않음, ⑥)
+      // 응답 data가 AUTH-03과 같은 모양이라 /me를 다시 부르지 않는다. 화면이 바뀌는 것으로 충분해 토스트는 없음
+      signIn(data);
     } else if (status === 401 || status === 400) {
-      // 이 401은 INVALID_LOGIN_ID_OR_PASSWORD라 공통 401 처리(UNAUTHORIZED → /login, F2)에 걸리면 안 된다 (⑦)
+      // 이 401은 INVALID_LOGIN_ID_OR_PASSWORD라 api.js의 공통 401 처리(code가 UNAUTHORIZED일 때만)에 걸리지 않는다 (⑦)
       setLoginError(code);
     } else {
       toast.error(messageOf(code)); // 500·네트워크. 입력값은 그대로 둔다
@@ -119,6 +120,9 @@ export default function LoginPage() {
       <main className={styles.panel}>
         <div className={styles.content}>
           <h1 className={styles.title}>35cheol</h1>
+
+          {/* ③ 만료 안내: 사용 중 401로 들어왔을 때만. 앱 시작 401·로그아웃에는 없음 (SCR-COMMON-01 결정 D) */}
+          {sessionExpired && <p className={styles.notice} role="status">{messageOf('SESSION_EXPIRED')}</p>}
 
           {/* ② 탭 */}
           <div className={styles.tabs} role="tablist">

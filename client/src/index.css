@@ -28,6 +28,7 @@
   --type-caption-strong: 600 14px/1.45;
   --type-button-utility: 400 14px/1.4;
   --type-fine-print: 400 13px/1.5;
+  --type-dense-link: 400 16px/2.2;
 
   /* 자간: 큰 글자 tight, 14~16px snug, 13px 이하 none */
   --tracking-tight: -0.02em;
@@ -59,6 +60,13 @@
   --control-height: 44px;
   --content-max: 1440px;
   --form-width: 400px;
+
+  /* 공통 레이아웃 (DESIGN.md app-layout·app-header·profile-menu) */
+  --header-height: 52px;
+  --sidebar-width: 240px;
+  --menu-width: 240px;
+  --line-height-dense: 2.2;
+  --z-menu: 10; /* 본문 위에 뜨는 프로필 메뉴 */
 }
 
 *,

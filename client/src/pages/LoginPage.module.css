@@ -33,6 +33,15 @@
   letter-spacing: var(--tracking-tight);
 }
 
+/* ③ 만료 안내 한 줄. 오류가 아니라 안내라 빨강을 쓰지 않는다 */
+.notice {
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  background: var(--color-canvas-parchment);
+  font: var(--type-caption) var(--font-sans);
+}
+
 /* ② 탭 (DESIGN.md segmented-tabs) */
 .tabs {
   display: flex;
