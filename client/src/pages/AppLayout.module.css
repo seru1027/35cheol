@@ -1,4 +1,4 @@
-/* SCR-COMMON-01. 값은 index.css의 :root만 쓴다 (client/DESIGN.md app-layout·app-header·profile-menu·side-nav) */
+/* SCR-COMMON-01. 값은 index.css의 :root만 쓴다 (client/DESIGN.md app-layout) */
 
 /* 왼쪽 햄버거바(화면 높이 전체) | 오른쪽 상단바 + 본문 */
 .layout {
@@ -7,13 +7,13 @@
   min-height: 100vh;
 }
 
-/* 햄버거바 (side-nav) */
+/* 햄버거바: 따뜻한 바탕 + 오른쪽 hairline */
 .sidebar {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 0 var(--space-md);
-  background: var(--color-canvas-parchment);
+  padding: 0 var(--space-xs);
+  border-right: var(--border-width) solid var(--color-hairline);
+  background: var(--color-canvas-soft);
 }
 
 .sidebarTitle {
@@ -21,47 +21,55 @@
   align-items: center;
   height: var(--header-height); /* 상단바와 같은 줄 */
   margin: 0;
-  color: var(--color-ink-secondary);
-  font: var(--type-caption-strong) var(--font-sans);
+  padding: 0 var(--space-xs);
+  color: var(--color-ink-muted);
+  font: var(--type-eyebrow) var(--font-sans);
+  letter-spacing: var(--tracking-eyebrow);
 }
 
-/* 홈, 내 동아리 ▾: 링크와 버튼을 같은 모양으로 */
-.navItem {
-  padding: 0;
+/* 행 (ex-app-shell-row): 홈, 내 동아리 ▾, 동아리. 링크와 버튼을 같은 모양으로 */
+.navItem,
+.org {
+  display: block;
+  width: 100%;
+  padding: var(--space-input) var(--space-xs);
   border: 0;
+  border-radius: var(--radius-sm);
   background: transparent;
-  color: var(--color-ink);
-  font: var(--type-body-strong) var(--font-sans);
-  line-height: var(--line-height-dense);
+  color: var(--color-ink-secondary);
+  font: var(--type-body-sm) var(--font-sans);
+  text-align: left;
   text-decoration: none;
   cursor: pointer;
 }
 
 .orgList {
-  width: 100%;
   margin: 0;
   padding: 0 0 0 var(--space-md);
   list-style: none;
 }
 
+/* 이름이 길면 말줄임 */
 .org {
-  display: block;
   overflow: hidden;
-  color: var(--color-ink);
-  font: var(--type-dense-link) var(--font-sans);
-  text-decoration: none;
-  text-overflow: ellipsis; /* 이름이 길면 말줄임 */
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .orgPending {
-  color: var(--color-ink-secondary);
+  color: var(--color-ink-muted);
+}
+
+/* 지금 보고 있는 화면의 행 */
+.rowActive {
+  color: var(--color-primary);
+  font-weight: 600;
 }
 
 .orgNote {
   margin: 0;
-  padding-left: var(--space-md);
-  color: var(--color-ink-secondary);
+  padding: var(--space-input) var(--space-xs) var(--space-input) var(--space-lg);
+  color: var(--color-ink-muted);
   font: var(--type-caption) var(--font-sans);
 }
 
@@ -82,20 +90,21 @@
   min-width: 0;
 }
 
-/* 상단바 (app-header) */
+/* 상단바 (nav-bar): 흰색 + 아래 hairline */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: var(--header-height);
-  padding: 0 var(--space-lg);
+  padding: 0 var(--space-md);
   border-bottom: var(--border-width) solid var(--color-hairline);
   background: var(--color-canvas);
 }
 
 .serviceName {
   color: var(--color-ink);
-  font: var(--type-tagline) var(--font-sans);
+  font: var(--type-title) var(--font-sans);
+  letter-spacing: var(--tracking-title);
   text-decoration: none;
 }
 
@@ -104,13 +113,16 @@
   position: relative;
 }
 
+/* 원형 아이콘 버튼 (button-icon-circular) */
 .profileButton {
-  width: var(--control-height);
-  height: var(--control-height);
+  width: var(--icon-button-size);
+  height: var(--icon-button-size);
+  padding: 0;
   border: 0;
-  border-radius: var(--radius-pill);
-  background: var(--color-canvas-parchment);
-  font: var(--type-caption-strong) var(--font-sans);
+  border-radius: var(--radius-full);
+  background: var(--color-fill-subtle);
+  color: var(--color-ink);
+  font: var(--type-label) var(--font-sans);
   cursor: pointer;
 }
 
@@ -118,43 +130,53 @@
   transform: scale(var(--press-scale));
 }
 
-/* 프로필 메뉴 (profile-menu). 그림자 없이 hairline 테두리로 본문과 나눈다 */
+/* 프로필 메뉴 (팝오버): 흰색, hairline, Level 2 그림자 */
 .menu {
   position: absolute;
   top: calc(100% + var(--space-xs));
   right: 0;
   z-index: var(--z-menu);
   width: var(--menu-width);
-  padding: var(--space-md);
+  padding: var(--space-xs);
   border: var(--border-width) solid var(--color-hairline);
   border-radius: var(--radius-lg);
   background: var(--color-canvas);
+  box-shadow: var(--shadow-2);
+}
+
+.menuName,
+.menuId {
+  margin: 0;
+  padding: 0 var(--space-xs);
 }
 
 .menuName {
-  margin: 0;
-  font: var(--type-body-strong) var(--font-sans);
+  padding-top: var(--space-input);
+  font: var(--type-body-sm) var(--font-sans);
+  font-weight: 600;
 }
 
 .menuId {
-  margin: 0;
-  color: var(--color-ink-secondary);
+  padding-bottom: var(--space-input);
+  color: var(--color-ink-muted);
   font: var(--type-caption) var(--font-sans);
 }
 
 .menuDivider {
-  margin: var(--space-sm) 0;
+  margin: var(--space-xxs) 0;
   border: 0;
   border-top: var(--border-width) solid var(--color-hairline);
 }
 
+/* 메뉴 행 */
 .logout {
   width: 100%;
-  padding: var(--space-xs) 0;
+  padding: var(--space-input) var(--space-xs);
   border: 0;
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--color-ink);
-  font: var(--type-button-utility) var(--font-sans);
+  font: var(--type-body-sm) var(--font-sans);
   text-align: left;
   cursor: pointer;
 }
@@ -164,9 +186,9 @@
   cursor: default;
 }
 
-/* 본문 자리 */
+/* 본문 자리: 따뜻한 바탕 위 */
 .content {
-  padding: var(--space-xl);
+  padding: var(--space-xxl);
 }
 
 /* 앱 시작 (화면 전체 가운데) */
@@ -181,20 +203,20 @@
 
 .appStartText {
   margin: 0;
-  color: var(--color-ink-secondary);
+  color: var(--color-ink-muted);
 }
 
 /* [다시 시도] (button-primary) */
 .retry {
-  height: var(--control-height);
-  padding: 0 var(--space-lg);
+  padding: var(--space-xs) var(--space-md);
   border: 0;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-full);
   background: var(--color-primary);
   color: var(--color-on-primary);
+  font: var(--type-button) var(--font-sans);
   cursor: pointer;
 }
 
 .retry:active {
-  transform: scale(var(--press-scale));
+  background: var(--color-primary-active);
 }

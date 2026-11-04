@@ -1,16 +1,22 @@
 /* 임시 / 본문 (F3에서 메인으로 교체). 값은 index.css의 :root만 쓴다 */
+
+/* 본문 제목 줄 (heading-2) */
 .title {
   margin: 0 0 var(--space-lg);
-  font: var(--type-display-md) var(--font-sans);
-  letter-spacing: var(--tracking-tight);
+  font: var(--type-heading-2) var(--font-sans);
+  letter-spacing: var(--tracking-heading-2);
 }
 
 .note {
   margin: 0;
-  color: var(--color-ink-secondary);
+  color: var(--color-ink-muted);
 }
 
+/* 흰 카드 (feature-card) 안의 목록 */
 .list {
   margin: 0;
-  padding-left: var(--space-lg);
+  padding: var(--space-lg) var(--space-lg) var(--space-lg) var(--space-xxl);
+  border: var(--border-width) solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  background: var(--color-canvas);
 }

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { Link, Outlet } from 'react-router';
+import { Link, NavLink, Outlet } from 'react-router';
 import { api } from '../api.js';
 import { useAuth } from '../auth.jsx';
 import { messageOf } from '../messages.js';
@@ -51,8 +51,8 @@ export default function AppLayout() {
     <div className={styles.layout}>
       <nav className={styles.sidebar} aria-label="메뉴">
         <p className={styles.sidebarTitle}>☰ 메뉴</p>
-        {/* ③ 홈 */}
-        <Link to="/" className={styles.navItem}>홈</Link>
+        {/* ③ 홈. NavLink는 지금 주소와 같으면 isActive가 true (end: /orgs/1에서는 홈이 활성으로 보이지 않게) */}
+        <NavLink to="/" end className={rowClass(styles.navItem)}>홈</NavLink>
         {/* ④ 내 동아리 ▾ */}
         <button
           type="button"
@@ -113,16 +113,21 @@ function OrgList({ orgs }) {
     <ul className={styles.orgList}>
       {orgs.map((org) => (
         <li key={org.orgId}>
-          <Link
+          <NavLink
             to={`/orgs/${org.orgId}`}
-            className={org.myStatus === 'PENDING' ? `${styles.org} ${styles.orgPending}` : styles.org}
+            className={rowClass(org.myStatus === 'PENDING' ? `${styles.org} ${styles.orgPending}` : styles.org)}
           >
             {org.myStatus === 'PENDING' ? `${org.name} · 대기중` : org.name}
-          </Link>
+          </NavLink>
         </li>
       ))}
     </ul>
   );
+}
+
+// 햄버거바 행의 className. 지금 보고 있는 화면의 행은 파랑으로 표시한다 (DESIGN.md ex-app-shell-row: active indicator = primary)
+function rowClass(base) {
+  return ({ isActive }) => (isActive ? `${base} ${styles.rowActive}` : base);
 }
 
 // 앱 시작 상태 (화면 전체): AUTH-03 응답 전 '불러오는 중…', 500·네트워크면 [다시 시도]
