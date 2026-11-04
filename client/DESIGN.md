@@ -1,160 +1,132 @@
-> 출처: getdesign.md의 한 사이트 분석본 (https://getdesign.md/apple/design-md, 원본 파일 github.com/VoltAgent/awesome-design-md `design-md/apple/DESIGN.md`) · MIT License, Copyright (c) 2026 VoltAgent · 이 프로젝트에 맞게 고침 (서비스 이름·고유 문구 제거, 글꼴 Pretendard, 한글 글자 크기, **[추가함]** 표시한 상태·부품, 1440 데스크톱 기준)
+> 출처: Notion 마케팅 사이트 분석본 (원본 출처·라이선스 확인 필요) · 본문은 원본 그대로 두고, 이 프로젝트에 맞춘 규칙은 맨 아래 "Project Components (35cheol)"에 **[추가함]**으로 모았다.
 
 ## 이 문서를 읽는 법 **[추가함]**
 
 - 이 문서는 **모양**(색, 글꼴·글자 크기, 간격, 둥글기, 그림자, 부품 상태)의 원본이다. 화면에 무엇이 어떤 순서로 있고 어떻게 동작하는지는 Figma `03 화면정의서`를 따른다. 둘이 부딪히면 동작은 화면정의서, 모양은 이 문서를 따르고, 부딪히는 곳은 짚어서 정한다.
 - 코드 값은 `client/src/index.css`의 `:root` 한 곳에 옮긴다. 화면의 `.module.css`는 `var(--...)`만 쓴다.
-- **[추가함]**: 원본에 없던 규칙을 원본 규칙에 맞춰 채운 곳. **[MVP 범위 밖]**: 지금 만들지 않는 곳.
-- 원본은 사진이 많은 마케팅 사이트 분석이라, 사진·타일·내비게이션 부품은 이 프로젝트에서 쓰지 않는다. 이 프로젝트가 쓰는 부품은 맨 아래 "Project Components"에 모았다.
+- 원본은 마케팅 사이트 분석이라 sticker palette·pricing·`ex-*` 부품은 쓰지 않는다. 이 프로젝트가 쓰는 부품과 원본에 없는 규칙은 맨 아래 "Project Components (35cheol)"에 모았다.
+- 데스크톱 1440 기준으로 만든다. 원본의 Responsive Strategy는 **[MVP 범위 밖]**.
 
 ## Overview
 
-The source site is a masterclass in **reverent product photography framed by near-invisible UI**. Every page is a stack of edge-to-edge product "tiles" — alternating light and dark canvases, each centered on a hero headline, a one-line tagline, two tiny blue pill CTAs, and an impossibly crisp product render. Nothing competes with the product. Typography is confident but quiet; color is either pure white, an off-white parchment, or a near-black tile; interactive elements are a single, quiet blue.
+Notion looks like a well-organized desk in good daylight. The dominant surface is not pure white but a warm, paper-soft off-white — `{colors.canvas-soft}` (#f6f5f4) — that takes the clinical edge off the screen and makes long pages feel like a document rather than an app. Type is set in `NotionInter` (a tuned Inter) in near-black `{colors.ink}` at large, tightly-tracked weights, so headlines read as confident statements with very little letter-spacing slack at display sizes (`{typography.display-1}` pulls −2.125px of tracking at 64px). The whole system whispers in greys and blacks, then says exactly one thing in colour: a single, dependable blue, `{colors.primary}` (#0075de), reserved almost entirely for the primary call-to-action and inline links.
 
-Density is unusually low even by contemporary SaaS standards. Each tile occupies roughly one viewport, and there is no decorative chrome — no borders, no gradients, no decorative frames, no shadows on headlines. Elevation appears only when a product image rests on a surface (a single soft `rgba(0, 0, 0, 0.22) 3px 5px 30px` drop for visual weight). The result is a catalog that feels more like a museum gallery: the wall disappears and the artifact takes over.
+Against that quiet chrome, Notion lets a **playful multi-colour sticker palette** carry all of the brand's personality — purple, pink, orange, teal, green and sky-blue appear as small illustrated blocks, app-icon stickers, and category dots scattered through the marketing pages. These colours never structure the layout or paint a CTA; they decorate. The discipline is deliberate: the interface stays monochrome-plus-blue so the content (and the cheerful illustrations) can breathe. The one exception to the bright daylight is the homepage hero, which inverts into a deep indigo "night" band (`{colors.secondary}`) with white type and glowing sticker constellations — a single dark island in an otherwise light document.
 
-Store and shop surfaces retain the same chassis but switch modes. The product configurator and accessories grid introduce a tight grid of white utility cards at `{rounded.lg}` (18px) radius with a thin border, paired with a persistent thin sub-nav strip. The editorial page leans darker. Across all analyzed surfaces the typographic system, spacing rhythm, and the single blue accent are consistent — this is one design language expressed at different volumes.
-
-**이 프로젝트에서의 분위기 [추가함]**: 동아리 관리 화면에는 제품 사진이 없다. "사진이 주인공, UI는 물러선다"를 **"내용(공지·회원·신청 목록)이 주인공, UI는 물러선다"**로 읽는다. 흰 바탕과 parchment 바탕의 대비로 영역을 나누고, 테두리·그림자는 최소로, 누르는 것은 파란색 하나로 표시한다.
+Surfaces are defined by hairlines and the faintest layered shadows rather than heavy elevation. Cards round at a friendly 12px (`{rounded.lg}`), the marketing CTAs are fully-pill-shaped (`{rounded.full}`), and utility buttons round at a tighter 8px (`{rounded.md}`). Nothing is loud; the brand's character comes from restraint plus one well-placed splash of joy.
 
 **Key Characteristics:**
-- Photography-first presentation; UI recedes so the product can speak.
-- Alternating full-bleed tile sections: white/parchment ↔ near-black, with the color change itself acting as the section divider.
-- Single blue accent (`{colors.primary}` — #0066cc) carries every interactive element. No second brand color exists.
-- Two button grammars: tiny blue pill CTAs (`{rounded.pill}`) and compact utility rects (`{rounded.sm}`).
-- One sans-serif family (Pretendard) — negative letter-spacing at display sizes for a tight headline feel.
-- Whisper-soft elevation used only when a product image needs to breathe — exactly one drop-shadow in the entire system.
-- Tight two-row nav: slim `{component.global-nav}` + product-specific `{component.sub-nav-frosted}` with persistent right-aligned primary CTA.
-- Section rhythm across multiple pages: light hero → dark product tile → light utility tile → dark tile → parchment footer — a predictable pulse.
+- Warm paper-soft canvas `{colors.canvas-soft}` over pure white, never clinical
+- Near-black `{colors.ink}` `NotionInter` type with tight negative tracking at display sizes (`{typography.display-1}`)
+- Exactly one structural accent — Notion blue `{colors.primary}` — reserved for CTAs and links
+- A decorative-only multi-colour sticker palette (`{colors.accent-purple}`, `{colors.accent-pink}`, `{colors.accent-orange}`, `{colors.accent-teal}`, `{colors.accent-green}`, `{colors.accent-sky}`) that adds personality without ever painting structure
+- Pill-shaped marketing CTAs (`{rounded.full}`) contrasted with 8px utility buttons (`{rounded.md}`)
+- Elevation by hairline + barely-there layered shadow, not heavy drop-shadows
+- A single dark indigo hero "night" band (`{colors.secondary}`) inverting the otherwise daylight page rhythm
 
 ## Colors
 
-> **Source pages analyzed:** homepage, editorial page, store, product configurator, accessories index. The color system is identical across all five surfaces; only the surface-mode mix differs.
+> Source pages analysed: the Notion home page plus Pricing, Enterprise, Product (AI), Product (Agents), and Startups. Every secondary page resolved to the same core palette — Notion runs one tightly-scoped system across the marketing site.
 
 ### Brand & Accent
-- **Action Blue** (`{colors.primary}` — #0066cc): The single brand-level interactive color. All text links, all blue pill CTAs, and the focus ring root. This is the quiet but universal "click me" signal. Press state shifts to a slightly darker variant via the active scale transform rather than a hex change.
-- **Focus Blue** (`{colors.primary-focus}` — #0071e3): A marginally brighter sibling of Action Blue, reserved for the keyboard focus ring on buttons (`outline: 2px solid`).
-- **Sky Link Blue** (`{colors.primary-on-dark}` — #2997ff): A brighter blue used on dark surfaces for in-copy links and inline callouts, where Action Blue would disappear against the tile background.
+- **Notion Blue** (`{colors.primary}` — #0075de): the single structural accent. Primary CTA fill ("Get Notion free"), inline link colour, active-tab and focus signal. This is the only colour that ever paints an action.
+- **Pressed Blue** (`{colors.primary-active}` — #005bab): the darker press state of the primary CTA.
+- **Deep Indigo** (`{colors.secondary}` — #213183): the dark hero "night" band background and its sticker-constellation field; a deep brand-blue used for full-bleed inverted sections.
 
-### Status **[추가함]**
-원본에는 오류·위험 색이 없다(Known Gaps). 화면정의서의 "칸 아래 오류 문구"와 Danger 버튼(삭제처럼 위험한 행동)에 필요해서 하나만 더한다. **강조색(accent)이 아니라 상태색**이라 "두 번째 강조색 금지" 규칙과 구분한다: 누르라는 신호에는 쓰지 않고, 오류 문구·오류 칸 테두리·Danger 버튼에만 쓴다.
-- **Danger Red** (`{colors.danger}` — #d70015): 흰 바탕 대비 5.38:1, parchment 위 4.94:1 (작은 글자 기준 4.5:1 이상).
-- 성공 색은 두지 않는다. 성공은 화면이 바뀌거나 토스트 문구로 알린다.
+The remaining colours form Notion's **decorative sticker palette** — they appear only as illustrated blocks, app stickers and category dots, never as CTAs or structural fills:
+- **Sticker Sky** (`{colors.accent-sky}` — #62aef0)
+- **Sticker Purple** (`{colors.accent-purple}` — #d6b6f6) / **Deep Purple** (`{colors.accent-purple-deep}` — #391c57)
+- **Sticker Pink** (`{colors.accent-pink}` — #ff64c8)
+- **Sticker Orange** (`{colors.accent-orange}` — #dd5b00) / **Deep Orange** (`{colors.accent-orange-deep}` — #793400)
+- **Sticker Teal** (`{colors.accent-teal}` — #2a9d99)
+- **Sticker Green** (`{colors.accent-green}` — #1aae39)
+- **Sticker Brown** (`{colors.accent-brown}` — #523410)
 
 ### Surface
-- **Pure White** (`{colors.canvas}` — #ffffff): The dominant canvas. Content, utility cards, store tiles, configurator grids.
-- **Parchment** (`{colors.canvas-parchment}` — #f5f5f7): The signature off-white. Used for alternating light tiles, footer region, and the default page canvas in store utility sections. Just different enough from white to create rhythm.
-- **Pearl Button** (`{colors.surface-pearl}` — #fafafc): A near-white used as the fill for secondary "ghost" buttons — lighter than the parchment canvas so the button still reads as a button against `{colors.canvas-parchment}`.
-- **Near-Black Tile 1** (`{colors.surface-tile-1}` — #272729): The primary dark-tile surface on the homepage product grid.
-- **Near-Black Tile 2** (`{colors.surface-tile-2}` — #2a2a2c): A micro-step lighter — used where a dark tile sits directly above or below Tile 1 to create the faintest separation.
-- **Near-Black Tile 3** (`{colors.surface-tile-3}` — #252527): A micro-step darker — used at the bottom of the stack and in embedded video/player frames.
-- **Pure Black** (`{colors.surface-black}` — #000000): Reserved for true void — video player backgrounds, edge-to-edge photographic overlays, the global nav bar background.
-- **Translucent Chip Gray** (`{colors.surface-chip-translucent}` — #d2d2d7): The base hex of the translucent gray chip used over photography for circular control buttons. In production, applied at ~64% alpha as `rgba(210, 210, 215, 0.64)`.
+- **White** (`{colors.canvas}` / `{colors.surface}` — #ffffff): card and panel surfaces, nav bar, form fields.
+- **Warm Paper** (`{colors.canvas-soft}` — #f6f5f4): the signature page canvas and the footer band — a warm off-white that gives the whole site its document-like calm.
+- **Hairline** (`{colors.hairline}` — #e6e6e6): 1px card borders and dividers, a black-at-10%-on-white blend kept solid for token reuse.
 
 ### Text
-- **Near-Black Ink** (`{colors.ink}` — #1d1d1f): The voice of every headline, every body paragraph, and the dark utility button's fill. Chosen instead of pure black to keep the page feeling photographic rather than printed.
-- **Body** (`{colors.body}` — #1d1d1f): Same hex as ink — one near-black tone for all text on light surfaces.
-- **Body On Dark** (`{colors.body-on-dark}` — #ffffff): All text on dark tiles and on the global nav bar.
-- **Body Muted** (`{colors.body-muted}` — #cccccc): Secondary copy on dark tiles where pure white would be too loud.
-- **Ink Muted 80** (`{colors.ink-muted-80}` — #333333): Body text on the white Pearl Button surface — slightly softer than pure black.
-- **Ink Muted 48** (`{colors.ink-muted-48}` — #7a7a7a): Disabled button text and legal fine-print.
-- **Ink Secondary** (`{colors.ink-secondary}` — #6e6e73) **[추가함]**: 입력칸 도움말, 목록의 날짜·작성자 같은 보조 글자. `ink-muted-48`(#7a7a7a)은 흰 바탕 대비 4.29:1로 작은 글자 기준(4.5:1)에 못 미쳐, 읽어야 하는 보조 글자에는 이 색(5.07:1)을 쓴다. `ink-muted-48`은 원본대로 잠금 상태 글자와 placeholder에만 쓴다.
+- **Ink** (`{colors.ink}` — #000000): primary headings and body text (rendered at ~95% alpha for a soft true-black).
+- **Warm Charcoal** (`{colors.ink-secondary}` — #31302e): secondary body copy and footer text.
+- **Stone** (`{colors.ink-muted}` — #615d59): supporting / muted copy.
+- **Ash** (`{colors.ink-faint}` — #a39e98): captions, metadata, placeholder text.
 
-### Hairlines & Borders
-- **Divider Soft** (`{colors.divider-soft}` — #f0f0f0): The "border" tone on secondary buttons — functions as a ring shadow rather than a hard line. In production, often applied as `rgba(0, 0, 0, 0.04)`.
-- **Hairline** (`{colors.hairline}` — #e0e0e0): The 1px hairline border on store utility cards and configurator chips.
-- **Input Border** (`{colors.input-border}` — #86868b) **[추가함]**: 입력칸 테두리. 원본 search-input의 `rgba(0, 0, 0, 0.08)`은 검색창 하나일 때는 괜찮지만, 칸이 여러 개인 폼에서는 칸 경계가 보이지 않는다. 입력칸 경계는 3:1 이상이어야 알아볼 수 있어 이 색(3.62:1)을 쓴다.
-
-### Brand Gradient
-**No decorative gradients.** Atmospheric depth on product photography is inherent to the imagery, not a CSS gradient overlay. The editorial page's hero uses photographic atmosphere but no gradient tokens are defined. The source is the rare luxury-brand site with zero gradient-based design tokens.
+### Semantic
+Notion's marketing surfaces do not expose a dedicated error/success palette in the system chrome — status is carried by the sticker palette (e.g. `{colors.accent-green}` for affirmative ticks) rather than a separate semantic ramp.
 
 ## Typography
 
 ### Font Family
-- **Display / Body / UI**: `"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif` — 한글·영문·숫자를 한 글꼴로 쓴다. 원본은 큰 글자용(Display)과 본문용(Text) 두 글꼴을 나눴지만, Pretendard는 가변 글꼴 하나로 두 역할을 함께 맡는다.
-- **License**: Pretendard는 SIL Open Font License 1.1(OFL)이라 무료로 쓰고 함께 배포할 수 있다 (github.com/orioncactus/pretendard).
-- **Weights**: 300 / 400 / 600 / 700 (원본 사다리 그대로, 500은 쓰지 않는다).
-- **OpenType features**: 숫자가 세로로 줄을 맞춰야 하는 곳(목록의 날짜·인원수)은 `font-variant-numeric: tabular-nums`를 쓴다.
+The entire system is set in **`NotionInter`** — Notion's tuned cut of Inter — with a fallback stack of `Inter, -apple-system, system-ui, "Segoe UI", Helvetica, Arial`. A single family carries everything from 64px display headlines to 12px eyebrows; there is no serif, no monospace display face. OpenType `lnum` (lining numerals) and `locl` features are enabled on body and heading roles.
 
 ### Hierarchy
 
-한글에 맞춰 원본 값을 고쳤다 **[한글 조정]**. 바뀐 원칙은 표 아래에 적었다.
-
 | Token | Size | Weight | Line Height | Letter Spacing | Use |
 |---|---|---|---|---|---|
-| `{typography.hero-display}` | 48px | 600 | 1.25 | -0.02em | Hero headline **[MVP 범위 밖]** |
-| `{typography.display-lg}` | 36px | 600 | 1.3 | -0.02em | 큰 제목 (로그인 화면 서비스명) |
-| `{typography.display-md}` | 28px | 600 | 1.4 | -0.02em | 페이지 제목 (본문 제목 줄) |
-| `{typography.lead}` | 22px | 400 | 1.45 | -0.01em | 제목 아래 한 줄 설명 |
-| `{typography.lead-airy}` | 20px | 300 | 1.6 | 0 | 가벼운 안내 문단 (드묾) |
-| `{typography.tagline}` | 20px | 600 | 1.4 | -0.01em | 구역 제목, 상단바 서비스명 |
-| `{typography.body-strong}` | 16px | 600 | 1.5 | -0.01em | 본문 강조, 카드 제목 |
-| `{typography.body}` | 16px | 400 | 1.6 | -0.01em | 기본 본문, 입력값, 버튼 글자 |
-| `{typography.dense-link}` | 16px | 400 | 2.2 | 0 | 링크 목록 (햄버거바 메뉴 후보) |
-| `{typography.caption}` | 14px | 400 | 1.5 | -0.01em | 보조 설명 |
-| `{typography.caption-strong}` | 14px | 600 | 1.45 | -0.01em | 입력칸 라벨, 표 머리 |
-| `{typography.button-large}` | 18px | 400 | 1.0 | 0 | 큰 버튼 **[MVP 범위 밖]** (원본 300 → 400) |
-| `{typography.button-utility}` | 14px | 400 | 1.4 | -0.01em | 작은 버튼, 탭 |
-| `{typography.fine-print}` | 13px | 400 | 1.5 | 0 | 입력칸 도움말·오류 문구 |
-| `{typography.micro-legal}` | 11px | 400 | 1.4 | 0 | 아주 작은 안내 (드묾) |
-| `{typography.nav-link}` | 13px | 400 | 1.4 | 0 | 작은 메뉴 글자 |
-
-**원본에서 바꾼 것과 이유 [한글 조정]**
-- **본문 17px → 16px, 줄 높이 1.47 → 1.6.** 한글은 같은 px에서 영문보다 글자 면이 크고 획이 빽빽해 보인다. 한 단계 작게 쓰고 줄 사이를 넓혀야 원본의 "훑지 않고 읽는" 속도가 나온다.
-- **큰 글자 줄 높이 1.07~1.19 → 1.25~1.4.** 한글은 받침 때문에 위아래가 꽉 차서, 원본처럼 좁히면 두 줄 제목의 줄끼리 닿는다.
-- **자간을 px → em으로, 값은 -0.01em ~ -0.02em.** 원본의 "큰 글자일수록 좁게"는 그대로 두고, 글자 크기가 바뀌어도 비율이 유지되게 em으로 쓴다. 13px 이하는 0 (원본도 12px 이하에는 쓰지 않음).
-- **도움말·오류 글자 12px → 13px.** 한글 12px은 칸 아래 문구로 읽기에 작다.
-- **weight 300 → 400 (button-large).** 한글 300은 획이 가늘어 버튼 글자로 약하다. 300은 큰 안내 문단(lead-airy)에만 남긴다.
+| `{typography.display-1}` | 64px | 700 | 1.0 | −2.125px | Hero headline ("Meet the night shift") |
+| `{typography.display-2}` | 54px | 700 | 1.04 | −1.875px | Large section headlines |
+| `{typography.heading-1}` | 40px | 700 | 1.1 | −1px | Section headlines ("Plans and features") |
+| `{typography.heading-2}` | 26px | 700 | 1.23 | −0.625px | Sub-section headings |
+| `{typography.heading-3}` | 22px | 700 | 1.27 | −0.25px | Card titles |
+| `{typography.title}` | 20px | 600 | 1.4 | −0.125px | Feature titles, callouts |
+| `{typography.body-md}` | 16px | 400 | 1.5 | 0 | Default body copy |
+| `{typography.body-sm}` | 15px | 400 | 1.33 | 0 | Dense body, table rows, nav |
+| `{typography.button}` | 16px | 500 | 1.5 | 0 | Button labels |
+| `{typography.caption}` | 14px | 400 | 1.43 | 0 | Captions, footnotes |
+| `{typography.eyebrow}` | 12px | 600 | 1.33 | +0.125px | Pill badges, small labels |
 
 ### Principles
+Notion's type voice is **tight, heavy, and quiet-confident**. Headlines lean on weight 700 and aggressive negative tracking (more negative the larger the size) so display copy feels set, not stretched. Body copy stays at a comfortable 1.5 line-height for document readability. The contrast between a heavy 700 headline and a calm 400 body is the primary expressive lever — there is no decorative typography, only a clear hierarchy.
 
-- **Negative letter-spacing at display sizes.** Every headline at 16px and up carries a slight tracking tighten (`-0.01em → -0.02em`). This produces the tight headline cadence. Never used at 13px or below.
-- **Body copy at 16px with 1.6 leading.** The source runs 17px for Latin text; for Hangul, one step smaller with more leading gives the same "reading, not scanning" pace.
-- **Weight 300 is real and rare.** Used deliberately on large-size reads (`{typography.lead-airy}` at 20px/300). It's a light-atmosphere cue reserved for moments where the content should feel airy.
-- **Weight 600, not 700, for headlines.** Headlines sit at weight 600. Weight 700 is used sparingly when a touch more assertion is needed.
-- **Line-height is context-specific.** Display sizes use 1.25–1.4 (tight for Hangul). Body uses 1.6. Link stacks use a relaxed 2.2 (`{typography.dense-link}`).
-- **Weight 500 is deliberately absent.** The ladder is 300 / 400 / 600 / 700. Mid-weight readings always use 600.
+### Note on Font Substitutes
+`NotionInter` is a proprietary tuning of the open-source **Inter** family — substitute Inter directly. To approximate Notion's display tightness, apply the negative letter-spacing values in the table above explicitly (Inter at default tracking will read looser than `NotionInter`).
 
 ## Layout
 
 ### Spacing System
-- **Base unit:** 8px. Sub-base values (2, 4, 6) are used for tight typographic adjustments; structural layout snaps to 8/12/16/24/32.
-- **Tokens:** `{spacing.xxs}` 4px · `{spacing.xs}` 8px · `{spacing.sm}` 12px · `{spacing.md}` 16px · `{spacing.lg}` 24px · `{spacing.xl}` 32px · `{spacing.xxl}` 48px · `{spacing.section}` 80px.
-  - **[한글 조정]** `md`를 17px → 16px로 바꿨다. 원본의 17px은 본문 글자 크기(17px)에 맞춘 값이라, 본문을 16px로 바꾼 이 문서에서는 16px이 같은 역할을 한다.
-- **Section vertical padding:** `{spacing.section}` (80px) inside a product tile; tiles stack edge-to-edge with 0 gap (the color change provides the break).
-- **Card padding:** `{spacing.lg}` (24px) inside utility grid cards.
-- **Button padding:** 8–11px vertical, 15–22px horizontal.
-- **Universal rhythm constants:** the body line (16px × 1.6 ≈ 26px) and the 20px tagline size.
+- **Base unit**: 8px.
+- **Tokens (front matter)**: `{spacing.xxs}` 4px · `{spacing.xs}` 8px · `{spacing.sm}` 12px · `{spacing.md}` 16px · `{spacing.lg}` 24px · `{spacing.xl}` 28px · `{spacing.xxl}` 32px.
+- Card interior padding lands around `{spacing.lg}` (24px); utility buttons use a tight 4px/14px; form fields pad at `{spacing.xxs}`-scale 6px. Section gaps stack the larger steps.
 
 ### Grid & Container
-- **Max content width:** ~980px on text-heavy sections, ~1440px on product grids, full-bleed for product tiles.
-- **Column patterns:** 3 to 5 column utility card grid on store/accessories; 2-column side-by-side tiles on homepage occasional sections; single-column centered stack on product tile heroes.
-- **Gutters:** 20–24px between cards in a utility grid.
-
-### Desktop 1440 기준 **[추가함]**
-- 화면은 **데스크톱 폭 1440px**에서 설계하고 확인한다 (개발 일지 "화면정의서" 결정). 스크린샷 확인도 1440 폭으로 한다.
-- 내용 최대 폭은 1440px (원본의 content lock과 같다). 글이 긴 화면(공지 상세)은 원본의 텍스트 구역처럼 ~980px 안에 둔다.
-- 폼 하나만 있는 화면(로그인·회원가입)은 폼 폭을 고정한다 (값은 그 화면을 만들 때 spacing 단위로 정한다).
-- 1440보다 좁은 화면, 모바일 대응은 하지 않는다 → 아래 "Responsive Behavior"는 **[MVP 범위 밖]**.
+Content is centred in a wide max-width column (~1080–1300px on desktop per the extracted breakpoints) with generous outer gutters. Feature sections alternate between full-width text blocks and 2-up / 3-up card grids; the pricing page widens to a 4-column plan table. The dark hero spans full-bleed edge to edge while body sections respect the centred container.
 
 ### Whitespace Philosophy
-Whitespace is the product's pedestal. Every tile begins with at least 64px of air above its headline and 48–64px below. Product renders are never crowded; the nearest content to a product image is at least 40px away. The footer is the only area that breaks this — there, the site goes deliberately dense to make the full information architecture visible at a glance.
+Whitespace is the primary grouping device. Sections are separated by large vertical gaps rather than rules, and cards sit on the warm canvas with quiet hairlines instead of heavy frames. The effect is document-like: airy, scannable, and never crowded.
+
+### Responsive Strategy
+
+#### Breakpoints
+| Name | Width | Key Changes |
+|---|---|---|
+| Wide | 1440px+ | Full multi-column grids, widest container |
+| Desktop | 1080–1300px | Standard centred container, 3-up card grids |
+| Tablet | 768–840px | Grids collapse to 2-up, nav begins condensing |
+| Mobile | ≤600px | Single-column stacks, hamburger nav, full-width CTAs |
+
+#### Touch Targets
+Pill CTAs (`button-primary`, `button-secondary`) and utility buttons (`button-utility`) carry comfortable tap padding; aim for a 44×44px minimum hit area on mobile by preserving vertical padding even as labels shrink.
+
+#### Collapsing Strategy
+The top nav condenses to a hamburger below the tablet breakpoint; multi-column card grids collapse to a single stacked column; the pricing plan table reflows from 4 side-by-side columns into stacked plan cards. Section padding tightens but the warm-canvas rhythm is preserved.
+
+#### Image Behavior
+Product screenshots and illustration tiles sit inside rounded `{rounded.lg}` frames and scale fluidly within their grid cell. Sticker illustrations are small fixed-scale decorative assets that re-flow but do not crop.
 
 ## Elevation & Depth
 
 | Level | Treatment | Use |
 |---|---|---|
-| Flat | No shadow, no border | Full-bleed tiles, global nav, footer, body sections |
-| Soft hairline | 1px `rgba(0, 0, 0, 0.08)` border | Utility cards, sub-nav frosted-glass separator |
-| Backdrop blur | `backdrop-filter: blur(N)` on Parchment 80% | Sub-nav and the floating sticky bar |
-| Product shadow | `rgba(0, 0, 0, 0.22) 3px 5px 30px 0` | Product renders resting on a surface (the only true "shadow" in the system) |
+| 0 — Flat | Hairline border `{colors.hairline}`, no shadow | Default cards on the warm canvas |
+| 1 — Soft | Layered micro-shadow: `rgba(0,0,0,0.01) 0 0.175px 1.041px`, `0.02 0 0.8px 2.925px`, `0.027 0 2.025px 7.847px`, `0.04 0 4px 18px` | Raised feature cards, floating buttons |
+| 2 — Elevated | Deeper 5-stop stack ending in `rgba(0,0,0,0.05) 0 23px 52px` | Modals, popovers, the elevated white pill on the dark hero |
 
-**Shadow philosophy.** The system uses **exactly one** drop-shadow, and it is applied to photographic product imagery — never to cards, never to buttons, never to text. Elevation in the UI comes from (a) surface-color change (light tile ↔ dark tile) and (b) backdrop-blur on sticky bars. The single shadow is about giving the product weight, not about UI hierarchy.
+Notion's elevation philosophy is **barely-there**: shadows are built from many near-transparent layers so surfaces feel gently lifted off the paper rather than dramatically dropped. Most cards rely on a hairline alone.
 
 ### Decorative Depth
-- **Atmospheric imagery** on the editorial page (photographic vista) supplies mood; no CSS gradient involved.
-- **Edge-to-edge tile alternation** creates rhythm without borders or shadows — the color change itself is the divider.
-- **Backdrop-filter blur** on `{component.sub-nav-frosted}` and `{component.floating-sticky-bar}` creates a "floating over content" effect that's functional, not decorative.
+The brand's real depth cue is **illustration**, not shadow. The dark indigo hero (`{colors.secondary}`) uses glowing sticker stickers and a starfield to create a sense of a lit night scene, and feature sections layer small colourful app-icon stickers over plain surfaces to add playful dimensionality. Colour-blocked illustration tiles (purple, pink, orange, teal headers on otherwise-white cards) provide visual rhythm.
 
 ## Shapes
 
@@ -162,298 +134,216 @@ Whitespace is the product's pedestal. Every tile begins with at least 64px of ai
 
 | Token | Value | Use |
 |---|---|---|
-| `{rounded.none}` | 0px | Full-bleed product tiles (no corner rounding) |
-| `{rounded.xs}` | 5px | Inline links when styled as subtle chips (rare) |
-| `{rounded.sm}` | 8px | Dark utility buttons, inline card imagery |
-| `{rounded.md}` | 11px | White Pearl Button capsules |
-| `{rounded.lg}` | 18px | Store utility cards, accessories grid cards |
-| `{rounded.pill}` | 9999px | Primary blue pill CTAs, sub-nav buy button, configurator option chips, search input — the signature pill |
-| `{rounded.full}` | 9999px / 50% | Circular control chips floating over photography |
+| `{rounded.xs}` | 4px | Form fields, small tags, inline chips |
+| `{rounded.sm}` | 5px | Menu items, list rows, status pills |
+| `{rounded.md}` | 8px | Utility / nav buttons, smaller cards |
+| `{rounded.lg}` | 12px | Feature cards, illustration frames, content tiles |
+| `{rounded.xl}` | 16px | Large containers, image wells |
+| `{rounded.full}` | 9999px | Marketing pill CTAs, badges, circular icon buttons |
 
-### Photography Geometry **[MVP 범위 밖]**
-- **Hero imagery**: full-bleed, 21:9 or taller on the homepage; 16:9 on editorial and shop pages. Product renders are photographic-realistic, often shot on a tinted surface that becomes the tile background.
-- **Product renders**: PNG/WebP with transparency; rest on a surface tile and pick up the system shadow.
-- **Accessory grid**: square 1:1 crops at `{rounded.lg}` (18px) radius, light neutral backgrounds, product centered with 20–40px internal padding.
-- **No rounded imagery in hero tiles** — images are full-bleed rectangular. Rounding (`{rounded.sm}`, `{rounded.lg}`) appears only on inline card imagery.
-- Lazy-loading via responsive `srcset` and `sizes` across all breakpoints; CDN-optimized WebP.
+### Photography Geometry
+Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells, typically full-bleed within their container with a hairline edge. Illustration tiles use colour-blocked header bands above white card bodies. Avatars and app-icon stickers are small, sometimes fully circular (`{rounded.full}`). There is no heavy art-direction crop — images scale within their rounded frame.
 
 ## Components
 
-> 아래는 원본 사이트의 부품 기록이다. 이 프로젝트에서 직접 쓰는 부품과 상태는 맨 아래 **"Project Components"**에 따로 정리했다.
+> **No hover states documented.** Every spec below documents Default and Active/Pressed states only. Variants live as separate `components:` front-matter entries and are described in their own sub-blocks.
 
-### Top Navigation
+### Navigation
 
-**`global-nav`** — Persistent, ultra-thin black nav bar pinned to the top of every page. Background `{colors.surface-black}`, height 44px, text `{colors.on-dark}` in `{typography.nav-link}`. Links are quiet, spaced ~20px apart, running edge-to-edge across the top. Right-aligned cluster: Search, Cart icons — always visible. On mobile, collapses to hamburger at ~834px and the logo centers.
-
-**`sub-nav-frosted`** — Surface-specific nav that sticks below the global nav. Background `{colors.canvas-parchment}` at 80% opacity with backdrop-filter blur, creating a frosted-glass effect. Height 52px. Content on left: product category name in `{typography.tagline}`. Content right: inline nav links in `{typography.button-utility}`, ending in a persistent `{component.button-primary}` or a utility link.
+**`nav-bar`** — Top navigation
+- White surface `{colors.canvas}`, `{colors.ink}` link text at `{typography.body-sm}`, padding `{spacing.md}`. Sits as a slim sticky bar; left wordmark, centre product/solutions menu links, right "Log in" text link plus a `button-utility` "Get Notion free" CTA. Condenses to a hamburger below the tablet breakpoint.
 
 ### Buttons
 
-**`button-primary`** — The signature action. Background `{colors.primary}` (Action Blue #0066cc), text `{colors.on-primary}` in `{typography.body}`, rounded `{rounded.pill}` (full pill — capsule-shaped), padding 11px × 22px. The full-pill radius IS the brand action signal.
-- Active state: `{component.button-primary-active}` — `transform: scale(0.95)` (the system-wide micro-interaction).
-- Focus state: `{component.button-primary-focus}` — 2px solid `{colors.primary-focus}` outline.
+**`button-primary`** — Primary CTA ("Get Notion free")
+- Background `{colors.primary}`, text `{colors.on-primary}`, type `{typography.button}`, fully pill-shaped `{rounded.full}`. The single blue action on any page.
+- Pressed state lives in `button-primary-pressed` (background `{colors.primary-active}`); marketing buttons also apply a brief `scale(0.9)` press transform.
 
-**`button-secondary-pill`** — Used as the second CTA when two blue pills appear together. Background transparent, text `{colors.primary}`, 1px solid `{colors.primary}` border, rounded `{rounded.pill}`, padding 11px × 22px. Reads as a "ghost pill."
+**`button-primary-pressed`**
+- Background `{colors.primary-active}`, text `{colors.on-primary}` — the depressed state of the primary CTA.
 
-**`button-dark-utility`** — Global nav actions (sign-in, cart, language selector). Background `{colors.ink}` (#1d1d1f), text `{colors.on-dark}` in `{typography.button-utility}`, rounded `{rounded.sm}` (8px), padding 8px × 15px. Active state shrinks via `transform: scale(0.95)`.
+**`button-secondary`** — Secondary CTA ("Request a demo")
+- White surface `{colors.surface}`, text `{colors.ink}`, type `{typography.button}`, pill `{rounded.full}`, carried by the soft Level-1 shadow. Pairs beside `button-primary` in the hero.
 
-**`button-pearl-capsule`** — Product-card secondary button. Background `{colors.surface-pearl}` (#fafafc), text `{colors.ink-muted-80}` in `{typography.caption}`, 3px solid `{colors.divider-soft}` border (functions as a soft ring rather than a visible line), rounded `{rounded.md}` (11px), padding 8px × 14px.
+**`button-utility`** — Nav / plan-select button
+- White surface `{colors.surface}`, text `{colors.ink}`, type `{typography.button}`, tighter `{rounded.md}` (8px), padding `4px 14px`, 1px `{colors.hairline}` border. Used for the nav CTA and pricing plan-select buttons where the marketing pill would be too large.
 
-**`button-store-hero`** — A larger primary CTA used on store hero surfaces. Same Action Blue + Paper White as `{component.button-primary}`, but with `{typography.button-large}` and slightly more padding (14px × 28px). Used sparingly on the store landing.
-
-**`button-icon-circular`** — Floats over photography. 44 × 44px, background `{colors.surface-chip-translucent}` at ~64% alpha, icon in `{colors.ink}`, rounded `{rounded.full}`. Used for carousel controls, close buttons, and in-image controls.
-
-**`text-link`** — Inline body links in `{colors.primary}` (Action Blue). Underlined or non-underlined per context.
-
-**`text-link-on-dark`** — Inline body links on dark tiles in `{colors.primary-on-dark}` (Sky Link Blue #2997ff) — Action Blue would disappear against `{colors.surface-tile-1}`.
+**`button-icon-circular`** — Carousel / media control
+- Circular `{rounded.full}` control with a translucent `rgba(0,0,0,0.05)` fill and `{colors.on-primary}` glyph, used for slide and play/pause controls; applies a `scale(0.9)` press transform.
 
 ### Cards & Containers
 
-**`product-tile-light`** — Full-bleed light tile. Background `{colors.canvas}` (white), text `{colors.ink}`, rounded `{rounded.none}` (0 — tiles touch edges), vertical padding `{spacing.section}` (80px). Centered stack: product name in `{typography.display-lg}` → one-line tagline in `{typography.lead}` → two `{component.button-primary}` CTAs → product render resting on the surface with the system shadow.
+**`feature-card`** — Content / feature card
+- White surface `{colors.surface}`, `{colors.ink}` text, `{typography.body-md}`, rounded `{rounded.lg}` (12px), padding `{spacing.lg}` (24px). The workhorse marketing card; often topped by a colour-blocked illustration band from the sticker palette. Default elevation is flat (hairline only).
 
-**`product-tile-parchment`** — Same as `{component.product-tile-light}` but on `{colors.canvas-parchment}` (#f5f5f7). Used to break two consecutive white tiles.
+**`feature-card-elevated`** — Raised feature card
+- Same chrome as `feature-card` with the soft Level-1 layered shadow for cards that float above the canvas (testimonials, floating product panels).
 
-**`product-tile-dark`** — Full-bleed dark tile. Background `{colors.surface-tile-1}` (#272729), text `{colors.on-dark}`, rounded `{rounded.none}`, vertical padding `{spacing.section}` (80px). Same content stack as the light tile but with `{component.text-link-on-dark}` for inline copy and `{component.button-primary}` (Action Blue still works on the dark surface). Used on the homepage product grid as the alternating dark band.
+**`pricing-plan-card`** — Pricing plan column
+- White surface `{colors.surface}`, `{colors.ink}` text, `{typography.body-sm}`, rounded `{rounded.md}` (8px), padding `{spacing.lg}`. A bordered column listing a plan's price and feature checklist, with a `button-utility` select action.
 
-**`product-tile-dark-2`** — Variant on `{colors.surface-tile-2}` (#2a2a2c). Used where a dark tile sits directly above or below `{component.product-tile-dark}` to create the faintest separation through micro-step lightness change.
-
-**`product-tile-dark-3`** — Variant on `{colors.surface-tile-3}` (#252527). Used at the bottom of the stack and in embedded video/player frames.
-
-**`store-utility-card`** — Used in store grid and accessories grid. Background `{colors.canvas}` (white), 1px solid `{colors.hairline}` border, rounded `{rounded.lg}` (18px), padding `{spacing.lg}` (24px). Top: product image (1:1 crop with `{rounded.sm}` (8px) inner image radius). Below: product name in `{typography.body-strong}`, price in `{typography.body}`, and a `{component.text-link}`. No shadow by default; product render itself carries the system product-shadow.
-
-**`configurator-option-chip`** — Pill-shaped tappable cell used in the product configurator. Background `{colors.canvas}`, text `{colors.ink}` in `{typography.caption}`, rounded `{rounded.pill}`, padding 12px × 16px. Contains a small product thumbnail + label + price delta. Arranged in a grid of 4–5 options per row.
-
-**`configurator-option-chip-selected`** — Selected state. Border upgrades to 2px solid `{colors.primary-focus}`. Same shape, same content.
-
-**`editorial-quote-card`** — A photographic-canvas hero specific to the editorial page. Dark photographic backdrop with `{colors.surface-tile-1}` as the fallback color, centered white-text headline in `{typography.display-lg}`, a small pictographic mark above the headline, single `{component.button-primary}` below. Padding `{spacing.section}` (80px).
-
-**`floating-sticky-bar`** — Floats at the bottom of the viewport on the product configurator during scroll. Background `{colors.canvas-parchment}` at 80% opacity with `backdrop-filter: blur(N)`, height 64px, padding 12px × 32px. Left: running price total in `{typography.body}`. Right: `{component.button-primary}`.
+**`pricing-plan-card-featured`** — Highlighted plan column
+- Warm `{colors.canvas-soft}` fill to lift the recommended tier off the white siblings, same `{rounded.md}` shape and padding. Distinguished by surface tint rather than a coloured border.
 
 ### Inputs & Forms
 
-**`search-input`** — The accessories search input. Background `{colors.canvas}`, text `{colors.ink}` in `{typography.body}`, 1px solid `rgba(0, 0, 0, 0.08)` border, rounded `{rounded.pill}` (full pill — search is also pill-shaped, matching the CTA grammar), padding 12px × 20px, height 44px. Leading icon: search glyph at 14px, muted tint.
+**`text-input`** — Text / number field
+- White surface `{colors.surface}`, `{colors.ink}` text, `{typography.body-sm}`, 1px `rgb(221,221,221)` border, rounded `{rounded.xs}` (4px), padding `6px`. Square-ish corners deliberately tighter than the pill CTAs. Focus adds the soft Level-1 shadow.
 
-Error and validation states were not surfaced in the analyzed pages. → 이 프로젝트의 입력칸 상태는 "Project Components"의 `form-field` **[추가함]**.
+### Signature Components
 
-### Footer
+**`hero-band`** — Dark "night" hero
+- Full-bleed deep indigo `{colors.secondary}` band carrying `{typography.display-1}` white headline, sticker-constellation field, and a `button-primary` + `button-secondary` CTA pair. The single inverted dark island in an otherwise daylight page.
 
-**`footer`** — Background `{colors.canvas-parchment}` (#f5f5f7), text `{colors.ink-muted-80}`. Link columns in `{typography.dense-link}` (the relaxed leading is what makes the dense columns scannable). Column headings in `{typography.caption-strong}`. Legal row at the very bottom in `{typography.fine-print}` with `{colors.ink-muted-48}` text. Vertical padding 64px.
+**`badge-pill`** — Eyebrow / category pill
+- White surface `{colors.surface}`, `{colors.primary}` text, `{typography.eyebrow}` (12px / 600), fully pill `{rounded.full}`, padding `4px 8px`. Small labels such as the pricing "Essential for staying organized" eyebrow and category tags.
+
+**`footer`** — Site footer
+- Warm `{colors.canvas-soft}` band, `{colors.ink-secondary}` link text at `{typography.caption}`, padding `{spacing.xxl}`. Multi-column link directory closing every page.
+
+### Examples (illustrative)
+
+> Kit-mirror demonstration surfaces. Each `ex-*` entry references brand-native primitives so downstream consumers (`/preview-design`, `/generate-kit`) re-skin the same 10 surfaces consistently.
+
+**`ex-pricing-tier`** — Default Pricing tier card. Re-uses feature-card chrome with brand canvas-soft surface.
+- Properties: `backgroundColor`, `textColor`, `borderColor`, `rounded`, `padding`
+
+**`ex-pricing-tier-featured`** — Featured/highlighted tier — polarity-flipped surface (dark fill + light text in light mode, light fill + dark text in dark mode).
+- Properties: `backgroundColor`, `textColor`, `rounded`, `padding`
+
+**`ex-product-selector`** — What's Included summary card — re-purposed for SaaS / B2B verticals (NOT a literal product gallery).
+- Properties: `backgroundColor`, `rounded`, `padding`
+
+**`ex-cart-drawer`** — Subscription summary — re-purposed for SaaS / B2B (line items per add-on, not literal cart).
+- Properties: `backgroundColor`, `rounded`, `padding`, `item-divider`
+
+**`ex-app-shell-row`** — Sidebar nav row inside the App Shell example. Active state uses brand primary as the indicator.
+- Properties: `backgroundColor`, `activeIndicator`, `rounded`, `padding`
+
+**`ex-data-table-cell`** — Default data-table th + td chrome. Header uses mono-caps eyebrow typography; body uses body-sm.
+- Properties: `headerBackground`, `headerTypography`, `bodyTypography`, `cellPadding`, `rowBorder`
+
+**`ex-auth-form-card`** — Sign-in / sign-up card. Re-uses feature-card chrome with text-input primitives inside.
+- Properties: `backgroundColor`, `rounded`, `padding`
+
+**`ex-modal-card`** — Modal dialog surface — same chrome as feature-card with elevated shadow.
+- Properties: `backgroundColor`, `rounded`, `padding`
+
+**`ex-empty-state-card`** — Empty-state illustration frame.
+- Properties: `backgroundColor`, `rounded`, `padding`, `captionTypography`
+
+**`ex-toast`** — Toast notification surface — feature-card shape + medium shadow.
+- Properties: `backgroundColor`, `rounded`, `padding`, `typography`
+
 
 ## Do's and Don'ts
 
 ### Do
-- Use `{colors.primary}` (Action Blue #0066cc) for every interactive element — links, pill CTAs, focus signals — and nothing else. The single accent is non-negotiable.
-- Set headlines in `{typography.display-lg}` or `{typography.display-md}` with negative letter-spacing (`-0.02em`) to get the tight headline cadence.
-- Run body copy at `{typography.body}` (16px / 400 / 1.6 / -0.01em).
-- Alternate white and parchment surfaces for section rhythm. The color change IS the divider.
-- Reserve `{rounded.pill}` for the primary blue CTA and any other element that should read as an "action".
-- Apply the single product-shadow (`rgba(0, 0, 0, 0.22) 3px 5px 30px`) only to product renders resting on a surface — never on cards, buttons, or text.
-- Use `transform: scale(0.95)` as the active/press state on every button — it's the system-wide micro-interaction.
-- Keep the global nav `{colors.surface-black}` (true black) — it's the only place pure black appears on most pages.
-- **[추가함]** 오류 문구·오류 칸·Danger 버튼에는 `{colors.danger}`만 쓴다. 상태색이지 강조색이 아니다.
+- Reserve `{colors.primary}` for the primary action, inline links, and the active/focus signal — nothing decorative.
+- Keep the page on the warm `{colors.canvas-soft}` canvas; use pure white `{colors.surface}` for cards and fields to create gentle figure/ground.
+- Let the sticker palette (`{colors.accent-pink}`, `{colors.accent-teal}`, `{colors.accent-orange}`, …) live only in illustrations, icon tiles and category dots.
+- Set headlines in heavy `{typography.display-1}`/`{typography.heading-1}` with their negative tracking applied explicitly.
+- Use pill `{rounded.full}` for marketing CTAs and tighter `{rounded.md}` for nav/utility buttons — the contrast is intentional.
+- Define surfaces with `{colors.hairline}` and the barely-there Level-1 shadow rather than heavy drop-shadows.
+- Reserve the deep indigo `{colors.secondary}` "night" treatment for a single hero moment, not repeated bands.
 
 ### Don't
-- Don't introduce a second accent color; every "click me" signal is `{colors.primary}` (Action Blue). (`{colors.danger}`는 누르라는 신호가 아니라 위험·오류 상태 표시라 예외 **[추가함]**)
-- Don't add shadows to cards, buttons, or text — shadow is reserved for product imagery.
-- Don't use gradients as decorative backgrounds; atmosphere comes from photography.
-- Don't set body copy at weight 500 — the ladder is 300 / 400 / 600 / 700, with 500 deliberately absent. Body is always 400; strong inline is 600; display is 600.
-- Don't round full-bleed tiles — tiles are rectangular and edge-to-edge; the color change is the divider.
-- Don't tighten line-height below 1.6 for Hangul body copy — the editorial leading is part of the brand.
-- Don't mix radii grammars — use `{rounded.sm}` for compact utility, `{rounded.lg}` for utility cards, `{rounded.pill}` for pills, and nothing in between (except the rare `{rounded.md}` Pearl Button).
-- Don't use `{colors.primary-on-dark}` (Sky Link Blue) on light surfaces — it's the dark-tile-only variant. Action Blue is for light surfaces.
-
-## Responsive Behavior **[MVP 범위 밖]**
-
-> 이 프로젝트는 데스크톱 1440 기준만 만든다 (위 "Desktop 1440 기준"). 아래는 원본 기록으로 남기고, 마무리 단계 이후에 다시 본다.
-
-### Breakpoints
-
-| Name | Width | Key Changes |
-|---|---|---|
-| Small phone | ≤ 419px | Single-column tiles; sub-nav collapses to category name + primary CTA only; hero typography drops to 28px |
-| Phone | 420–640px | Single-column stack; product renders scale to 80% of tile width; hero h1 drops to 34px |
-| Large phone | 641–735px | Tiles transition to tighter padding (48px vertical vs 80px); fine-print wraps |
-| Tablet portrait | 736–833px | Global nav collapses to hamburger; sub-nav hides category chips, keeps primary CTA |
-| Tablet landscape | 834–1023px | Global nav returns fully expanded; 3-column utility grids become 2-column |
-| Small desktop | 1024–1068px | Product tiles use 2/3 width with margin gutters; hero h1 stays at 40px |
-| Desktop | 1069–1440px | Full layout; 4–5 column store grids; 1440px content max |
-| Wide desktop | ≥ 1441px | Content locks at 1440px, margins absorb extra width |
-
-The structural breakpoints that matter for agents: 1440px (content lock), 1068px (small-desktop), 833px (tablet landscape switch), 734px (tablet portrait), 640px (phone), 480px (small phone).
-
-### Touch Targets
-- Minimum 44 × 44px. `{component.button-primary}` lands at ~44 × 100px (with the full-pill radius making the visible hit area more generous than the label suggests).
-- `{component.button-icon-circular}` is exactly 44 × 44px.
-- Global nav utility links are smaller (~32 × 80px) — they deliberately sit at a tighter target because they're precision desktop actions, and the mobile hamburger replaces them at ≤ 833px.
-
-### Collapsing Strategy
-- **Global nav**: full horizontal link row on desktop → collapses to logo + hamburger + cart icon at 834px and below.
-- **Sub-nav**: category name + inline links + primary CTA → category name + primary CTA only at mobile; inline links move into a hamburger tray.
-- **Product tiles**: stack from 2-column to 1-column at 834px; vertical padding tightens from 80px → 48px at small-phone.
-- **Utility grids** (store, accessories): 5-col → 4-col (1440px) → 3-col (1068px) → 2-col (834px) → 1-col (640px).
-- **Hero typography**: `{typography.hero-display}` → `{typography.display-lg}` at 1068px → 34px at 640px → 28px at 419px.
-
-### Image Behavior
-- All product imagery uses responsive `srcset` with breakpoint-matched crops.
-- Hero photography may switch art direction at mobile (e.g., the editorial page's vista crops to a taller aspect ratio on mobile, framing the subject differently).
-- Product renders maintain their 1:1 or 4:3 aspect ratios across breakpoints; only scale changes.
-- Lazy-loading is default; the above-fold hero loads eagerly.
-
-## Iteration Guide
-
-1. Focus on ONE component at a time. Reference its key directly (`{component.form-field}`, `{component.button-primary}`).
-2. Variants of an existing component (`-active`, `-focus`, `-2`, `-3`) live as separate entries.
-3. Use `{token.refs}` everywhere — never inline hex. (이 프로젝트: `.module.css`에는 `var(--...)`만)
-4. Never document hover. Default and Active/Pressed states only.
-5. Display headlines stay weight 600 with negative letter-spacing. Body stays 400 at 16px. The boundary is unbreakable.
-6. The single drop-shadow (`rgba(0, 0, 0, 0.22) 3px 5px 30px`) is reserved for product photography only.
-7. When in doubt about emphasis: alternate surface (white → parchment) before adding chrome.
-
-## Known Gaps
-
-- Form validation and error states were not surfaced on the analyzed pages; only the neutral search input is documented. → `form-field` **[추가함]**
-- The homepage's embedded video/player frame uses `{colors.surface-black}`; interior player controls are not documented (they're a platform widget, not a web-design token).
-- Some component imagery is dynamic (rotating product hero) and its specific copy varies per surface — component specs name the structure, not the rotating content.
-- Dark-mode counterparts for store and accessories utility cards were not surfaced on the analyzed pages; the system documented is the daytime/light-dominant variant shipped by default.
-- Atmospheric photography (editorial page vista) is a content asset, not a design token; the documented `{component.editorial-quote-card}` describes the structural surface only.
-- The exact backdrop-filter blur radius on `{component.sub-nav-frosted}` and `{component.floating-sticky-bar}` is platform-dependent; production CSS uses `saturate(180%) blur(20px)` as a typical baseline but the value isn't formalized as a token.
-- **[추가함]** 토스트, 탭, 모달, 표(목록)는 원본에 없다. 토스트·모달·표는 처음 쓰는 단계에서 이 문서에 [추가함]으로 채운다.
+- Don't paint a CTA or structural fill in any sticker-palette colour — those are decoration only.
+- Don't introduce a second structural accent alongside `{colors.primary}`.
+- Don't put pill `{rounded.full}` radii on form fields — inputs stay tight at `{rounded.xs}` (4px).
+- Don't drop heavy shadows; Notion's elevation is many near-transparent layers, never a hard cast.
+- Don't set body copy in a heavy weight — keep 400 for readability and let weight 700 belong to headlines.
+- Don't place type on pure clinical white for full pages; the warm `{colors.canvas-soft}` is core to the brand calm.
 
 ## Project Components (35cheol) **[추가함]**
 
-Figma `04 Components`의 부품 목록(구성)을 이 문서의 값으로 그린다. 상태 이름은 원본 규칙(Default, Active, Focus)에 이 프로젝트에 필요한 잠금·오류를 더했다.
+원본에 없거나 이 프로젝트에 맞게 정한 규칙이다. 원본 규칙(파랑 하나, 장식 전용 sticker, hairline + 옅은 그림자, pill CTA ↔ 8px utility)에 맞춰 채웠다.
 
-### `form-field` — 입력칸 **[추가함]**
-구성(Figma 04): 라벨 → 칸 → 도움말 → 오류 문구. 도움말은 화면정의서가 "항상 보여준다"고 한 칸에만 둔다.
+### 글꼴
+- `NotionInter` 대신 **Pretendard** (Inter를 바탕으로 한글을 더한 글꼴, SIL OFL 1.1). 원본의 "substitute Inter directly"를 한글까지 지키는 선택이다. Inter에는 한글이 없어서 그대로 쓰면 한글만 다른 글꼴로 바뀐다.
+- 쓰는 단계: `heading-1`(로그인 화면 서비스명), `heading-2`(본문 제목 줄), `title`(상단바 서비스명), `body-md`, `body-sm`(햄버거바·메뉴 행, 입력값), `button`, `caption`(도움말·오류·안내), `eyebrow`(햄버거바 제목). 크기·굵기·줄 높이·자간은 원본 표 그대로.
+- **label**: 입력칸 라벨은 원본에 없어서 `caption` 크기에 weight 600을 쓴다 (원본 굵기 사다리 400 / 500 / 600 / 700 안에서).
 
+### 색
+| 이름 | 값 | 쓰는 곳 | 이유 |
+|---|---|---|---|
+| `{colors.danger}` | #d70015 | 오류 문구, 오류 칸 테두리, 위험 버튼 | 원본 Semantic에 오류 색이 없다. sticker 색은 장식 전용이라 상태 표시에 쓰지 않는다. 흰 바탕 대비 5.38:1 |
+| `{colors.fill-subtle}` | rgba(0, 0, 0, 0.05) | 원형 아이콘 버튼 바탕, 탭 트랙 | 원본 `button-icon-circular` 값 |
+| `{colors.input-border}` | #dddddd | 입력칸 테두리 | 원본 `text-input` 값 `rgb(221,221,221)` |
+- **보조 글자 색**: 읽어야 하는 보조 글자(도움말, 아이디, 빈 목록 문구)는 `{colors.ink-muted}`(#615d59, 흰 바탕 6.6:1). `{colors.ink-faint}`(#a39e98)는 흰 바탕 2.6:1이라 placeholder와 잠긴 글자에만 쓴다.
+- `{colors.ink}`은 원본 설명대로 95% 검정 `rgba(0, 0, 0, 0.95)`.
+
+### 바탕과 그림자
+- 화면 바탕은 `{colors.canvas-soft}`. 카드·입력칸·상단바·메뉴는 흰색 (원본 Do: "warm canvas + white surface").
+- Level 2 그림자는 원본에 마지막 단계만 적혀 있어, 앞 단계는 Level 1과 같은 비율로 채웠다: `rgba(0,0,0,0.01) 0 1px 3px, rgba(0,0,0,0.02) 0 3px 7px, rgba(0,0,0,0.02) 0 7px 15px, rgba(0,0,0,0.04) 0 14px 28px, rgba(0,0,0,0.05) 0 23px 52px`.
+
+### `form-field` — 입력칸
 | 부분 | 값 |
 |---|---|
-| 라벨 | `{typography.caption-strong}`, `{colors.ink}`. 칸과 간격 `{spacing.xs}` |
-| 칸 | 배경 `{colors.canvas}`, 글자 `{colors.ink}` `{typography.body}`, 테두리 1px `{colors.input-border}`, 둥글기 `{rounded.sm}`, 안쪽 여백 `{spacing.sm}` × `{spacing.md}`, 높이 44px (원본 search-input 높이, 최소 터치 크기) |
-| placeholder | `{colors.ink-muted-48}` |
-| 도움말 | `{typography.fine-print}`, `{colors.ink-secondary}`. 칸과 간격 `{spacing.xs}` |
-| 오류 문구 | `{typography.fine-print}`, `{colors.danger}`. 도움말 아래 (도움말이 없으면 칸 바로 아래) |
-| 칸끼리 간격 | `{spacing.lg}` |
+| 라벨 | label, `{colors.ink}`. 칸과 간격 `{spacing.xs}` |
+| 칸 | 원본 `text-input`: 흰색, `{typography.body-sm}`, 1px `{colors.input-border}`, `{rounded.xs}`. 여백 6px × `{spacing.sm}` (원본 6px 하나만 쓰면 가로가 좁아 첫 글자가 테두리에 붙는다) |
+| placeholder | `{colors.ink-faint}` |
+| 도움말 / 오류 문구 | `{typography.caption}`, `{colors.ink-muted}` / `{colors.danger}`. 칸과 간격 `{spacing.xs}` |
+| 칸끼리 간격 | `{spacing.md}` |
 
 | 상태 | 모양 |
 |---|---|
-| Default | 위 표 그대로 |
-| Focus | 테두리는 그대로, `outline: 2px solid {colors.primary-focus}` (원본 버튼 focus 규칙을 입력칸에도 씀) |
+| Focus | 테두리 `{colors.primary}` + Level 1 그림자 (원본: Focus는 Level 1, 파랑은 focus 신호) |
 | Error | 테두리 `{colors.danger}` + 오류 문구. 그 칸을 고치면 둘 다 사라진다 (화면정의서 결정 H) |
-| Error + Focus | 테두리 `{colors.danger}` 유지, outline은 Focus와 같음 |
-| Disabled (요청 중 잠금) | 배경 `{colors.canvas-parchment}`, 글자 `{colors.ink-muted-48}` |
+| Disabled (요청 중 잠금) | 바탕 `{colors.canvas-soft}`, 글자 `{colors.ink-faint}` |
 
-### `button-primary` / `button-secondary-pill` / `button-danger` — 버튼
-Figma 04의 버튼 3종(Primary·Secondary·Danger)을 원본 버튼 문법으로 옮긴다.
-
-| 종류 | 원본 부품 | 쓰는 곳 |
+### 버튼
+| 종류 | 모양 | 쓰는 곳 |
 |---|---|---|
-| Primary | `button-primary` 그대로 | 화면의 주 행동 (로그인, 가입하기, 저장) |
-| Secondary | `button-secondary-pill` 그대로 | 보조 행동 (취소) |
-| Danger **[추가함]** | `button-secondary-pill` 모양에 글자·테두리 `{colors.danger}` | 삭제처럼 위험한 행동. 확인창 필수 (Figma 04 규칙) |
+| Primary | 원본 `button-primary`. 여백 `{spacing.xs}` × `{spacing.md}` (원본에 값 없음) | 화면의 주 행동 (로그인, 가입하기, 다시 시도). 폼 안에서는 폼 폭을 꽉 채운다 |
+| Secondary | 원본 `button-secondary` (흰색 pill + Level 1 그림자) | 보조 행동 (취소, 메인으로) |
+| Utility | 원본 `button-utility` (흰색, 1px hairline, `{rounded.md}`, 4px × 14px) | 목록·도구 안의 작은 행동 |
+| Danger | Secondary 모양에 글자 `{colors.danger}` | 삭제처럼 위험한 행동. 확인창 필수 (Figma 04 규칙) |
 
 | 상태 | 모양 |
 |---|---|
-| Default | 원본 그대로 |
-| Active | `transform: scale(0.95)` (원본) |
-| Focus | `outline: 2px solid {colors.primary-focus}`, `outline-offset: 2px` (원본, offset만 추가함) |
-| Disabled (요청 중 잠금) **[추가함]** | `opacity: 0.4`, Active 축소 없음, `cursor: default`. 색을 새로 만들지 않고 원래 색을 흐리게 해서 "같은 버튼이 지금 잠김"으로 읽히게 한다 |
-| Hover | 원본 규칙("Never document hover")에 따라 두지 않는다. 커서만 `pointer` |
+| Active | Primary는 바탕 `{colors.primary-active}` (원본 `button-primary-pressed`). `scale(0.9)`는 원본에서 마케팅 버튼과 원형 아이콘 버튼에만 쓰므로 앱 버튼에는 쓰지 않는다 |
+| Focus | `outline: 2px solid {colors.primary}`, `outline-offset: 2px` |
+| Disabled (요청 중 잠금) | `opacity: 0.4`, `cursor: default` |
 
-- 폼 안의 제출 버튼은 폼 폭을 꽉 채운다 **[추가함]**.
-
-### `segmented-tabs` — 탭 **[추가함]**
-SCR-AUTH-01의 로그인 / 회원가입 탭. 원본에 탭이 없어서, 원본의 pill 문법과 surface 대비로 만든다.
+### `segmented-tabs` — 탭
+SCR-AUTH-01의 로그인 / 회원가입 탭. 원본에 탭이 없어서 utility 문법으로 만든다.
 
 | 부분 | 값 |
 |---|---|
-| 바탕(트랙) | `{colors.canvas-parchment}`, `{rounded.pill}`, 안쪽 여백 `{spacing.xxs}` |
-| 탭 하나 | `{typography.button-utility}`, `{colors.ink-muted-80}`, `{rounded.pill}`, 여백 `{spacing.xs}` × `{spacing.md}` |
-| 선택된 탭 | 배경 `{colors.canvas}`, 글자 `{colors.ink}` weight 600, 테두리 1px `{colors.hairline}` (그림자 대신) |
-| Focus | 버튼과 같은 outline |
+| 바탕(트랙) | `{colors.fill-subtle}`, `{rounded.md}`, 안쪽 여백 `{spacing.xxs}` (따뜻한 바탕 위에서도 트랙이 보이게) |
+| 탭 하나 | `{typography.body-sm}`, `{colors.ink-muted}`, `{rounded.sm}`, 여백 6px × `{spacing.md}` |
+| 선택된 탭 | 흰색, `{colors.ink}` weight 600, Level 1 그림자 (원본: 떠 있는 흰 면) |
 
-### 자리만 (그 단계에서 채움)
-| 부품 (Figma 04) | 원본에서 가져올 것 | 단계 |
-|---|---|---|
-| 박스 | `store-utility-card` | F4 |
+### `auth-card` — 로그인 화면
+- 왼쪽 이미지 영역은 원본 `hero-band`의 `{colors.secondary}` (화면 하나에 한 번만 쓰는 "night" 띠). 그림은 마무리 단계.
+- 오른쪽은 `{colors.canvas-soft}` 바탕 위에 폼을 **상자 없이** 바로 둔다 (원본 `ex-auth-form-card`의 카드는 쓰지 않음). 화면이 이미 좌우 두 면으로 나뉘어 있어 카드를 더하면 면이 세 겹이 된다. 흰 입력칸이 바탕과 구분된다 (원본 Do: "warm canvas + white fields"). 폼 폭 400px, 요소 사이 `{spacing.xl}`.
+- 만료 안내 한 줄: `{colors.canvas-soft}` 바탕, `{rounded.md}`, `{typography.caption}`. 오류가 아니라 안내라 빨강을 쓰지 않는다.
 
-### `toast` — 결과 알림 **[추가함]**
-F1(회원가입 성공)에서 쓰기 시작했다. 라이브러리(react-hot-toast)가 모양을 인라인 style로 넣어서, 값은 `App.jsx`의 `TOAST_OPTIONS`에 `var(--...)`로 넘긴다.
+### `toast` — 결과 알림
+원본 `ex-toast`(feature-card 모양 + 그림자). 라이브러리(react-hot-toast)가 모양을 인라인 style로 넣어서 값은 `App.jsx`의 `TOAST_OPTIONS`에 `var(--...)`로 넘긴다.
 
 | 부분 | 값 |
 |---|---|
 | 자리·시간 | 화면 오른쪽 아래, 3초 |
-| 바탕 | `{colors.ink}`, 그림자 없음 (원본 "그림자는 제품 사진에만"), `{rounded.sm}`, 여백 `{spacing.sm}` × `{spacing.md}` |
-| 글자 | `{typography.caption}`, `{colors.on-primary}` |
-| 아이콘 | 성공 `{colors.primary}`, 오류 `{colors.danger}` (아이콘 점에만) |
+| 상자 | 흰색, 1px hairline, `{rounded.lg}`, Level 2 그림자, 여백 `{spacing.sm}` × `{spacing.md}` |
+| 글자 | `{typography.caption}`, `{colors.ink}` |
+| 아이콘 | 성공 `{colors.primary}`, 오류 `{colors.danger}` |
 
-### `app-layout` — 공통 레이아웃 뼈대 **[추가함]**
-Figma 03 SCR-COMMON-01 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 상단바, 그 아래 본문 자리. 영역은 surface 대비(햄버거바 parchment ↔ 본문 white)로 나눈다 (원본 "The color change IS the divider").
-
-| 부분 | 값 |
-|---|---|
-| 햄버거바 폭 | 240px (`--sidebar-width`, 8 × 30) |
-| 본문 자리 여백 | `{spacing.xl}` |
-| 앱 시작 (AUTH-03 응답 전) | 화면 전체 가운데에 '불러오는 중…' `{typography.body}` `{colors.ink-secondary}`, 글자만 |
-
-### `app-header` — 상단바 **[추가함]**
-원본 `sub-nav-frosted`(밝은 바탕, 52px)에서 흐림 효과를 뺐다. `global-nav`(검정 44px)는 마케팅 사이트 맨 위의 띠라, 계속 보고 있는 관리 화면에서는 검정 띠가 내용보다 먼저 눈에 들어온다 ("내용이 주인공").
+### `app-layout` — 공통 레이아웃 (SCR-COMMON-01)
+Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 상단바, 그 아래 본문 자리.
 
 | 부분 | 값 |
 |---|---|
-| 바탕 | `{colors.canvas}`, 아래 1px `{colors.hairline}`, 높이 52px (`--header-height`, 원본 sub-nav) |
-| 서비스명 | `{typography.tagline}`, `{colors.ink}`, 왼쪽 여백 `{spacing.lg}`. 누르는 글자지만 파랑을 쓰지 않는다 (로고 자리) |
-| `> 동아리명` | F4 |
-| 프로필 아이콘 | `button-icon-circular` 크기(44 × 44), 바탕 `{colors.canvas-parchment}`, 이름 첫 글자 `{typography.caption-strong}`, `{rounded.pill}`. 오른쪽 여백 `{spacing.lg}` |
-
-| 상태 | 모양 |
-|---|---|
-| Active | `transform: scale(0.95)` (프로필 아이콘) |
-| Focus | 버튼과 같은 outline |
-
-### `profile-menu` — 프로필 메뉴 **[추가함]**
-| 부분 | 값 |
-|---|---|
-| 상자 | `{colors.canvas}`, 1px `{colors.hairline}` (원본 Elevation의 Soft hairline 단계), `{rounded.lg}`, 여백 `{spacing.md}`, 폭 240px (`--menu-width`), **그림자 없음**. 아이콘 아래 `{spacing.xs}`, 오른쪽 끝 맞춤 |
-| 이름 / 아이디 | `{typography.body-strong}` `{colors.ink}` / `{typography.caption}` `{colors.ink-secondary}` |
-| 구분선 | 1px `{colors.hairline}`, 위아래 `{spacing.sm}` |
-| 로그아웃 | `{typography.button-utility}`, `{colors.ink}`, 왼쪽 정렬 글자 버튼. Focus outline |
-
-### `side-nav` — 햄버거바 **[추가함]**
-| 부분 | 값 |
-|---|---|
-| 바탕 | `{colors.canvas-parchment}`, 여백 0 × `{spacing.md}` |
-| 제목 줄 '☰ 메뉴' | `{typography.caption-strong}`, `{colors.ink-secondary}`, 높이 52px (상단바와 같은 줄). 접기 동작 없음 (카드에 없음) |
-| 항목 (홈, 내 동아리 ▾) | `{typography.body-strong}`, `{colors.ink}`, 줄 높이 2.2 (`{typography.dense-link}`의 줄 간격) |
-| 동아리 | `{typography.dense-link}`, `{colors.ink}`, 들여쓰기 `{spacing.md}`. 이름이 길면 말줄임 |
-| PENDING | `{colors.ink-secondary}` + ' · 대기중' (회색이지만 읽어야 하는 글자라 ink-muted-48이 아님) |
-| 빈 목록·실패 문구 | `{typography.caption}`, `{colors.ink-secondary}`, 들여쓰기 `{spacing.md}` |
-| Focus | 버튼과 같은 outline. 현재 위치 강조는 두지 않음 (카드에 없음) |
-
-## 원본 라이선스
-
-원본 파일(VoltAgent/awesome-design-md)의 라이선스 전문이다. 이 문서는 원본을 고친 것이라 MIT 조건에 따라 함께 싣는다.
-
-```text
-MIT License
-
-Copyright (c) 2026 VoltAgent
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+| 햄버거바 | `{colors.canvas-soft}`, 오른쪽 1px hairline, 폭 240px (`--sidebar-width`), 여백 0 × `{spacing.xs}` |
+| 햄버거바 제목 '☰ 메뉴' | `{typography.eyebrow}`, `{colors.ink-muted}`, 높이는 상단바와 같음 |
+| 행 (홈, 내 동아리, 동아리) | 원본 `ex-app-shell-row`: `{typography.body-sm}`, `{colors.ink-secondary}`, `{rounded.sm}`, 여백 6px × `{spacing.xs}`. 동아리는 `{spacing.md}` 들여쓰기, 길면 말줄임 |
+| 현재 화면 행 | 원본 "active indicator = primary": 글자 `{colors.primary}`, weight 600 |
+| PENDING | `{colors.ink-muted}` + ' · 대기중' |
+| 빈 목록·실패 문구 | `{typography.caption}`, `{colors.ink-muted}` |
+| 상단바 | 원본 `nav-bar`: 흰색, 아래 1px hairline, 높이 48px (`--header-height`, 아이콘 32 + 위아래 `{spacing.xs}`), 좌우 여백 `{spacing.md}` |
+| 서비스명 | `{typography.title}`, `{colors.ink}` (워드마크 자리라 파랑을 쓰지 않음) |
+| 프로필 아이콘 | 원본 `button-icon-circular`: 32 × 32 (`--icon-button-size`), `{colors.fill-subtle}`, 이름 첫 글자 `{typography.caption}` weight 600 `{colors.ink}` (흰 바탕이라 원본의 흰 글자 대신 ink), 누르면 `scale(0.9)` |
+| 프로필 메뉴 | 팝오버: 흰색, 1px hairline, `{rounded.lg}`, Level 2 그림자, 여백 `{spacing.xs}`, 폭 240px. 이름 `{typography.body-sm}` weight 600 / 아이디 `{typography.caption}` `{colors.ink-muted}`, 구분선 hairline, 로그아웃은 메뉴 행 (`{rounded.sm}`, `{typography.body-sm}`) |
+| 본문 자리 | `{colors.canvas-soft}` 위에 여백 `{spacing.xxl}`. 제목 줄은 `{typography.heading-2}` |
+| 앱 시작 | 화면 전체 가운데에 '불러오는 중…' `{typography.body-md}` `{colors.ink-muted}`, 글자만 |
