@@ -93,6 +93,7 @@
   /* 공통 레이아웃 (DESIGN.md app-layout) */
   --header-height: 48px;
   --sidebar-width: 240px;
+  --nav-section-gap: 24px; /* 햄버거바 묶음 사이. Claude·Notion 사이드바에서 잰 묶음 사이 빈칸(약 20~24px)에 맞춤 */
   --menu-width: 240px;
   --icon-button-size: 32px;
   --icon-size: 20px; /* 버튼 안 선 아이콘 (☰) */

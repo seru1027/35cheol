@@ -32,6 +32,11 @@
   background: var(--color-canvas);
 }
 
+/* 햄버거바 묶음: 성격이 다른 묶음 사이를 띄운다 (Notion의 '공유된 페이지'·'개인 페이지' 사이처럼) */
+.navSection + .navSection {
+  margin-top: var(--nav-section-gap);
+}
+
 /* 행 (ex-app-shell-row): 홈, 내 동아리 ▾, 동아리. 링크와 버튼을 같은 모양으로 */
 .navItem,
 .org {

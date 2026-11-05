@@ -119,18 +119,23 @@ export default function AppLayout() {
               <SidebarIcon />
             </button>
           </div>
-          {/* ③ 홈. NavLink는 지금 주소와 같으면 isActive가 true (end: /orgs/1에서는 홈이 활성으로 보이지 않게) */}
-          <NavLink to="/" end className={rowClass(styles.navItem)}>홈</NavLink>
-          {/* ④ 내 동아리 ▾ */}
-          <button
-            type="button"
-            className={styles.navItem}
-            aria-expanded={orgsOpen}
-            onClick={() => setOrgsOpen((open) => !open)}
-          >
-            내 동아리 <span aria-hidden="true">{orgsOpen ? '▾' : '▸'}</span>
-          </button>
-          {orgsOpen && <OrgList orgs={orgs} />}
+          {/* 성격이 다른 항목은 묶음(section)으로 나누고 묶음 사이를 띄운다: 이동(홈) / 내 동아리 목록 */}
+          <div className={styles.navSection}>
+            {/* ③ 홈. NavLink는 지금 주소와 같으면 isActive가 true (end: /orgs/1에서는 홈이 활성으로 보이지 않게) */}
+            <NavLink to="/" end className={rowClass(styles.navItem)}>홈</NavLink>
+          </div>
+          <div className={styles.navSection}>
+            {/* ④ 내 동아리 ▾ */}
+            <button
+              type="button"
+              className={styles.navItem}
+              aria-expanded={orgsOpen}
+              onClick={() => setOrgsOpen((open) => !open)}
+            >
+              내 동아리 <span aria-hidden="true">{orgsOpen ? '▾' : '▸'}</span>
+            </button>
+            {orgsOpen && <OrgList orgs={orgs} />}
+          </div>
         </div>
       </nav>
 
