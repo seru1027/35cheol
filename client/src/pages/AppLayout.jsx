@@ -140,10 +140,10 @@ export default function AppLayout() {
             <NavLink to="/" end className={rowClass(styles.navItem)}>홈</NavLink>
           </div>
           <div className={styles.navSection}>
-            {/* ④ 내 동아리 ▾ */}
+            {/* ④ 내 동아리 ▾: 묶음 제목. 아래 행들보다 작고 흐린 글자로 '제목'임을 보인다 (Notion '개인 페이지', Claude 프로젝트 이름처럼) */}
             <button
               type="button"
-              className={styles.navItem}
+              className={`${styles.navItem} ${styles.sectionLabel}`}
               aria-expanded={orgsOpen}
               onClick={() => setOrgsOpen((open) => !open)}
             >

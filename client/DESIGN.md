@@ -261,7 +261,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 
 ### 글꼴
 - `NotionInter` 대신 **Pretendard** (Inter를 바탕으로 한글을 더한 글꼴, SIL OFL 1.1). 원본의 "substitute Inter directly"를 한글까지 지키는 선택이다. Inter에는 한글이 없어서 그대로 쓰면 한글만 다른 글꼴로 바뀐다.
-- 쓰는 단계: `heading-1`(로그인 화면 서비스명), `heading-2`(본문 제목 줄), `title`(상단바 서비스명), `body-md`, `body-sm`(햄버거바·메뉴 행, 입력값), `button`, `caption`(도움말·오류·안내). 크기·굵기·줄 높이·자간은 원본 표 그대로.
+- 쓰는 단계: `heading-1`(로그인 화면 서비스명), `heading-2`(본문 제목 줄), `title`(상단바 서비스명), `body-md`, `body-sm`(햄버거바·메뉴 행, 입력값), `button`, `caption`(도움말·오류·안내), `eyebrow`(햄버거바 묶음 제목). 크기·굵기·줄 높이·자간은 원본 표 그대로.
 - **label**: 입력칸 라벨은 원본에 없어서 `caption` 크기에 weight 600을 쓴다 (원본 굵기 사다리 400 / 500 / 600 / 700 안에서).
 
 ### 색
@@ -362,8 +362,9 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 접기·펼치기 | Notion 방식. **펼침**: 햄버거바 맨 위 줄(상단바와 같은 높이 48px) 왼쪽 끝에 접기 버튼(창 모양 아이콘). **접힘**: 상단바 맨 왼쪽, 서비스명 앞에 ☰ 버튼. 두 버튼이 화면의 같은 자리(왼쪽 16px, 위 8px)에 있어 버튼이 움직이지 않는 것처럼 보인다. 접으면 햄버거바 칸 폭이 0이 되고 본문이 넓어진다 (덮는 서랍은 반응형 단계에서 좁은 화면용). 200ms 강한 ease-out (`--duration-nav`), 움직임 줄이기 설정이면 바로. 처음은 펼침, 접은 상태는 이 브라우저에 기억(localStorage `35cheol.navOpen`). 접힌 햄버거바는 `inert`라 Tab·화면 읽기 프로그램이 들어가지 않고, 누른 버튼이 사라지므로 커서는 반대쪽 버튼으로 넘어간다 |
 | 접기·☰ 버튼 | 32 × 32 (누르는 범위 40), 투명 바탕, `{rounded.md}`, 선 아이콘 20px 굵기 1.5 `{colors.ink-secondary}`, hover `{colors.fill-subtle}`. 이름은 '메뉴' + `aria-expanded`, 마우스에는 title '메뉴 접기'/'메뉴 펼치기' |
 | 묶음 | 성격이 다른 항목은 묶음으로 나누고 묶음 사이를 20px 띄운다 (`--nav-section-gap`. 16px은 좁고 24px은 떨어져 보여 가운데로. Claude·Notion 사이드바 묶음 간격 범위 안). 지금 묶음: 이동(홈) / 내 동아리 목록. 새 항목을 넣을 때도 같은 성격끼리 묶는다 |
-| 행 (홈, 내 동아리, 동아리) | 원본 `ex-app-shell-row`: `{typography.body-sm}`, `{colors.ink-secondary}`, `{rounded.sm}`, 여백 6px × `{spacing.xs}`. 동아리는 `{spacing.md}` 들여쓰기, 길면 말줄임 |
-| 현재 화면 행 | 원본 "active indicator = primary": 글자 `{colors.primary}`, weight 600 + 바탕 `{colors.fill-subtle}` (흰 햄버거바에서 어느 행인지 한눈에, Notion의 선택된 페이지 행처럼) |
+| 묶음 제목 (내 동아리 ▾) | 아래 행보다 작고 흐린 글자: `{typography.eyebrow}`(12px, weight 600), `{colors.ink-muted}` (Notion '개인 페이지', Claude 프로젝트 이름처럼 글자 크기·색으로 '제목'과 '항목'을 나눈다). 누르면 목록을 접고 펼치는 버튼이라 행과 같은 여백·hover는 유지 |
+| 행 (홈, 내 동아리, 동아리) | 원본 `ex-app-shell-row`: `{typography.body-sm}`, `{colors.ink-secondary}`, `{rounded.sm}`, 여백 6px × `{spacing.xs}`. 동아리는 들여쓰지 않고 '내 동아리'와 같은 줄에서 시작(묶음 간격으로 이미 한 덩어리로 보임), 길면 말줄임 |
+| 현재 화면 행 | 원본 "active indicator = primary": 글자 `{colors.primary}`, weight 600 + 바탕 `--color-fill-strong`(9%). 마우스를 올린 행은 한 단계 옅은 `{colors.fill-subtle}`(5%)이라 '지금 보는 곳'과 '가리키는 곳'이 구분된다 (Claude 사이드바처럼). 현재 화면 행은 마우스를 올려도 그대로 |
 | PENDING | `{colors.ink-muted}` + ' · 대기중' |
 | 빈 목록·실패 문구 | `{typography.caption}`, `{colors.ink-muted}` |
 | 상단바 | 원본 `nav-bar`: 흰색, 아래 1px hairline, 높이 48px (`--header-height`, 아이콘 32 + 위아래 `{spacing.xs}`), 좌우 여백 `{spacing.md}` |

@@ -56,9 +56,17 @@
   transition-timing-function: ease;
 }
 
+/* 동아리 목록: 들여쓰지 않고 '내 동아리'와 같은 줄에서 시작한다 (묶음 간격으로 이미 한 덩어리로 보인다) */
+/* 묶음 제목 (내 동아리 ▾): 행보다 작은 eyebrow(12px) + 흐린 글자. 누르면 목록을 접고 펼치는 버튼이라 행과 같은 높이·hover는 유지 */
+.sectionLabel {
+  color: var(--color-ink-muted);
+  font: var(--type-eyebrow) var(--font-sans);
+  letter-spacing: var(--tracking-eyebrow);
+}
+
 .orgList {
   margin: 0;
-  padding: 0 0 0 var(--space-md);
+  padding: 0;
   list-style: none;
 }
 
@@ -73,17 +81,18 @@
   color: var(--color-ink-muted);
 }
 
-/* 지금 보고 있는 화면의 행: 파란 글자 + 옅은 회색 면 (흰 바탕에서도 어느 행인지 한눈에) */
+/* 지금 보고 있는 화면의 행: 파란 글자 + 진한 회색 면
+   마우스를 올린 행(옅은 회색)보다 한 단계 진하게: '지금 여기'와 '가리키는 곳'이 구분된다 (Claude 사이드바처럼) */
 .rowActive {
-  background: var(--color-fill-subtle);
+  background: var(--color-fill-strong);
   color: var(--color-primary);
   font-weight: 600;
 }
 
 /* hover는 마우스가 있는 기기에서만. 행·메뉴 행은 옅은 회색 면 (원본 utility 문법) */
 @media (hover: hover) and (pointer: fine) {
-  .navItem:hover,
-  .org:hover,
+  .navItem:not(.rowActive):hover,
+  .org:not(.rowActive):hover,
   .navToggle:hover,
   .menuItem:not(:disabled):hover {
     background: var(--color-fill-subtle);
@@ -96,7 +105,7 @@
 
 .orgNote {
   margin: 0;
-  padding: var(--space-input) var(--space-xs) var(--space-input) var(--space-lg);
+  padding: var(--space-input) var(--space-xs);
   color: var(--color-ink-muted);
   font: var(--type-caption) var(--font-sans);
 }
