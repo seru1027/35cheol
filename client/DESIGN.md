@@ -261,7 +261,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 
 ### 글꼴
 - `NotionInter` 대신 **Pretendard** (Inter를 바탕으로 한글을 더한 글꼴, SIL OFL 1.1). 원본의 "substitute Inter directly"를 한글까지 지키는 선택이다. Inter에는 한글이 없어서 그대로 쓰면 한글만 다른 글꼴로 바뀐다.
-- 쓰는 단계: `heading-1`(로그인 화면 서비스명), `heading-2`(본문 제목 줄), `title`(상단바 서비스명), `body-md`, `body-sm`(햄버거바·메뉴 행, 입력값), `button`, `caption`(도움말·오류·안내), `eyebrow`(햄버거바 제목). 크기·굵기·줄 높이·자간은 원본 표 그대로.
+- 쓰는 단계: `heading-1`(로그인 화면 서비스명), `heading-2`(본문 제목 줄), `title`(상단바 서비스명), `body-md`, `body-sm`(햄버거바·메뉴 행, 입력값), `button`, `caption`(도움말·오류·안내). 크기·굵기·줄 높이·자간은 원본 표 그대로.
 - **label**: 입력칸 라벨은 원본에 없어서 `caption` 크기에 weight 600을 쓴다 (원본 굵기 사다리 400 / 500 / 600 / 700 안에서).
 
 ### 색
@@ -358,10 +358,11 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 
 | 부분 | 값 |
 |---|---|
-| 햄버거바 | `{colors.canvas-soft}`, 오른쪽 1px hairline, 폭 240px (`--sidebar-width`), 여백 0 × `{spacing.xs}` |
-| 햄버거바 제목 '☰ 메뉴' | `{typography.eyebrow}`, `{colors.ink-muted}`, 높이는 상단바와 같음 |
+| 햄버거바 | 흰색 `{colors.canvas}`, 오른쪽 1px hairline (흰 상단바와 'ㄱ'자 틀이 되어 따뜻한 본문과 색으로 나뉜다. 같은 색이면 선 하나로만 구분돼 흐렸다), 폭 240px (`--sidebar-width`), 여백 `{spacing.xs}`. 화면을 내려도 제자리(sticky) |
+| 접기·펼치기 | Notion 방식. **펼침**: 햄버거바 맨 위 줄(상단바와 같은 높이 48px) 왼쪽 끝에 접기 버튼(창 모양 아이콘). **접힘**: 상단바 맨 왼쪽, 서비스명 앞에 ☰ 버튼. 두 버튼이 화면의 같은 자리(왼쪽 16px, 위 8px)에 있어 버튼이 움직이지 않는 것처럼 보인다. 접으면 햄버거바 칸 폭이 0이 되고 본문이 넓어진다 (덮는 서랍은 반응형 단계에서 좁은 화면용). 200ms 강한 ease-out (`--duration-nav`), 움직임 줄이기 설정이면 바로. 처음은 펼침, 접은 상태는 이 브라우저에 기억(localStorage `35cheol.navOpen`). 접힌 햄버거바는 `inert`라 Tab·화면 읽기 프로그램이 들어가지 않고, 누른 버튼이 사라지므로 커서는 반대쪽 버튼으로 넘어간다 |
+| 접기·☰ 버튼 | 32 × 32 (누르는 범위 40), 투명 바탕, `{rounded.md}`, 선 아이콘 20px 굵기 1.5 `{colors.ink-secondary}`, hover `{colors.fill-subtle}`. 이름은 '메뉴' + `aria-expanded`, 마우스에는 title '메뉴 접기'/'메뉴 펼치기' |
 | 행 (홈, 내 동아리, 동아리) | 원본 `ex-app-shell-row`: `{typography.body-sm}`, `{colors.ink-secondary}`, `{rounded.sm}`, 여백 6px × `{spacing.xs}`. 동아리는 `{spacing.md}` 들여쓰기, 길면 말줄임 |
-| 현재 화면 행 | 원본 "active indicator = primary": 글자 `{colors.primary}`, weight 600 |
+| 현재 화면 행 | 원본 "active indicator = primary": 글자 `{colors.primary}`, weight 600 + 바탕 `{colors.fill-subtle}` (흰 햄버거바에서 어느 행인지 한눈에, Notion의 선택된 페이지 행처럼) |
 | PENDING | `{colors.ink-muted}` + ' · 대기중' |
 | 빈 목록·실패 문구 | `{typography.caption}`, `{colors.ink-muted}` |
 | 상단바 | 원본 `nav-bar`: 흰색, 아래 1px hairline, 높이 48px (`--header-height`, 아이콘 32 + 위아래 `{spacing.xs}`), 좌우 여백 `{spacing.md}` |

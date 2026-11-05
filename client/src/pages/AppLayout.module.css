@@ -1,30 +1,35 @@
 /* SCR-COMMON-01. 값은 index.css의 :root만 쓴다 (client/DESIGN.md app-layout) */
 
-/* 왼쪽 햄버거바(화면 높이 전체) | 오른쪽 상단바 + 본문 */
+/* 왼쪽 햄버거바(화면 높이 전체) | 오른쪽 상단바 + 본문
+   접으면 첫 칸 폭이 0이 되고 본문이 그만큼 넓어진다. 폭 변화는 --duration-nav 동안 부드럽게 */
 .layout {
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr;
   min-height: 100vh;
+  transition: grid-template-columns var(--duration-nav) var(--ease-out);
 }
 
-/* 햄버거바: 따뜻한 바탕 + 오른쪽 hairline */
+.layoutNavClosed {
+  grid-template-columns: 0 1fr;
+}
+
+/* 햄버거바 칸: 접히는 동안 안의 내용이 찌그러지지 않고 잘려 보이도록 overflow만 맡는다 */
 .sidebar {
+  overflow: hidden;
+}
+
+/* 실제 햄버거바: 폭 고정, 흰색 + 오른쪽 hairline. 화면을 내려도 제자리(sticky)
+   흰 상단바와 함께 'ㄱ'자 틀이 되어, 안쪽의 따뜻한 본문(canvas-soft)과 색으로 나뉜다 */
+.sidebarInner {
+  position: sticky;
+  top: 0;
   display: flex;
   flex-direction: column;
-  padding: 0 var(--space-xs);
+  width: var(--sidebar-width);
+  min-height: 100vh;
+  padding: 0 var(--space-xs) var(--space-xs);
   border-right: var(--border-width) solid var(--color-hairline);
-  background: var(--color-canvas-soft);
-}
-
-.sidebarTitle {
-  display: flex;
-  align-items: center;
-  height: var(--header-height); /* 상단바와 같은 줄 */
-  margin: 0;
-  padding: 0 var(--space-xs);
-  color: var(--color-ink-muted);
-  font: var(--type-eyebrow) var(--font-sans);
-  letter-spacing: var(--tracking-eyebrow);
+  background: var(--color-canvas);
 }
 
 /* 행 (ex-app-shell-row): 홈, 내 동아리 ▾, 동아리. 링크와 버튼을 같은 모양으로 */
@@ -63,8 +68,9 @@
   color: var(--color-ink-muted);
 }
 
-/* 지금 보고 있는 화면의 행 */
+/* 지금 보고 있는 화면의 행: 파란 글자 + 옅은 회색 면 (흰 바탕에서도 어느 행인지 한눈에) */
 .rowActive {
+  background: var(--color-fill-subtle);
   color: var(--color-primary);
   font-weight: 600;
 }
@@ -73,6 +79,7 @@
 @media (hover: hover) and (pointer: fine) {
   .navItem:hover,
   .org:hover,
+  .navToggle:hover,
   .logout:not(:disabled):hover {
     background: var(--color-fill-subtle);
   }
@@ -87,6 +94,7 @@
 
 .navItem:focus-visible,
 .org:focus-visible,
+.navToggle:focus-visible,
 .serviceName:focus-visible,
 .profileButton:focus-visible,
 .logout:focus-visible {
@@ -110,6 +118,48 @@
   padding: 0 var(--space-md);
   border-bottom: var(--border-width) solid var(--color-hairline);
   background: var(--color-canvas);
+}
+
+/* 햄버거바 맨 위 줄: 상단바와 같은 높이. 접기 버튼이 상단바 ☰와 같은 x(16px)에 오도록 안쪽 여백 8 + 8 */
+.sidebarTop {
+  display: flex;
+  align-items: center;
+  height: var(--header-height);
+  padding-left: var(--space-xs);
+}
+
+/* 상단바 왼쪽: (접혔을 때) ☰ + 서비스명 */
+.headerStart {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+/* ☰ (button-utility 문법: 투명 바탕, hover에 옅은 회색 면). 누르는 범위는 40px까지 넓힌다 */
+.navToggle {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--icon-button-size);
+  height: var(--icon-button-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-ink-secondary);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease;
+}
+
+.navToggle::after {
+  content: '';
+  position: absolute;
+  inset: calc((var(--icon-button-size) - var(--hit-area-min)) / 2);
+}
+
+.menuIcon {
+  width: var(--icon-size);
+  height: var(--icon-size);
 }
 
 .serviceName {

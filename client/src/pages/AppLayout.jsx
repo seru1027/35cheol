@@ -6,17 +6,41 @@ import { useAuth } from '../auth.jsx';
 import { messageOf } from '../messages.js';
 import styles from './AppLayout.module.css';
 
+// 햄버거바 펼침 상태를 이 브라우저에 기억한다 (새로고침해도 유지). 저장소를 못 쓰는 환경(사생활 보호 창 등)이면 늘 펼침
+const NAV_OPEN_KEY = '35cheol.navOpen';
+
+function readNavOpen() {
+  try {
+    return localStorage.getItem(NAV_OPEN_KEY) !== 'false';
+  } catch {
+    return true;
+  }
+}
+
+function saveNavOpen(open) {
+  try {
+    localStorage.setItem(NAV_OPEN_KEY, String(open));
+  } catch {
+    // 저장 못 해도 지금 화면에서는 동작한다
+  }
+}
+
 // SCR-COMMON-01 공통 레이아웃: 햄버거바 + 상단바 + 본문 자리(<Outlet />)
 // 로그인 이후 모든 화면을 감싼다. AUTH-03(로그인 사용자)은 auth.jsx, 여기서는 ORG-02·AUTH-04
 // F4: 상단바 '> 동아리명', /orgs/:orgId 동아리 레이아웃
 export default function AppLayout() {
   const { user, signOut } = useAuth();
   const [orgs, setOrgs] = useState(undefined); // undefined: 응답 전, null: 실패, 배열: 내 동아리
+  const [navOpen, setNavOpen] = useState(readNavOpen); // ② 햄버거바 펼침. 처음은 펼침, 접으면 기억
   const [orgsOpen, setOrgsOpen] = useState(true); // ④ 기본은 펼침
   const [menuOpen, setMenuOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const profileRef = useRef(null); // 프로필 아이콘 + 메뉴를 감싼 요소. 바깥 클릭 판단에 쓴다
   const profileButtonRef = useRef(null); // Esc로 닫은 뒤 포커스를 돌려줄 곳
+  // 접기·펼치기 버튼 두 개. 누른 버튼이 사라지므로(접으면 햄버거바 쪽이 inert, 펼치면 상단바 ☰가 없어짐) 반대쪽 버튼으로 커서를 넘긴다
+  const collapseButtonRef = useRef(null);
+  const expandButtonRef = useRef(null);
+  const moveFocusRef = useRef(false); // 버튼으로 바꿨을 때만 커서를 옮긴다 (처음 그릴 때는 옮기지 않음)
 
   // ④ 내 동아리 (ORG-02). F3에서 동아리 만들기·가입 신청 성공 뒤 다시 부르도록 본문 화면에 내려준다
   const loadOrgs = useCallback(async () => {
@@ -49,6 +73,22 @@ export default function AppLayout() {
     };
   }, [menuOpen]);
 
+  // ② 햄버거바를 접고 펼친다. 본문이 그만큼 넓어진다 (Notion 방식)
+  // 펼침: 햄버거바 맨 위 왼쪽의 접기 버튼 / 접힘: 상단바 맨 왼쪽의 ☰. 두 버튼이 화면의 같은 자리에 있어 버튼이 움직이지 않는 것처럼 보인다
+  function toggleNav() {
+    moveFocusRef.current = true;
+    setNavOpen((open) => {
+      saveNavOpen(!open);
+      return !open;
+    });
+  }
+
+  useEffect(() => {
+    if (!moveFocusRef.current) return;
+    moveFocusRef.current = false;
+    (navOpen ? collapseButtonRef : expandButtonRef).current?.focus();
+  }, [navOpen]);
+
   // ⑥ 로그아웃 (AUTH-04): 확인창 없이 요청 → 200이면 로그인 상태를 비운다 → RequireAuth가 /login으로
   async function logout() {
     setLoggingOut(true);
@@ -59,28 +99,62 @@ export default function AppLayout() {
   }
 
   return (
-    <div className={styles.layout}>
-      <nav className={styles.sidebar} aria-label="메뉴">
-        {/* ☰는 그림이라 화면 읽기 프로그램이 읽지 않게 한다 (nav의 aria-label이 이미 '메뉴') */}
-        <p className={styles.sidebarTitle}><span aria-hidden="true">☰ </span>메뉴</p>
-        {/* ③ 홈. NavLink는 지금 주소와 같으면 isActive가 true (end: /orgs/1에서는 홈이 활성으로 보이지 않게) */}
-        <NavLink to="/" end className={rowClass(styles.navItem)}>홈</NavLink>
-        {/* ④ 내 동아리 ▾ */}
-        <button
-          type="button"
-          className={styles.navItem}
-          aria-expanded={orgsOpen}
-          onClick={() => setOrgsOpen((open) => !open)}
-        >
-          내 동아리 <span aria-hidden="true">{orgsOpen ? '▾' : '▸'}</span>
-        </button>
-        {orgsOpen && <OrgList orgs={orgs} />}
+    <div className={navOpen ? styles.layout : `${styles.layout} ${styles.layoutNavClosed}`}>
+      {/* inert: 접혀 있을 때 안의 링크에 Tab·화면 읽기 프로그램이 들어가지 않는다 (보이지 않는 곳에 커서가 가지 않게) */}
+      <nav id="app-nav" className={styles.sidebar} aria-label="메뉴" inert={!navOpen}>
+        <div className={styles.sidebarInner}>
+          {/* 맨 위 줄: 상단바와 같은 높이. 접기 버튼은 왼쪽 끝 (펼쳤을 때 ☰가 있던 자리) */}
+          <div className={styles.sidebarTop}>
+            <button
+              type="button"
+              ref={collapseButtonRef}
+              className={styles.navToggle}
+              // 이름은 '메뉴' 하나로 두고 상태는 aria-expanded가 알린다 ('메뉴, 펼쳐짐'). 마우스에는 title로 할 일을 보여 준다
+              aria-label="메뉴"
+              aria-expanded={navOpen}
+              aria-controls="app-nav"
+              title="메뉴 접기"
+              onClick={toggleNav}
+            >
+              <SidebarIcon />
+            </button>
+          </div>
+          {/* ③ 홈. NavLink는 지금 주소와 같으면 isActive가 true (end: /orgs/1에서는 홈이 활성으로 보이지 않게) */}
+          <NavLink to="/" end className={rowClass(styles.navItem)}>홈</NavLink>
+          {/* ④ 내 동아리 ▾ */}
+          <button
+            type="button"
+            className={styles.navItem}
+            aria-expanded={orgsOpen}
+            onClick={() => setOrgsOpen((open) => !open)}
+          >
+            내 동아리 <span aria-hidden="true">{orgsOpen ? '▾' : '▸'}</span>
+          </button>
+          {orgsOpen && <OrgList orgs={orgs} />}
+        </div>
       </nav>
 
       <div className={styles.main}>
         <header className={styles.header}>
-          {/* ① 서비스명 → 메인 */}
-          <Link to="/" className={styles.serviceName}>35cheol</Link>
+          <div className={styles.headerStart}>
+            {/* ② ☰ 메뉴 펼치기: 햄버거바가 접혔을 때만 상단바 맨 왼쪽에 */}
+            {!navOpen && (
+              <button
+                type="button"
+                ref={expandButtonRef}
+                className={styles.navToggle}
+                aria-label="메뉴"
+                aria-expanded={navOpen}
+                aria-controls="app-nav"
+                title="메뉴 펼치기"
+                onClick={toggleNav}
+              >
+                <MenuIcon />
+              </button>
+            )}
+            {/* ① 서비스명 → 메인 */}
+            <Link to="/" className={styles.serviceName}>35cheol</Link>
+          </div>
 
           {/* ⑤ 프로필 아이콘 → ⑥ 프로필 메뉴 */}
           <div className={styles.profile} ref={profileRef}>
@@ -136,6 +210,25 @@ function OrgList({ orgs }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+// ☰ 아이콘: 선 세 개. 색은 버튼 글자색(currentColor)을 따른다. 굵기 1.5는 옆 글자(400)와 맞춤
+function MenuIcon() {
+  return (
+    <svg className={styles.menuIcon} viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+      <path d="M3 5.5h14M3 10h14M3 14.5h14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+// 접기 아이콘: 왼쪽에 칸이 있는 창 모양 (Notion·브라우저의 '사이드바 숨기기'와 같은 뜻)
+function SidebarIcon() {
+  return (
+    <svg className={styles.menuIcon} viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+      <rect x="2.75" y="3.75" width="14.5" height="12.5" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M7.75 3.75v12.5" fill="none" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
   );
 }
 

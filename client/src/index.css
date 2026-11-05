@@ -78,6 +78,7 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --menu-enter-offset: -4px; /* 메뉴가 아이콘 쪽에서 살짝 내려오며 나타남 */
   --menu-enter-scale: 0.97;
+  --duration-nav: 200ms; /* 햄버거바 접기·펼치기. 자주 누르므로 300ms보다 짧게 */
   --form-width: 400px;
 
   /* 로그인 화면 (DESIGN.md auth-card) */
@@ -94,6 +95,7 @@
   --sidebar-width: 240px;
   --menu-width: 240px;
   --icon-button-size: 32px;
+  --icon-size: 20px; /* 버튼 안 선 아이콘 (☰) */
   --z-menu: 10; /* 본문 위에 뜨는 프로필 메뉴 */
 }
 
@@ -147,5 +149,6 @@ input {
     --menu-enter-offset: 0px;
     --menu-enter-scale: 1;
     --press-scale: 1;
+    --duration-nav: 0ms; /* 햄버거바는 바로 접히고 펼쳐진다 */
   }
 }
