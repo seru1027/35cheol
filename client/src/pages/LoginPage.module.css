@@ -1,24 +1,19 @@
-/* SCR-AUTH-01. 값은 index.css의 :root만 쓴다 (client/DESIGN.md auth-card·form-field·버튼·segmented-tabs) */
+/* SCR-AUTH-01 /login · /signup. 값은 index.css의 :root만 쓴다 (client/DESIGN.md auth-card·form-field·버튼) */
 
-/* 화면을 좌우 반으로: 왼쪽 ① 이미지 영역, 오른쪽 입력 영역 */
+/* 왼쪽 폼 | 오른쪽 서비스 소개 (약 1 : 1, 레퍼런스 비율) */
 .page {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: var(--auth-split);
   min-height: 100vh;
 }
 
-/* ① 이미지 영역: hero "night" 띠 (화면 하나에 한 번만 쓰는 진한 남색) */
-.visual {
-  background: var(--color-secondary);
-}
-
-/* 세로 가운데 정렬을 하지 않는다: 회원가입 폼이 로그인보다 길어서, 가운데에 두면 탭을 바꿀 때 제목·탭이 위아래로 움직인다
-   위에서부터 같은 거리에 두어 두 탭의 제목·탭·첫 칸이 같은 자리에 있게 한다 */
+/* 폼 영역: 가로는 가운데, 세로는 위에서 같은 거리(--auth-top)
+   세로 가운데로 두면 폼이 긴 회원가입에서 머리말이 위로 올라가, 로그인 ↔ 회원가입을 오갈 때 화면이 밀린다 */
 .panel {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: var(--space-section) var(--space-xxl);
+  padding: var(--auth-top) var(--space-xxl) var(--space-section);
 }
 
 /* 상자 없이 바탕 위에 바로 둔다. 흰 입력칸이 따뜻한 바탕 위에서 구분된다 (DESIGN.md auth-card) */
@@ -27,67 +22,142 @@
   flex-direction: column;
   gap: var(--space-xl);
   width: var(--form-width);
+  min-height: var(--auth-content-height); /* 짧은 로그인도 회원가입만큼 높이를 잡아 맨 아래 링크가 같은 자리 */
+}
+
+/* 서비스명(작게) → 화면 제목 → 부제. 첫 칸까지 레퍼런스처럼 넓게 띄운다 (약 56px = gap 28 + 28) */
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-xl);
+}
+
+.brand {
+  margin: 0 0 var(--space-xs);
+  color: var(--color-ink-muted);
+  font: var(--type-label) var(--font-sans);
 }
 
 .title {
   margin: 0;
-  font: var(--type-heading-1) var(--font-sans);
-  letter-spacing: var(--tracking-heading-1);
+  font: var(--type-auth-title) var(--font-sans);
+  letter-spacing: var(--tracking-auth-title);
 }
 
-/* ③ 만료 안내 한 줄. 오류가 아니라 안내라 빨강을 쓰지 않는다 */
+.subtitle {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font: var(--type-body) var(--font-sans);
+}
+
+/* ③ 만료 안내 한 줄. 오류가 아니라 안내라 빨강을 쓰지 않는다. 바탕과 구분되게 5% 회색 */
 .notice {
   margin: 0;
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
-  background: var(--color-canvas-soft);
+  background: var(--color-fill-subtle);
   font: var(--type-caption) var(--font-sans);
 }
 
-/* ② 탭 (segmented-tabs) */
-.tabs {
-  display: flex;
-  padding: var(--space-xxs);
-  background: var(--color-fill-subtle); /* 따뜻한 바탕 위에서도 보이는 5% 회색 */
-  border-radius: var(--radius-md);
-}
-
-.tab {
-  flex: 1;
-  padding: var(--space-input) var(--space-md);
-  border: 0;
-  border-radius: var(--radius-sm);
-  background: transparent;
+/* 맨 아래 로그인 ↔ 회원가입. margin-top: auto로 .content의 맨 아래에 붙는다 */
+.switch {
+  margin: auto 0 0;
   color: var(--color-ink-muted);
-  font: var(--type-body-sm) var(--font-sans);
-  cursor: pointer;
-  /* 탭을 바꿀 때 흰 면이 툭 바뀌지 않고 옅게 넘어간다 */
-  transition-property: background-color, color, box-shadow;
-  transition-duration: var(--duration-fast);
-  transition-timing-function: ease;
+  font: var(--type-caption) var(--font-sans);
+  text-align: center;
 }
 
-.tabActive {
-  background: var(--color-canvas);
-  box-shadow: var(--shadow-1);
-  color: var(--color-ink);
+.switchLink {
+  color: var(--color-primary);
   font-weight: 600;
+  text-decoration: none;
+}
+
+.switchLink:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+  border-radius: var(--radius-xs);
+}
+
+/* ① 서비스 소개: hero "night" 띠 (화면 하나에 한 번만 쓰는 진한 남색) 위에 흰 글자
+   폼 쪽 두 모서리만 둥글게: 화면을 자른 띠가 아니라 놓인 면으로 보인다
+   화면 높이에 붙여(sticky) 회원가입처럼 폼이 길어 스크롤해도 패널은 제자리에 있다 */
+.visual {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-section) var(--space-xxl);
+  border-radius: var(--radius-auth-panel) 0 0 var(--radius-auth-panel);
+  background: var(--color-secondary);
+  color: var(--color-on-primary);
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  width: var(--intro-width);
+}
+
+.introHeadline {
+  margin: 0;
+  font: var(--type-heading-1) var(--font-sans);
+  letter-spacing: var(--tracking-heading-1);
+  text-wrap: balance;
+}
+
+.introLead {
+  margin: var(--space-md) 0 var(--space-section);
+  color: var(--color-on-secondary-muted);
+  font: var(--type-body) var(--font-sans);
+}
+
+/* 기능 3개: 제목 + 한 줄 설명. 왼쪽 가는 선으로 묶음을 보인다 */
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs);
+  padding-left: var(--space-md);
+  border-left: var(--border-width) solid var(--color-on-secondary-muted);
+}
+
+.featureTitle {
+  font: var(--type-title) var(--font-sans);
+  letter-spacing: var(--tracking-title);
+}
+
+.featureDesc {
+  color: var(--color-on-secondary-muted);
+  font: var(--type-body-sm) var(--font-sans);
 }
 
 /* hover는 마우스가 있는 기기에서만 (터치에서 눌린 채 남지 않게) */
 @media (hover: hover) and (pointer: fine) {
-  .tab:not(.tabActive):hover {
+  .switchLink:hover {
+    text-decoration: underline;
+  }
+
+  .reveal:not(:disabled):hover {
+    background: var(--color-fill-subtle);
     color: var(--color-ink);
   }
 
   .submit:not(:disabled):hover {
     background: var(--color-primary-active);
   }
-}
-
-.tab:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-offset);
 }
 
 /* 칸 묶음. fieldset의 브라우저 기본 테두리·여백을 지운다 */
@@ -125,6 +195,48 @@
 
 .input::placeholder {
   color: var(--color-ink-faint);
+}
+
+/* 비밀번호 칸: 오른쪽에 [보기] 버튼을 겹쳐 둔다 */
+.inputWrap {
+  position: relative;
+  display: flex;
+}
+
+.inputWrap .input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 글자가 버튼 밑으로 들어가지 않게 오른쪽 여백을 버튼 폭만큼 */
+.inputRevealable {
+  padding-right: var(--space-section);
+}
+
+/* [보기]/[숨기기]: 칸 안 오른쪽의 글자 버튼 (utility 문법, 테두리 없음) */
+.reveal {
+  position: absolute;
+  top: 50%;
+  right: var(--space-xxs);
+  transform: translateY(-50%);
+  padding: var(--space-xxs) var(--space-xs);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-ink-muted);
+  font: var(--type-caption) var(--font-sans);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.reveal:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 0;
+}
+
+.reveal:disabled {
+  opacity: var(--disabled-opacity);
+  cursor: default;
 }
 
 /* Focus: 파란 테두리 + Level 1 그림자 */

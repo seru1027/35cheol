@@ -307,7 +307,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 | Disabled (요청 중 잠금) | `opacity: 0.4`, `cursor: default` |
 
 ### `segmented-tabs` — 탭
-SCR-AUTH-01의 로그인 / 회원가입 탭. 원본에 탭이 없어서 utility 문법으로 만든다.
+**지금 쓰는 화면 없음** (2026-11-04 로그인·회원가입을 주소로 나누며 뺐다). 탭이 다시 필요할 때의 문법으로 남긴다. 원본에 탭이 없어서 utility 문법으로 만든다.
 
 | 부분 | 값 |
 |---|---|
@@ -315,10 +315,19 @@ SCR-AUTH-01의 로그인 / 회원가입 탭. 원본에 탭이 없어서 utility 
 | 탭 하나 | `{typography.body-sm}`, `{colors.ink-muted}`, `{rounded.sm}`, 여백 6px × `{spacing.md}` |
 | 선택된 탭 | 흰색, `{colors.ink}` weight 600, Level 1 그림자 (원본: 떠 있는 흰 면) |
 
-### `auth-card` — 로그인 화면
-- 왼쪽 이미지 영역은 원본 `hero-band`의 `{colors.secondary}` (화면 하나에 한 번만 쓰는 "night" 띠). 그림은 마무리 단계.
-- 오른쪽은 `{colors.canvas-soft}` 바탕 위에 폼을 **상자 없이** 바로 둔다 (원본 `ex-auth-form-card`의 카드는 쓰지 않음). 화면이 이미 좌우 두 면으로 나뉘어 있어 카드를 더하면 면이 세 겹이 된다. 흰 입력칸이 바탕과 구분된다 (원본 Do: "warm canvas + white fields"). 폼 폭 400px, 요소 사이 `{spacing.xl}`.
-- 만료 안내 한 줄: `{colors.canvas-soft}` 바탕, `{rounded.md}`, `{typography.caption}`. 오류가 아니라 안내라 빨강을 쓰지 않는다.
+### `auth-card` — 로그인·회원가입 화면 (`/login`, `/signup`)
+레퍼런스: EditorM "Desktop sign up and login pages" (Figma Community)의 비율·위치·패널 모서리를 따른다. 입력칸·버튼 모서리, 색, 글꼴은 이 문서를 따른다.
+
+| 부분 | 값 |
+|---|---|
+| 배치 | 왼쪽 폼 : 오른쪽 소개 = 49 : 51 (`--auth-split`, 레퍼런스 1536 화면의 754 : 781.5). 폼이 주인공이라 먼저(왼쪽) |
+| 로그인 ↔ 회원가입 | 탭이 아니라 주소를 나누고(`/login`, `/signup`), 폼 맨 아래 한 줄로 오간다: '계정이 없나요? **회원가입**' (`{typography.caption}` `{colors.ink-muted}`, 링크는 `{colors.primary}` weight 600, hover 밑줄) |
+| 폼 영역 | `{colors.canvas-soft}` 위에 **상자 없이**. 가로는 가운데, 세로는 위에서 `--auth-top`(18vh, 레퍼런스 회원가입 제목 202 / 1042)에서 시작하고, 폼 묶음 높이를 `--auth-content-height`(620px = 회원가입 높이)로 잡아 맨 아래 링크를 바닥에 붙인다. 그래서 두 화면의 서비스명·제목·첫 칸·맨 아래 링크가 모두 같은 자리에 있고, 바뀌는 것은 가운데 칸 수뿐이다 (레퍼런스처럼 로그인은 버튼 아래가 넓게 빈다). 1440×900에서 서비스명 162, 제목 198, 첫 칸 354, 링크 762px. 화면 전체에 `scrollbar-gutter: stable`을 둬 긴 화면에서 스크롤바가 생겨도 가로로 밀리지 않는다. 폭 400px, 요소 사이 `{spacing.xl}` (흰 입력칸이 바탕과 구분된다. 원본 Do: "warm canvas + white fields") |
+| 머리말 | 서비스명 '35cheol' `{typography.label}` `{colors.ink-muted}` → 화면 제목 32px weight 600 (`--type-auth-title`, 레퍼런스 크기. heading-1 40px는 이 화면에서 폼보다 무겁다) ('다시 오셨네요' / '35cheol 시작하기'), 첫 칸까지 약 56px → 부제 `{typography.body-md}` `{colors.ink-muted}` |
+| 소개 패널 | 원본 `hero-band`의 `{colors.secondary}` (화면 하나에 한 번만 쓰는 "night" 띠). 폼 쪽 두 모서리만 45px (`--radius-auth-panel`, 레퍼런스 값. 놓인 면처럼). 화면 높이에 고정(sticky)이라 폼이 길어 스크롤해도 제자리. 안에 한 줄 문구 `{typography.heading-1}` 흰색, 설명 `{typography.body-md}`, 기능 3개(제목 `{typography.title}` + 설명 `{typography.body-sm}`, 왼쪽 1px 선). 보조 글자는 흰색 72% (`--color-on-secondary-muted`, 약 7:1). 폭 440px, 세로 가운데. 그림은 마무리 단계 |
+| 비밀번호 칸 | 칸 안 오른쪽에 글자 버튼 [보기]/[숨기기] (`{typography.caption}` `{colors.ink-muted}`, 테두리 없음, hover `{colors.fill-subtle}`). 칸의 오른쪽 여백을 버튼 폭만큼 넓힌다 |
+| 주 버튼 | 폼 폭을 꽉 채운 Primary. 요청 중에는 문구도 바뀐다 ('로그인 중…', '가입 중…') |
+| 만료 안내 | `{colors.fill-subtle}` 바탕(같은 색 바탕 위에서 보이게), `{rounded.md}`, `{typography.caption}`. 오류가 아니라 안내라 빨강을 쓰지 않는다 |
 
 ### `toast` — 결과 알림
 원본 `ex-toast`(feature-card 모양 + 그림자). 라이브러리(react-hot-toast)가 모양을 인라인 style로 넣어서 값은 `App.jsx`의 `TOAST_OPTIONS`에 `var(--...)`로 넘긴다.

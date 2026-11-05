@@ -31,7 +31,9 @@ export default function App() {
       {/* AUTH-03 응답 전에는 라우트를 그리지 않는다: 로그인 여부를 모르는 채로 로그인 화면이나 빈 상단바가 깜빡이지 않게 */}
       {status === 'ready' ? (
         <Routes>
-          <Route path="/login" element={<GuestOnly><LoginPage /></GuestOnly>} />
+          {/* 로그인·회원가입은 같은 컴포넌트. key가 달라야 주소를 옮길 때 입력값·상태가 새로 시작된다 */}
+          <Route path="/login" element={<GuestOnly><LoginPage key="login" mode="login" /></GuestOnly>} />
+          <Route path="/signup" element={<GuestOnly><LoginPage key="signup" mode="signup" /></GuestOnly>} />
           {/* 중첩 라우트: path 없는 부모가 레이아웃을 그리고, 자식 화면은 레이아웃 안의 <Outlet /> 자리에 들어간다 */}
           <Route element={<RequireAuth><AppLayout /></RequireAuth>}>
             <Route index element={<HomePage />} />

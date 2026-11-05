@@ -5,6 +5,7 @@
   --color-primary-active: #005bab;
   --color-secondary: #213183; /* 로그인 화면 이미지 영역 (hero "night" 띠, 한 번만) */
   --color-on-primary: #ffffff;
+  --color-on-secondary-muted: rgba(255, 255, 255, 0.72); /* 남색 위 보조 글자 (대비 약 7:1) */
   --color-ink: rgba(0, 0, 0, 0.95);
   --color-ink-secondary: #31302e;
   --color-ink-muted: #615d59; /* 읽어야 하는 보조 글자 */
@@ -79,6 +80,15 @@
   --menu-enter-scale: 0.97;
   --form-width: 400px;
 
+  /* 로그인 화면 (DESIGN.md auth-card) */
+  --auth-split: 49fr 51fr; /* 왼쪽 폼 : 오른쪽 소개. 레퍼런스(EditorM) 1536 화면의 754 : 781.5 */
+  --auth-top: 18vh; /* 폼 머리말 위치. 레퍼런스 회원가입 제목 202 / 1042 (긴 쪽 기준). 두 화면이 같은 자리에서 시작한다 */
+  --auth-content-height: 620px; /* 머리말부터 맨 아래 링크까지. 회원가입 높이(1440×900에서 잰 620px)에 맞춰, 로그인에서도 링크가 같은 자리에 온다 (레퍼런스처럼 로그인은 버튼 아래가 넓게 빈다) */
+  --type-auth-title: 600 32px/1.25; /* 레퍼런스 제목 32px. heading-1(40px)은 이 화면에서 폼보다 무거움 */
+  --tracking-auth-title: -0.5px;
+  --radius-auth-panel: 45px; /* 소개 패널의 폼 쪽 두 모서리. 레퍼런스 값 */
+  --intro-width: 440px;
+
   /* 공통 레이아웃 (DESIGN.md app-layout) */
   --header-height: 48px;
   --sidebar-width: 240px;
@@ -93,6 +103,11 @@
   box-sizing: border-box;
 }
 
+/* 세로 스크롤바 자리를 늘 비워 둔다: 긴 화면(회원가입)에서만 스크롤바가 생겨 가로로 밀리는 것을 막는다 */
+html {
+  scrollbar-gutter: stable;
+}
+
 /* 화면 바탕은 따뜻한 off-white. 카드·입력칸·상단바만 흰색 (DESIGN.md Do) */
 body {
   margin: 0;
@@ -103,6 +118,9 @@ body {
   /* macOS에서 글자가 두껍게 번지지 않게 */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* 한글은 기본값이면 글자 단위로 줄이 바뀐다('관리하/세요'). 띄어쓰기 단위로만 바꾸고, 너무 긴 단어만 끊는다 */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 /* 제목은 줄을 고르게 나누고, 본문은 마지막 줄에 한 글자만 남지 않게 */
