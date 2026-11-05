@@ -46,6 +46,17 @@ const MESSAGES = {
   MY_ORGS_EMPTY: '가입한 동아리가 없습니다', // ORG-02 200 + 빈 배열
   MY_ORGS_LOAD_FAILED: '목록을 불러오지 못했습니다', // 햄버거바의 ORG-02 500·네트워크
 
+  // SCR-ORG-01 메인 (Figma 03 문구 그대로). 프론트 전용
+  MAIN_TITLE: '내 동아리', // 화면에는 안 보이는 h1 (본문 제목 줄 없음)
+  CARD_CREATE_ORG: '+ 동아리 만들기',
+  CARD_CREATE_ORG_DESC: '새 동아리의 회장이 됩니다',
+  CARD_JOIN_ORG: '동아리 가입하기',
+  CARD_JOIN_ORG_DESC: '초대 코드로 신청',
+  ROLE_OWNER: '회장', // ORG-02 myRole → 화면 이름
+  ROLE_ADMIN: '운영진',
+  ROLE_MEMBER: '회원',
+  STATUS_PENDING: '대기중', // myStatus PENDING (myRole은 null)
+
   // SCR-COMMON-02 공통 상태 패널 (Figma 03 문구 그대로). 프론트 전용
   LOADING: '불러오는 중…',
   PANEL_PENDING_TITLE: '가입 승인 대기중입니다',

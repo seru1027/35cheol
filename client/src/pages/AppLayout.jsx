@@ -44,8 +44,12 @@ export default function AppLayout() {
   const expandButtonRef = useRef(null);
   const moveFocusRef = useRef(false); // 버튼으로 바꿨을 때만 커서를 옮긴다 (처음 그릴 때는 옮기지 않음)
 
-  // ④ 내 동아리 (ORG-02). F3에서 동아리 만들기·가입 신청 성공 뒤 다시 부르도록 본문 화면에 내려준다
-  const loadOrgs = useCallback(async () => {
+  // ④ 내 동아리 (ORG-02). 햄버거바와 메인(SCR-ORG-01)이 같은 목록을 쓴다: 여기서 한 번 불러 본문 화면에 내려준다
+  // 다시 부르는 방식 두 가지
+  //   showLoading: true  → [다시 시도]. 목록을 비워 '불러오는 중…'을 보여 준 뒤 다시 요청 (눌린 것이 보이게)
+  //   showLoading: false → 동아리 만들기·가입 신청 성공 뒤. 기존 목록을 둔 채 새 응답으로 바꾼다 (목록이 깜빡이지 않게)
+  const loadOrgs = useCallback(async ({ showLoading = false } = {}) => {
+    if (showLoading) setOrgs(undefined);
     const { status, data } = await api('/api/orgs');
     if (status === 200) setOrgs(data.orgs);
     else if (status !== 401) setOrgs(null); // 401은 api.js 공통 처리가 /login으로 보낸다

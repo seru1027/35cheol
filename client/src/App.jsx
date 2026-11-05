@@ -3,8 +3,8 @@ import { Route, Routes } from 'react-router';
 import { GuestOnly, RequireAuth, useAuth } from './auth.jsx';
 import StatusPanel from './components/StatusPanel.jsx';
 import AppLayout from './pages/AppLayout.jsx';
-import HomePage from './pages/HomePage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
+import MainPage from './pages/MainPage.jsx';
 
 // 토스트 모양 (client/DESIGN.md toast: 흰 카드 + Level 2 그림자, 성공 파랑·오류 빨강)
 // 라이브러리가 기본 모양을 인라인 style로 넣어서 .module.css로는 덮을 수 없다. 그래서 style 객체로 넘기되 값은 var(--...)만 쓴다
@@ -36,7 +36,7 @@ export default function App() {
           <Route path="/signup" element={<GuestOnly><LoginPage key="signup" mode="signup" /></GuestOnly>} />
           {/* 중첩 라우트: path 없는 부모가 레이아웃을 그리고, 자식 화면은 레이아웃 안의 <Outlet /> 자리에 들어간다 */}
           <Route element={<RequireAuth><AppLayout /></RequireAuth>}>
-            <Route index element={<HomePage />} />
+            <Route index element={<MainPage />} />
             {/* ④ 정의되지 않은 URL → 404 패널. 레이아웃 안에 두어서, 로그아웃 상태면 RequireAuth가 먼저 /login으로 보낸다 */}
             <Route path="*" element={<StatusPanel kind="notFound" titleAs="h1" />} />
           </Route>

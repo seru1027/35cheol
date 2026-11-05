@@ -386,3 +386,20 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | [메인으로]·[동아리 홈으로] | button-secondary (흰 pill + Level 1 그림자). hover는 Level 2 그림자, 누르면 바탕 `{colors.canvas-soft}` |
 | [다시 시도] | button-primary. 누르면 로딩 패널로 바뀌었다가 결과를 그림 |
 | 본문 제목 | 화면에 제목 줄이 있으면 남기고 그 아래에 패널 (어느 화면의 실패인지 보이게). 404처럼 화면 자체가 없으면 패널만 |
+
+### `org-card` — 메인 카드 목록 (SCR-ORG-01)
+원본 `feature-card`(흰색, 1px hairline, `{rounded.lg}`, 여백 `{spacing.lg}`, 그림자 없음)를 목록으로 늘어놓는다. 동작·순서는 Figma 03 SCR-ORG-01.
+
+| 부분 | 값 |
+|---|---|
+| 배치 | 한 줄에 4개 (`--org-grid-columns`), 카드 사이 `{spacing.md}`. 만들기·가입하기가 항상 앞, 그 뒤는 ORG-02 순서 |
+| 높이 | 모든 카드 같은 높이 128px (`--org-card-min-height` = 여백 24 + 이름 2줄 48 + 간격 8 + 역할 20 + 여백 24). 이름이 1줄인 카드도 같은 높이라 줄이 고르다 |
+| 이름 | `{typography.body-md}` weight 600 (`--type-body-strong`), `{colors.ink}`. 2줄까지, 넘치면 … (`line-clamp: 2`). 잘려도 링크 이름(화면 읽기 프로그램)은 전체 이름 |
+| 역할 | `{typography.caption}` `{colors.ink-muted}` (회장·운영진·회원) |
+| PENDING | 흰 면 없이 바탕색 그대로(회색으로 물러남) + hairline, 이름 `{colors.ink-muted}`, 역할 자리에 '대기중' (햄버거바 PENDING과 같은 색 규칙) |
+| 만들기·가입하기 | 바탕 없이 1px 점선 `{colors.input-border}`, 가운데 정렬, 제목 `--type-body-strong` + 설명 `{typography.caption}` `{colors.ink-muted}`. 점선은 '새로 놓는 자리'라는 관례 (와이어프레임과 같음) |
+| hover (마우스 기기만, 150ms) | 동아리 카드는 Level 1 그림자, 점선 카드는 바탕 `{colors.fill-subtle}` |
+| Focus | 버튼과 같은 2px primary outline |
+| 로딩·실패 | 만들기·가입하기는 그대로 두고, 동아리 카드 자리에 `status-panel` (로딩, 500 + [다시 시도]) |
+| 0개 | 만들기·가입하기 두 장만. 빈 목록 문구 없음 (화면정의서 SCR-ORG-01) |
+| 본문 제목 | 화면에는 두지 않는다 (화면정의서 "본문 제목 줄 없음"). 화면 읽기 프로그램용 `h1` '내 동아리'만 숨겨 둔다 (`.visually-hidden`) |
