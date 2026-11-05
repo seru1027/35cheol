@@ -5,7 +5,6 @@
   --color-primary-active: #005bab;
   --color-secondary: #213183; /* 로그인 화면 이미지 영역 (hero "night" 띠, 한 번만) */
   --color-on-primary: #ffffff;
-  --color-on-secondary-muted: rgba(255, 255, 255, 0.72); /* 남색 위 보조 글자 (대비 약 7:1) */
   --color-ink: rgba(0, 0, 0, 0.95);
   --color-ink-secondary: #31302e;
   --color-ink-muted: #615d59; /* 읽어야 하는 보조 글자 */
@@ -87,8 +86,7 @@
   --auth-content-height: 620px; /* 머리말부터 맨 아래 링크까지. 회원가입 높이(1440×900에서 잰 620px)에 맞춰, 로그인에서도 링크가 같은 자리에 온다 (레퍼런스처럼 로그인은 버튼 아래가 넓게 빈다) */
   --type-auth-title: 600 32px/1.25; /* 레퍼런스 제목 32px. heading-1(40px)은 이 화면에서 폼보다 무거움 */
   --tracking-auth-title: -0.5px;
-  --radius-auth-panel: 45px; /* 소개 패널의 폼 쪽 두 모서리. 레퍼런스 값 */
-  --intro-width: 440px;
+  --radius-auth-panel: 45px; /* 오른쪽 패널의 폼 쪽 두 모서리. 레퍼런스 값 */
 
   /* 공통 레이아웃 (DESIGN.md app-layout) */
   --header-height: 48px;

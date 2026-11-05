@@ -13,7 +13,6 @@ import styles from './LoginPage.module.css';
 // 로그인 상태로 들어오면 / 로 보내는 것과 AUTH-03 응답 전에 그리지 않는 것은 App.jsx·auth.jsx(GuestOnly)가 맡는다
 
 const SIGNUP_ORDER = ['loginId', 'name', 'password', 'passwordConfirm']; // 화면 위에서 아래 순서
-const INTRO_FEATURES = ['CREATE', 'JOIN', 'NOTICE']; // 소개 패널의 기능 3개 (문구는 messages.js)
 
 // 서버 400 코드에서 칸 이름을 찾는다. 코드에 필드 이름이 들어 있다 (API 명세서 0-3: REQUIRED_NAME → name)
 function fieldOfCode(code) {
@@ -191,21 +190,8 @@ export default function LoginPage({ mode }) {
         </div>
       </main>
 
-      {/* ① 서비스 소개: 처음 온 사람에게 이 서비스가 무엇인지. 그림은 마무리 단계 */}
-      <aside className={styles.visual} aria-label="서비스 소개">
-        <div className={styles.intro}>
-          <p className={styles.introHeadline}>{messageOf('INTRO_HEADLINE')}</p>
-          <p className={styles.introLead}>{messageOf('INTRO_LEAD')}</p>
-          <ul className={styles.features}>
-            {INTRO_FEATURES.map((key) => (
-              <li key={key} className={styles.feature}>
-                <span className={styles.featureTitle}>{messageOf(`INTRO_${key}_TITLE`)}</span>
-                <span className={styles.featureDesc}>{messageOf(`INTRO_${key}_DESC`)}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </aside>
+      {/* ① 오른쪽 패널: 지금은 남색 면만 둔다 (장식이라 화면 읽기 프로그램은 건너뜀). 들어갈 내용은 다음에 정한다 */}
+      <div className={styles.visual} aria-hidden="true" />
     </div>
   );
 }

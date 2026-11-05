@@ -80,7 +80,7 @@
   border-radius: var(--radius-xs);
 }
 
-/* ① 서비스 소개: hero "night" 띠 (화면 하나에 한 번만 쓰는 진한 남색) 위에 흰 글자
+/* ① 오른쪽 패널: hero "night" 띠 (화면 하나에 한 번만 쓰는 진한 남색). 들어갈 내용은 다음에 정한다
    폼 쪽 두 모서리만 둥글게: 화면을 자른 띠가 아니라 놓인 면으로 보인다
    화면 높이에 붙여(sticky) 회원가입처럼 폼이 길어 스크롤해도 패널은 제자리에 있다 */
 .visual {
@@ -88,60 +88,8 @@
   top: 0;
   align-self: start;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-section) var(--space-xxl);
   border-radius: var(--radius-auth-panel) 0 0 var(--radius-auth-panel);
   background: var(--color-secondary);
-  color: var(--color-on-primary);
-}
-
-.intro {
-  display: flex;
-  flex-direction: column;
-  width: var(--intro-width);
-}
-
-.introHeadline {
-  margin: 0;
-  font: var(--type-heading-1) var(--font-sans);
-  letter-spacing: var(--tracking-heading-1);
-  text-wrap: balance;
-}
-
-.introLead {
-  margin: var(--space-md) 0 var(--space-section);
-  color: var(--color-on-secondary-muted);
-  font: var(--type-body) var(--font-sans);
-}
-
-/* 기능 3개: 제목 + 한 줄 설명. 왼쪽 가는 선으로 묶음을 보인다 */
-.features {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.feature {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xxs);
-  padding-left: var(--space-md);
-  border-left: var(--border-width) solid var(--color-on-secondary-muted);
-}
-
-.featureTitle {
-  font: var(--type-title) var(--font-sans);
-  letter-spacing: var(--tracking-title);
-}
-
-.featureDesc {
-  color: var(--color-on-secondary-muted);
-  font: var(--type-body-sm) var(--font-sans);
 }
 
 /* hover는 마우스가 있는 기기에서만 (터치에서 눌린 채 남지 않게) */

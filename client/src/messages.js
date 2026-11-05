@@ -39,16 +39,6 @@ const MESSAGES = {
   PASSWORD_SHOW: '보기',
   PASSWORD_HIDE: '숨기기',
 
-  // SCR-AUTH-01 왼쪽 서비스 소개 (처음 온 사람에게 서비스가 무엇인지)
-  INTRO_HEADLINE: '동아리 운영을 한곳에서',
-  INTRO_LEAD: '초대 코드로 들어와 공지를 보고, 회장·운영진은 가입과 멤버를 관리하세요.',
-  INTRO_CREATE_TITLE: '동아리 만들기',
-  INTRO_CREATE_DESC: '만든 사람이 회장이 되고, 초대 코드가 바로 생겨요.',
-  INTRO_JOIN_TITLE: '초대 코드로 가입',
-  INTRO_JOIN_DESC: '코드를 입력하면 회장·운영진이 승인해요.',
-  INTRO_NOTICE_TITLE: '공지 확인',
-  INTRO_NOTICE_DESC: '가입한 동아리의 공지만 모아 볼 수 있어요.',
-
   // SCR-COMMON-01 공통 레이아웃
   SESSION_EXPIRED: '다시 로그인해 주세요', // 프론트 전용 (사용 중 401, 화면정의서 결정 D 문구 그대로)
   MY_ORGS_EMPTY: '가입한 동아리가 없습니다', // ORG-02 200 + 빈 배열

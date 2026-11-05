@@ -320,11 +320,11 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 
 | 부분 | 값 |
 |---|---|
-| 배치 | 왼쪽 폼 : 오른쪽 소개 = 49 : 51 (`--auth-split`, 레퍼런스 1536 화면의 754 : 781.5). 폼이 주인공이라 먼저(왼쪽) |
+| 배치 | 왼쪽 폼 : 오른쪽 패널 = 49 : 51 (`--auth-split`, 레퍼런스 1536 화면의 754 : 781.5). 폼이 주인공이라 먼저(왼쪽) |
 | 로그인 ↔ 회원가입 | 탭이 아니라 주소를 나누고(`/login`, `/signup`), 폼 맨 아래 한 줄로 오간다: '계정이 없나요? **회원가입**' (`{typography.caption}` `{colors.ink-muted}`, 링크는 `{colors.primary}` weight 600, hover 밑줄) |
 | 폼 영역 | `{colors.canvas-soft}` 위에 **상자 없이**. 가로는 가운데, 세로는 위에서 `--auth-top`(18vh, 레퍼런스 회원가입 제목 202 / 1042)에서 시작하고, 폼 묶음 높이를 `--auth-content-height`(620px = 회원가입 높이)로 잡아 맨 아래 링크를 바닥에 붙인다. 그래서 두 화면의 서비스명·제목·첫 칸·맨 아래 링크가 모두 같은 자리에 있고, 바뀌는 것은 가운데 칸 수뿐이다 (레퍼런스처럼 로그인은 버튼 아래가 넓게 빈다). 1440×900에서 서비스명 162, 제목 198, 첫 칸 354, 링크 762px. 화면 전체에 `scrollbar-gutter: stable`을 둬 긴 화면에서 스크롤바가 생겨도 가로로 밀리지 않는다. 폭 400px, 요소 사이 `{spacing.xl}` (흰 입력칸이 바탕과 구분된다. 원본 Do: "warm canvas + white fields") |
 | 머리말 | 서비스명 '35cheol' `{typography.label}` `{colors.ink-muted}` → 화면 제목 32px weight 600 (`--type-auth-title`, 레퍼런스 크기. heading-1 40px는 이 화면에서 폼보다 무겁다) ('다시 오셨네요' / '35cheol 시작하기'), 첫 칸까지 약 56px → 부제 `{typography.body-md}` `{colors.ink-muted}` |
-| 소개 패널 | 원본 `hero-band`의 `{colors.secondary}` (화면 하나에 한 번만 쓰는 "night" 띠). 폼 쪽 두 모서리만 45px (`--radius-auth-panel`, 레퍼런스 값. 놓인 면처럼). 화면 높이에 고정(sticky)이라 폼이 길어 스크롤해도 제자리. 안에 한 줄 문구 `{typography.heading-1}` 흰색, 설명 `{typography.body-md}`, 기능 3개(제목 `{typography.title}` + 설명 `{typography.body-sm}`, 왼쪽 1px 선). 보조 글자는 흰색 72% (`--color-on-secondary-muted`, 약 7:1). 폭 440px, 세로 가운데. 그림은 마무리 단계 |
+| 오른쪽 패널 | 원본 `hero-band`의 `{colors.secondary}` (화면 하나에 한 번만 쓰는 "night" 띠). 폼 쪽 두 모서리만 45px (`--radius-auth-panel`, 레퍼런스 값. 놓인 면처럼). 화면 높이에 고정(sticky). **지금은 남색 면만 둔다** (2026-11-05 서비스 소개 문구를 뺐다. 들어갈 내용은 다음에 정한다). 장식이라 `aria-hidden` |
 | 비밀번호 칸 | 칸 안 오른쪽에 글자 버튼 [보기]/[숨기기] (`{typography.caption}` `{colors.ink-muted}`, 테두리 없음, hover `{colors.fill-subtle}`). 칸의 오른쪽 여백을 버튼 폭만큼 넓힌다 |
 | 주 버튼 | 폼 폭을 꽉 채운 Primary. 요청 중에는 문구도 바뀐다 ('로그인 중…', '가입 중…') |
 | 만료 안내 | `{colors.fill-subtle}` 바탕(같은 색 바탕 위에서 보이게), `{rounded.md}`, `{typography.caption}`. 오류가 아니라 안내라 빨강을 쓰지 않는다 |
