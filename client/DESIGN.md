@@ -404,3 +404,17 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 로딩·실패 | 만들기·가입하기는 그대로 두고, 그 아래에 `status-panel` (로딩, 500 + [다시 시도]) |
 | 0개 | 만들기·가입하기 두 장만. 빈 목록 문구 없음 (화면정의서 SCR-ORG-01) |
 | 본문 제목 | 화면에는 두지 않는다 (화면정의서 "본문 제목 줄 없음"). 화면 읽기 프로그램용 `h1` '내 동아리'만 숨겨 둔다 (`.visually-hidden`) |
+
+### `modal` — 모달 (SCR-ORG-02 동아리 만들기, SCR-JOIN-01 가입하기)
+원본 `ex-modal-card`("feature-card 모양 + elevated shadow")를 따른다. 부품은 `components/Modal.jsx` 하나, 동작은 Figma 03 각 모달 카드.
+
+| 부분 | 값 |
+|---|---|
+| 배경(scrim) | 화면 전체 `--color-scrim`(검정 40%) |
+| 상자 | 흰색, `{rounded.xl}`(메인 카드와 같은 둥글기), 여백 `{spacing.lg}`, Level 2 그림자. 폭 448px (`--modal-width` = 폼 400 + 좌우 여백 24×2), 위에서 18vh (`--modal-top`, 로그인 폼과 같은 높이 기준) |
+| 제목 | `{typography.title}`, 칸과 간격 `{spacing.md}` |
+| 칸 | `form-field` 그대로 (라벨 → 칸 → 도움말 → 오류 문구) |
+| 버튼 줄 | 오른쪽 정렬 [취소] Secondary · [주 행동] Primary, 사이 `{spacing.xs}`, 칸과 간격 `{spacing.lg}`. 폼 폭을 채우지 않는다 (행동이 둘이라 나란히, 와이어프레임과 같음). 요청 중에는 주 버튼 문구가 바뀌고('만드는 중…') 둘 다 잠긴다 |
+| 열림 | 200ms 강한 ease-out (`--duration-modal`): 배경은 opacity, 상자는 opacity + `scale(0.96 → 1)`. **닫힘은 바로** (motion 규칙). 움직임 줄이기면 opacity만 |
+| 겹침 | `--z-modal` 20 (프로필 메뉴 10 위). 토스트(react-hot-toast 9999)는 모달 위에 보인다: 모달 안 500·네트워크 토스트가 가려지지 않게 (`<dialog>`의 top layer를 쓰지 않은 이유) |
+| 접근성 | `role="dialog"` + `aria-modal="true"` + `aria-labelledby`(제목). 열리면 첫 칸에 커서, 뒤 화면(`#app-shell`)은 `inert`라 Tab·클릭·화면 읽기 프로그램이 닿지 않는다. Esc·바깥 누르면 닫힘(요청 중에는 막음), 닫히면 연 버튼으로 커서를 돌려준다. 열린 동안 뒤 화면 스크롤을 막는다 |

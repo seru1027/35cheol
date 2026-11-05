@@ -1,15 +1,26 @@
-import { Link, useOutletContext } from 'react-router';
+import { useState } from 'react';
+import { Link, useNavigate, useOutletContext } from 'react-router';
 import StatusPanel from '../components/StatusPanel.jsx';
 import { messageOf } from '../messages.js';
+import CreateOrgModal from './CreateOrgModal.jsx';
 import styles from './MainPage.module.css';
 
 // SCR-ORG-01 메인 (내 동아리 목록). 공통 레이아웃의 본문 자리 (/)
 // 목록은 직접 부르지 않고 공통 레이아웃이 부른 ORG-02를 같이 쓴다 (화면정의서 '데이터 출처', 햄버거바와 같은 목록)
 // 카드 모양은 네이버 밴드 비율 (DESIGN.md org-card): 위 색 띠 + 아래 이름·역할
-// F3-2·F3-3: 만들기·가입하기 카드가 모달을 연다. F4: 카드를 누르면 가는 /orgs/:orgId (지금은 404 패널)
+// 만들기 카드 → SCR-ORG-02 모달. F3-3: 가입하기 카드 → SCR-JOIN-01 모달. F4: /orgs/:orgId 동아리 홈 (지금은 404 패널)
 export default function MainPage() {
   // useOutletContext: 부모 라우트(AppLayout)의 <Outlet context={...}>로 넘긴 값을 꺼낸다
   const { orgs, reloadOrgs } = useOutletContext(); // orgs: undefined 응답 전, null 실패, 배열 내 동아리
+  const navigate = useNavigate();
+  const [createOpen, setCreateOpen] = useState(false);
+
+  // SCR-ORG-02 ③ 201 → 모달 닫기 → 목록 다시 불러오기 → 새 동아리 홈
+  function handleCreated(orgId) {
+    setCreateOpen(false);
+    reloadOrgs(); // 기존 목록을 둔 채 조용히 바꾼다. 햄버거바에 새 동아리가 생긴다
+    navigate(`/orgs/${orgId}`); // 보통 이동(push): 메인은 정상 화면이라 뒤로 가기로 돌아와도 된다 (replace 안 씀)
+  }
 
   return (
     <section>
@@ -20,8 +31,12 @@ export default function MainPage() {
       <ul className={styles.grid}>
         {/* ①② 데이터와 관계없어서 로딩·실패 중에도 바로 보인다 */}
         <li>
-          {/* F3-2에서 onClick으로 SCR-ORG-02 모달을 연다 */}
-          <ActionCard icon={<PlusIcon />} title="CARD_CREATE_ORG" desc="CARD_CREATE_ORG_DESC" />
+          <ActionCard
+            icon={<PlusIcon />}
+            title="CARD_CREATE_ORG"
+            desc="CARD_CREATE_ORG_DESC"
+            onClick={() => setCreateOpen(true)}
+          />
         </li>
         <li>
           {/* F3-3에서 onClick으로 SCR-JOIN-01 모달을 연다 */}
@@ -38,14 +53,18 @@ export default function MainPage() {
       {orgs === undefined && <StatusPanel kind="loading" />}
       {/* [다시 시도]: 레이아웃이 목록을 비워 로딩을 보여 준 뒤 다시 부른다 → 햄버거바도 함께 갱신 */}
       {orgs === null && <StatusPanel kind="error" onRetry={() => reloadOrgs({ showLoading: true })} />}
+
+      {/* 조건부로 그린다: 닫으면 모달이 통째로 사라져 입력값도 버려진다 */}
+      {createOpen && <CreateOrgModal onClose={() => setCreateOpen(false)} onCreated={handleCreated} />}
     </section>
   );
 }
 
 // ①② 만들기·가입하기: 동아리 카드와 같은 흰 카드, 가운데에 원 아이콘 + 제목 + 설명 (밴드처럼)
+// aria-haspopup="dialog": 누르면 대화상자가 열린다는 것을 화면 읽기 프로그램에 미리 알린다
 function ActionCard({ icon, title, desc, onClick }) {
   return (
-    <button type="button" className={styles.actionCard} onClick={onClick}>
+    <button type="button" className={styles.actionCard} onClick={onClick} aria-haspopup="dialog">
       <span className={styles.actionIcon} aria-hidden="true">{icon}</span>
       <span className={styles.name}>{messageOf(title)}</span>
       <span className={styles.meta}>{messageOf(desc)}</span>

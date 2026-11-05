@@ -115,6 +115,14 @@
   --type-org-initial: 700 40px/1;
   --org-action-icon-size: 64px; /* 만들기·가입하기 원 */
   --icon-size-lg: 24px; /* 그 원 안 선 아이콘 */
+
+  /* 모달 (DESIGN.md modal) */
+  --color-scrim: rgba(0, 0, 0, 0.4);
+  --modal-width: 448px; /* 폼 400 + 좌우 여백 24×2 */
+  --modal-top: 18vh; /* 로그인 폼과 같은 높이 기준 */
+  --modal-enter-scale: 0.96;
+  --duration-modal: 200ms;
+  --z-modal: 20; /* 프로필 메뉴(10) 위, 토스트(react-hot-toast 9999) 아래 */
 }
 
 *,
@@ -181,5 +189,6 @@ input {
     --menu-enter-scale: 1;
     --press-scale: 1;
     --duration-nav: 0ms; /* 햄버거바는 바로 접히고 펼쳐진다 */
+    --modal-enter-scale: 1; /* 모달은 투명도만 */
   }
 }

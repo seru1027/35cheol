@@ -57,6 +57,18 @@ const MESSAGES = {
   ROLE_MEMBER: '회원',
   STATUS_PENDING: '대기중', // myStatus PENDING (myRole은 null)
 
+  // SCR-ORG-02 동아리 만들기 모달 (ORG-01)
+  MODAL_CREATE_ORG_TITLE: '동아리 만들기',
+  LABEL_ORG_NAME: '동아리 이름',
+  PLACEHOLDER_ORG_NAME: '예: 중앙 사진 동아리 빛그림',
+  HELP_ORG_NAME: '1~30자 (앞뒤 공백 제외)',
+  REQUIRED_ORG_NAME: '동아리 이름을 입력하세요',
+  INVALID_ORG_NAME_TYPE: '입력값을 확인하세요',
+  INVALID_ORG_NAME_LENGTH: '30자 이하로 입력하세요', // 03 와이어프레임 문구 그대로 (1자 미만은 REQUIRED에서 걸림)
+  BUTTON_CANCEL: '취소',
+  BUTTON_CREATE: '만들기',
+  BUTTON_CREATING: '만드는 중…',
+
   // SCR-COMMON-02 공통 상태 패널 (Figma 03 문구 그대로). 프론트 전용
   LOADING: '불러오는 중…',
   PANEL_PENDING_TITLE: '가입 승인 대기중입니다',

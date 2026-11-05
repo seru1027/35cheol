@@ -118,7 +118,8 @@ export default function AppLayout() {
   }
 
   return (
-    <div className={navOpen ? styles.layout : `${styles.layout} ${styles.layoutNavClosed}`}>
+    // id="app-shell": 모달이 열린 동안 이 안 전체에 inert를 건다 (components/Modal.jsx). 모달은 이 밖(body)에 그려진다
+    <div id="app-shell" className={navOpen ? styles.layout : `${styles.layout} ${styles.layoutNavClosed}`}>
       {/* inert: 접혀 있을 때 안의 링크에 Tab·화면 읽기 프로그램이 들어가지 않는다 (보이지 않는 곳에 커서가 가지 않게) */}
       <nav id="app-nav" className={styles.sidebar} aria-label="메뉴" inert={!navOpen}>
         <div className={styles.sidebarInner}>
