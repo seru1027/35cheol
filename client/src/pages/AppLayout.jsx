@@ -37,6 +37,8 @@ export default function AppLayout() {
   const [loggingOut, setLoggingOut] = useState(false);
   const profileRef = useRef(null); // 프로필 아이콘 + 메뉴를 감싼 요소. 바깥 클릭 판단에 쓴다
   const profileButtonRef = useRef(null); // Esc로 닫은 뒤 포커스를 돌려줄 곳
+  const logoutRef = useRef(null);
+  const menuByKeyboardRef = useRef(false); // Enter·Space로 열었을 때만 첫 항목으로 커서를 옮긴다
   // 접기·펼치기 버튼 두 개. 누른 버튼이 사라지므로(접으면 햄버거바 쪽이 inert, 펼치면 상단바 ☰가 없어짐) 반대쪽 버튼으로 커서를 넘긴다
   const collapseButtonRef = useRef(null);
   const expandButtonRef = useRef(null);
@@ -88,6 +90,19 @@ export default function AppLayout() {
     moveFocusRef.current = false;
     (navOpen ? collapseButtonRef : expandButtonRef).current?.focus();
   }, [navOpen]);
+
+  // 키보드로 메뉴를 열면 커서를 첫 항목(로그아웃)으로. 마우스로 열 때는 커서를 옮기지 않는다
+  useEffect(() => {
+    if (!menuOpen || !menuByKeyboardRef.current) return;
+    menuByKeyboardRef.current = false;
+    logoutRef.current?.focus();
+  }, [menuOpen]);
+
+  // 프로필 아이콘을 누름. 키보드(Enter·Space)로 누르면 click 이벤트의 detail이 0이다 (마우스는 누른 횟수 1 이상)
+  function toggleProfileMenu(event) {
+    menuByKeyboardRef.current = event.detail === 0;
+    setMenuOpen((open) => !open);
+  }
 
   // ⑥ 로그아웃 (AUTH-04): 확인창 없이 요청 → 200이면 로그인 상태를 비운다 → RequireAuth가 /login으로
   async function logout() {
@@ -170,17 +185,25 @@ export default function AppLayout() {
               aria-label="프로필 메뉴"
               aria-expanded={menuOpen}
               aria-controls="profile-menu"
-              onClick={() => setMenuOpen((open) => !open)}
+              onClick={toggleProfileMenu}
             >
               {user.name.slice(0, 1)}
             </button>
             {menuOpen && (
               <div id="profile-menu" className={styles.menu}>
-                <p className={styles.menuName}>{user.name}</p>
-                <p className={styles.menuId}>{user.loginId}</p>
+                {/* 머리: 아바타 + 이름·아이디. 누구로 로그인했는지 한눈에 (Notion·Claude 계정 메뉴처럼) */}
+                <div className={styles.menuHeader}>
+                  <span className={styles.avatar} aria-hidden="true">{user.name.slice(0, 1)}</span>
+                  <div className={styles.menuWho}>
+                    <p className={styles.menuName}>{user.name}</p>
+                    <p className={styles.menuId}>{user.loginId}</p>
+                  </div>
+                </div>
                 <hr className={styles.menuDivider} />
-                <button type="button" className={styles.logout} onClick={logout} disabled={loggingOut}>
-                  로그아웃
+                <button type="button" ref={logoutRef} className={styles.menuItem} onClick={logout} disabled={loggingOut}>
+                  <LogoutIcon />
+                  {/* 요청 중에는 문구로도 알린다 (로그인 버튼과 같은 규칙) */}
+                  {messageOf(loggingOut ? 'BUTTON_LOGGING_OUT' : 'BUTTON_LOGOUT')}
                 </button>
               </div>
             )}
@@ -223,6 +246,18 @@ function MenuIcon() {
   return (
     <svg className={styles.menuIcon} viewBox="0 0 20 20" aria-hidden="true" focusable="false">
       <path d="M3 5.5h14M3 10h14M3 14.5h14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+// 로그아웃 아이콘: 문에서 오른쪽으로 나가는 화살표. 굵기 1.5 (옆 글자 400과 맞춤)
+function LogoutIcon() {
+  return (
+    <svg className={styles.itemIcon} viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+      <path
+        d="M8 3.75H5.25a1.5 1.5 0 0 0-1.5 1.5v9.5a1.5 1.5 0 0 0 1.5 1.5H8M12.5 6.5 16 10l-3.5 3.5M16 10H8"
+        fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+      />
     </svg>
   );
 }

@@ -368,8 +368,8 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 빈 목록·실패 문구 | `{typography.caption}`, `{colors.ink-muted}` |
 | 상단바 | 원본 `nav-bar`: 흰색, 아래 1px hairline, 높이 48px (`--header-height`, 아이콘 32 + 위아래 `{spacing.xs}`), 좌우 여백 `{spacing.md}` |
 | 서비스명 | `{typography.title}`, `{colors.ink}` (워드마크 자리라 파랑을 쓰지 않음) |
-| 프로필 아이콘 | 원본 `button-icon-circular`: 32 × 32 (`--icon-button-size`), `{colors.fill-subtle}`, 이름 첫 글자 `{typography.caption}` weight 600 `{colors.ink}` (흰 바탕이라 원본의 흰 글자 대신 ink), 누르면 `scale(0.96)` (`motion` 참고) |
-| 프로필 메뉴 | 팝오버: 흰색, 1px hairline, `{rounded.lg}`, Level 2 그림자, 여백 `{spacing.xs}`, 폭 240px. 이름 `{typography.body-sm}` weight 600 / 아이디 `{typography.caption}` `{colors.ink-muted}`, 구분선 hairline, 로그아웃은 메뉴 행 (`{rounded.sm}`, `{typography.body-sm}`) |
+| 프로필 아이콘 | 원본 `button-icon-circular`: 32 × 32 (`--icon-button-size`), `{colors.fill-subtle}`, 이름 첫 글자 `{typography.caption}` weight 600 `{colors.ink}` (흰 바탕이라 원본의 흰 글자 대신 ink), 누르면 `scale(0.96)` (`motion` 참고). hover와 메뉴가 열려 있는 동안은 한 톤 진한 `--color-fill-strong`(9% 검정) |
+| 프로필 메뉴 | 팝오버: 흰색, 1px hairline, `{rounded.lg}`(12), Level 2 그림자, 여백 `{spacing.xs}`(8), 폭 240px. **머리**: 아바타 원(프로필 아이콘과 같은 32px, 누를 수 없는 그림) + 이름 `{typography.body-sm}` weight 600 / 아이디 `{typography.caption}` `{colors.ink-muted}`, 길면 말줄임 (Notion·Claude 계정 메뉴처럼 누구로 로그인했는지 한눈에). 구분선 hairline. **메뉴 행**: 선 아이콘 18px(`--icon-size-sm`, 굵기 1.5, `{colors.ink-secondary}`) + 글자 `{typography.body-sm}`, 모서리 4px (= 카드 12 − 여백 8, 겹친 모서리를 나란히), hover `{colors.fill-subtle}`. 로그아웃은 위험한 동작이 아니라 빨강을 쓰지 않고, 요청 중에는 '로그아웃 중…'. 키보드(Enter·Space)로 열면 커서가 첫 항목으로 가고, 마우스로 열면 옮기지 않는다 |
 | 본문 자리 | `{colors.canvas-soft}` 위에 여백 `{spacing.xxl}`. 제목 줄은 `{typography.heading-2}` |
 | 앱 시작 | `status-panel`을 화면 전체 가운데에 (로딩, 실패면 500 패널 + [다시 시도] = AUTH-03 다시 요청) |
 

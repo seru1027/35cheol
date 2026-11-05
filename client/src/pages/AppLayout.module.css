@@ -85,8 +85,12 @@
   .navItem:hover,
   .org:hover,
   .navToggle:hover,
-  .logout:not(:disabled):hover {
+  .menuItem:not(:disabled):hover {
     background: var(--color-fill-subtle);
+  }
+
+  .profileButton:hover {
+    background: var(--color-fill-strong);
   }
 }
 
@@ -102,7 +106,7 @@
 .navToggle:focus-visible,
 .serviceName:focus-visible,
 .profileButton:focus-visible,
-.logout:focus-visible {
+.menuItem:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-offset);
 }
@@ -198,7 +202,12 @@
   font: var(--type-label) var(--font-sans);
   cursor: pointer;
   position: relative;
-  transition: transform var(--duration-fast) var(--ease-out);
+  transition: transform var(--duration-fast) var(--ease-out), background-color var(--duration-fast) ease;
+}
+
+/* 메뉴가 열려 있는 동안 한 톤 진하게: 어느 버튼이 연 메뉴인지 보인다 */
+.profileButton[aria-expanded='true'] {
+  background: var(--color-fill-strong);
 }
 
 .profileButton:active {
@@ -232,20 +241,45 @@
   }
 }
 
+.menuHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs);
+}
+
+/* 머리의 아바타: 프로필 아이콘과 같은 원 (누를 수 없는 그림) */
+.avatar {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: var(--icon-button-size);
+  height: var(--icon-button-size);
+  border-radius: var(--radius-full);
+  background: var(--color-fill-subtle);
+  color: var(--color-ink);
+  font: var(--type-label) var(--font-sans);
+}
+
+/* 이름·아이디: 길면 말줄임 (min-width 0이어야 flex 안에서 줄어든다) */
+.menuWho {
+  min-width: 0;
+}
+
 .menuName,
 .menuId {
+  overflow: hidden;
   margin: 0;
-  padding: 0 var(--space-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .menuName {
-  padding-top: var(--space-input);
   font: var(--type-body-sm) var(--font-sans);
   font-weight: 600;
 }
 
 .menuId {
-  padding-bottom: var(--space-input);
   color: var(--color-ink-muted);
   font: var(--type-caption) var(--font-sans);
 }
@@ -256,12 +290,15 @@
   border-top: var(--border-width) solid var(--color-hairline);
 }
 
-/* 메뉴 행 */
-.logout {
+/* 메뉴 행: 아이콘 + 글자. 모서리 4px = 카드 모서리 12 - 안쪽 여백 8 (겹친 모서리가 나란히 휘게) */
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
   width: 100%;
   padding: var(--space-input) var(--space-xs);
   border: 0;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
   background: transparent;
   color: var(--color-ink);
   font: var(--type-body-sm) var(--font-sans);
@@ -270,9 +307,16 @@
   transition: background-color var(--duration-fast) ease;
 }
 
-.logout:disabled {
+.menuItem:disabled {
   opacity: var(--disabled-opacity);
   cursor: default;
+}
+
+.itemIcon {
+  flex-shrink: 0;
+  width: var(--icon-size-sm);
+  height: var(--icon-size-sm);
+  color: var(--color-ink-secondary);
 }
 
 /* 본문 자리: 따뜻한 바탕 위 */

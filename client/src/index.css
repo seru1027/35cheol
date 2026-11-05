@@ -14,6 +14,7 @@
   --color-hairline: #e6e6e6;
   --color-input-border: #dddddd;
   --color-fill-subtle: rgba(0, 0, 0, 0.05);
+  --color-fill-strong: rgba(0, 0, 0, 0.09); /* fill-subtle 위 hover·열림 (원형 아이콘 버튼) */
   --color-danger: #d70015;
 
   /* 글꼴: NotionInter 대신 Pretendard (Inter 바탕 + 한글) */
@@ -95,6 +96,7 @@
   --menu-width: 240px;
   --icon-button-size: 32px;
   --icon-size: 20px; /* 버튼 안 선 아이콘 (☰) */
+  --icon-size-sm: 18px; /* 메뉴 행 안 아이콘 (15px 글자 옆) */
   --z-menu: 10; /* 본문 위에 뜨는 프로필 메뉴 */
 }
 

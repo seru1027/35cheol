@@ -40,6 +40,8 @@ const MESSAGES = {
   PASSWORD_HIDE: '숨기기',
 
   // SCR-COMMON-01 공통 레이아웃
+  BUTTON_LOGOUT: '로그아웃',
+  BUTTON_LOGGING_OUT: '로그아웃 중…',
   SESSION_EXPIRED: '다시 로그인해 주세요', // 프론트 전용 (사용 중 401, 화면정의서 결정 D 문구 그대로)
   MY_ORGS_EMPTY: '가입한 동아리가 없습니다', // ORG-02 200 + 빈 배열
   MY_ORGS_LOAD_FAILED: '목록을 불러오지 못했습니다', // 햄버거바의 ORG-02 500·네트워크
