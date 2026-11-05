@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, NavLink, Outlet } from 'react-router';
 import { api } from '../api.js';
@@ -58,6 +58,11 @@ export default function AppLayout() {
   useEffect(() => {
     loadOrgs();
   }, [loadOrgs]);
+
+  // 화면에 보여줄 순서: 대기중(PENDING)을 맨 뒤로. 햄버거바와 메인이 같은 순서를 쓰도록 여기서 한 번만 정렬해 내려준다
+  // useMemo: orgs가 바뀔 때만 다시 정렬한다 (메뉴를 여닫는 등 다른 state로 다시 그릴 때는 이전 결과를 그대로 씀)
+  // undefined(응답 전)·null(실패)은 그대로 넘긴다
+  const sortedOrgs = useMemo(() => (Array.isArray(orgs) ? sortPendingLast(orgs) : orgs), [orgs]);
 
   // ⑤ 바깥을 누르거나 Esc를 누르면 메뉴를 닫는다. 메뉴가 열려 있을 때만 document에 듣는 함수를 달고, 닫히면 뗀다
   useEffect(() => {
@@ -154,7 +159,7 @@ export default function AppLayout() {
             >
               내 동아리 <span aria-hidden="true">{orgsOpen ? '▾' : '▸'}</span>
             </button>
-            {orgsOpen && <OrgList orgs={orgs} />}
+            {orgsOpen && <OrgList orgs={sortedOrgs} />}
           </div>
         </div>
       </nav>
@@ -217,7 +222,7 @@ export default function AppLayout() {
 
         {/* ⑧ 본문 자리. 자식 라우트의 화면이 여기에 들어간다. 동아리 목록과 다시 불러오기를 함께 넘긴다 */}
         <main className={styles.content}>
-          <Outlet context={{ orgs, reloadOrgs: loadOrgs }} />
+          <Outlet context={{ orgs: sortedOrgs, reloadOrgs: loadOrgs }} />
         </main>
       </div>
     </div>
@@ -275,6 +280,14 @@ function SidebarIcon() {
       <path d="M7.75 3.75v12.5" fill="none" stroke="currentColor" strokeWidth="1.5" />
     </svg>
   );
+}
+
+// 대기중(PENDING)을 맨 뒤로. 화면정의서는 'ORG-02 정렬 그대로'지만, 들어갈 수 있는 동아리를 앞에 모은다 (2026-11-05 결정)
+// sort는 비교 결과가 0이면 원래 순서를 지킨다(안정 정렬) → ACTIVE끼리·PENDING끼리는 서버 순서(신청 시각) 그대로
+// [...orgs]로 복사해서 정렬한다: sort는 배열 자체를 바꾸는데, orgs는 state라 직접 바꾸면 안 된다
+function sortPendingLast(orgs) {
+  const isPending = (org) => (org.myStatus === 'PENDING' ? 1 : 0);
+  return [...orgs].sort((a, b) => isPending(a) - isPending(b));
 }
 
 // 햄버거바 행의 className. 지금 보고 있는 화면의 행은 파랑으로 표시한다 (DESIGN.md ex-app-shell-row: active indicator = primary)

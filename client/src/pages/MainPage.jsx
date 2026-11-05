@@ -11,7 +11,8 @@ import styles from './MainPage.module.css';
 // 만들기 카드 → SCR-ORG-02 모달. F3-3: 가입하기 카드 → SCR-JOIN-01 모달. F4: /orgs/:orgId 동아리 홈 (지금은 404 패널)
 export default function MainPage() {
   // useOutletContext: 부모 라우트(AppLayout)의 <Outlet context={...}>로 넘긴 값을 꺼낸다
-  const { orgs, reloadOrgs } = useOutletContext(); // orgs: undefined 응답 전, null 실패, 배열 내 동아리
+  // orgs: undefined 응답 전, null 실패, 배열 내 동아리 (레이아웃이 대기중을 맨 뒤로 정렬해 넘김)
+  const { orgs, reloadOrgs } = useOutletContext();
   const navigate = useNavigate();
   const [createOpen, setCreateOpen] = useState(false);
 
@@ -27,7 +28,7 @@ export default function MainPage() {
       {/* 화면정의서: 메인은 본문 제목 줄 없음. 화면 읽기 프로그램이 페이지 이름을 알 수 있게 h1만 숨겨 둔다 */}
       <h1 className="visually-hidden">{messageOf('MAIN_TITLE')}</h1>
 
-      {/* ⑤ 만들기·가입하기가 항상 앞, 그 뒤는 ORG-02 순서 그대로. 한 줄 개수는 폭에 따라 (햄버거바를 접으면 하나 늘어남) */}
+      {/* ⑤ 만들기·가입하기가 항상 앞 → 가입한 동아리(ORG-02 순서) → 대기중 동아리(ORG-02 순서). 한 줄 개수는 폭에 따라 */}
       <ul className={styles.grid}>
         {/* ①② 데이터와 관계없어서 로딩·실패 중에도 바로 보인다 */}
         <li>
