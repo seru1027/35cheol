@@ -69,6 +69,20 @@ const MESSAGES = {
   BUTTON_CREATE: '만들기',
   BUTTON_CREATING: '만드는 중…',
 
+  // SCR-JOIN-01 동아리 가입하기 모달 (JOIN-02). 오류 문구는 Figma 03 그대로
+  MODAL_JOIN_ORG_TITLE: '동아리 가입하기',
+  LABEL_INVITE_CODE: '초대 코드',
+  PLACEHOLDER_INVITE_CODE: '예: K7MX4QPA',
+  HELP_INVITE_CODE: '회장·운영진에게 받은 코드를 입력하세요',
+  REQUIRED_INVITE_CODE: '코드를 입력하세요',
+  INVALID_INVITE_CODE_TYPE: '입력값을 확인하세요',
+  INVITE_CODE_NOT_FOUND: '존재하지 않는 코드입니다', // 404: 없는 코드·재발급으로 무효
+  JOIN_ALREADY_REQUESTED: '이미 신청한 동아리입니다', // 409: 이미 대기중
+  ALREADY_ORG_MEMBER: '이미 가입한 동아리입니다', // 409: 이미 회원
+  BUTTON_JOIN: '가입 신청',
+  BUTTON_JOINING: '신청 중…',
+  JOIN_REQUEST_SUCCESS: '가입 신청을 보냈어요. 승인을 기다려 주세요', // 성공 토스트 (결정 I: 기다려야 하는 결과)
+
   // SCR-COMMON-02 공통 상태 패널 (Figma 03 문구 그대로). 프론트 전용
   LOADING: '불러오는 중…',
   PANEL_PENDING_TITLE: '가입 승인 대기중입니다',

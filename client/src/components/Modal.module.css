@@ -81,6 +81,15 @@
   border-color: var(--color-danger);
 }
 
+/* 초대 코드 칸: 입력하는 대로 대문자로 보이게 (값은 보낼 때 바꿈). placeholder는 그대로 */
+.inputCode {
+  text-transform: uppercase;
+}
+
+.inputCode::placeholder {
+  text-transform: none;
+}
+
 .input:disabled {
   background: var(--color-canvas-soft);
   color: var(--color-ink-faint);

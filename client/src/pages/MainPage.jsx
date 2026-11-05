@@ -1,26 +1,38 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { Link, useNavigate, useOutletContext } from 'react-router';
 import StatusPanel from '../components/StatusPanel.jsx';
 import { messageOf } from '../messages.js';
 import CreateOrgModal from './CreateOrgModal.jsx';
+import JoinOrgModal from './JoinOrgModal.jsx';
 import styles from './MainPage.module.css';
 
 // SCR-ORG-01 메인 (내 동아리 목록). 공통 레이아웃의 본문 자리 (/)
 // 목록은 직접 부르지 않고 공통 레이아웃이 부른 ORG-02를 같이 쓴다 (화면정의서 '데이터 출처', 햄버거바와 같은 목록)
 // 카드 모양은 네이버 밴드 비율 (DESIGN.md org-card): 위 색 띠 + 아래 이름·역할
-// 만들기 카드 → SCR-ORG-02 모달. F3-3: 가입하기 카드 → SCR-JOIN-01 모달. F4: /orgs/:orgId 동아리 홈 (지금은 404 패널)
+// 만들기 카드 → SCR-ORG-02 모달, 가입하기 카드 → SCR-JOIN-01 모달. F4: /orgs/:orgId 동아리 홈 (지금은 404 패널)
 export default function MainPage() {
   // useOutletContext: 부모 라우트(AppLayout)의 <Outlet context={...}>로 넘긴 값을 꺼낸다
   // orgs: undefined 응답 전, null 실패, 배열 내 동아리 (레이아웃이 대기중을 맨 뒤로 정렬해 넘김)
   const { orgs, reloadOrgs } = useOutletContext();
   const navigate = useNavigate();
   const [createOpen, setCreateOpen] = useState(false);
+  const [joinOpen, setJoinOpen] = useState(false);
 
   // SCR-ORG-02 ③ 201 → 모달 닫기 → 목록 다시 불러오기 → 새 동아리 홈
   function handleCreated(orgId) {
     setCreateOpen(false);
     reloadOrgs(); // 기존 목록을 둔 채 조용히 바꾼다. 햄버거바에 새 동아리가 생긴다
     navigate(`/orgs/${orgId}`); // 보통 이동(push): 메인은 정상 화면이라 뒤로 가기로 돌아와도 된다 (replace 안 씀)
+  }
+
+  // SCR-JOIN-01 ③ 201 → 모달 닫기 → 목록 다시 불러오기 → 성공 토스트 (메인에 머물고 승인을 기다려야 하는 결과라 알린다, 결정 I)
+  // 명세 JOIN-02는 응답(목록 항목과 같은 모양)을 목록에 붙이라고 하지만, 화면정의서대로 다시 부른다:
+  // 목록을 바꾸는 곳을 레이아웃 한 곳으로 두고, 순서(대기중 맨 뒤)도 같은 정렬을 거친다 (F3 결정 3)
+  function handleJoined() {
+    setJoinOpen(false);
+    reloadOrgs();
+    toast.success(messageOf('JOIN_REQUEST_SUCCESS'));
   }
 
   return (
@@ -40,8 +52,12 @@ export default function MainPage() {
           />
         </li>
         <li>
-          {/* F3-3에서 onClick으로 SCR-JOIN-01 모달을 연다 */}
-          <ActionCard icon={<JoinIcon />} title="CARD_JOIN_ORG" desc="CARD_JOIN_ORG_DESC" />
+          <ActionCard
+            icon={<JoinIcon />}
+            title="CARD_JOIN_ORG"
+            desc="CARD_JOIN_ORG_DESC"
+            onClick={() => setJoinOpen(true)}
+          />
         </li>
         {orgs?.map((org) => (
           <li key={org.orgId}>
@@ -57,6 +73,7 @@ export default function MainPage() {
 
       {/* 조건부로 그린다: 닫으면 모달이 통째로 사라져 입력값도 버려진다 */}
       {createOpen && <CreateOrgModal onClose={() => setCreateOpen(false)} onCreated={handleCreated} />}
+      {joinOpen && <JoinOrgModal onClose={() => setJoinOpen(false)} onJoined={handleJoined} />}
     </section>
   );
 }
