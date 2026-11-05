@@ -16,6 +16,14 @@
   --color-fill-subtle: rgba(0, 0, 0, 0.05);
   --color-fill-strong: rgba(0, 0, 0, 0.09); /* fill-subtle 위 hover·열림 (원형 아이콘 버튼) */
   --color-danger: #d70015;
+  /* sticker 색: 장식 전용 (메인 카드 색 띠). 상태·행동 표시에 쓰지 않는다 (DESIGN.md Colors) */
+  --color-sticker-0: #62aef0; /* sky */
+  --color-sticker-1: #d6b6f6; /* purple (밝아서 글자는 deep) */
+  --color-sticker-2: #ff64c8; /* pink */
+  --color-sticker-3: #dd5b00; /* orange */
+  --color-sticker-4: #2a9d99; /* teal */
+  --color-sticker-5: #1aae39; /* green */
+  --color-sticker-purple-deep: #391c57;
 
   /* 글꼴: NotionInter 대신 Pretendard (Inter 바탕 + 한글) */
   --font-sans: 'Pretendard Variable', Pretendard, Inter, -apple-system, system-ui, 'Segoe UI',
@@ -100,9 +108,13 @@
   --icon-size-sm: 18px; /* 메뉴 행 안 아이콘 (15px 글자 옆) */
   --z-menu: 10; /* 본문 위에 뜨는 프로필 메뉴 */
 
-  /* 메인 카드 목록 (DESIGN.md org-card) */
-  --org-grid-columns: 4;
-  --org-card-min-height: 128px; /* 여백 24 + 이름 2줄 48 + 8 + 역할 20 + 24 */
+  /* 메인 카드 목록 (DESIGN.md org-card, 네이버 밴드 비율) */
+  --org-card-min-width: 200px; /* 1440에서 열림 5열 208, 닫힘 6열 209 */
+  --org-card-ratio: 8 / 9; /* 밴드 카드 235×264 */
+  --org-band-height: 56%; /* 위 색 띠. 밴드 사진 64%보다 줄여 이름 2줄 자리를 남김 */
+  --type-org-initial: 700 40px/1;
+  --org-action-icon-size: 64px; /* 만들기·가입하기 원 */
+  --icon-size-lg: 24px; /* 그 원 안 선 아이콘 */
 }
 
 *,

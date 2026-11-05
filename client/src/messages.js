@@ -48,7 +48,7 @@ const MESSAGES = {
 
   // SCR-ORG-01 메인 (Figma 03 문구 그대로). 프론트 전용
   MAIN_TITLE: '내 동아리', // 화면에는 안 보이는 h1 (본문 제목 줄 없음)
-  CARD_CREATE_ORG: '+ 동아리 만들기',
+  CARD_CREATE_ORG: '동아리 만들기', // 03 와이어프레임의 '+'는 원 아이콘으로
   CARD_CREATE_ORG_DESC: '새 동아리의 회장이 됩니다',
   CARD_JOIN_ORG: '동아리 가입하기',
   CARD_JOIN_ORG_DESC: '초대 코드로 신청',

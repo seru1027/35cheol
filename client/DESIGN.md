@@ -388,18 +388,19 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 본문 제목 | 화면에 제목 줄이 있으면 남기고 그 아래에 패널 (어느 화면의 실패인지 보이게). 404처럼 화면 자체가 없으면 패널만 |
 
 ### `org-card` — 메인 카드 목록 (SCR-ORG-01)
-원본 `feature-card`(흰색, 1px hairline, `{rounded.lg}`, 여백 `{spacing.lg}`, 그림자 없음)를 목록으로 늘어놓는다. 동작·순서는 Figma 03 SCR-ORG-01.
+레퍼런스: 네이버 밴드 '내 밴드' 카드(위 사진 + 아래 이름, 약 8:9)를 비율로 옮겼다. 원본 `feature-card`의 "colour-blocked illustration band from the sticker palette"(카드 위 색 띠) 문법으로, 사진 자리를 색 띠로 채운다. 동작·순서는 Figma 03 SCR-ORG-01. 2026-11-05에 A(기존 2:1)·B(3:2)·D(3:4)·E(2:3)·F(밴드형)를 열림·닫힘 스크린샷으로 비교해 F를 골랐다.
 
 | 부분 | 값 |
 |---|---|
-| 배치 | 한 줄에 4개 (`--org-grid-columns`), 카드 사이 `{spacing.md}`. 만들기·가입하기가 항상 앞, 그 뒤는 ORG-02 순서 |
-| 높이 | 모든 카드 같은 높이 128px (`--org-card-min-height` = 여백 24 + 이름 2줄 48 + 간격 8 + 역할 20 + 여백 24). 이름이 1줄인 카드도 같은 높이라 줄이 고르다 |
-| 이름 | `{typography.body-md}` weight 600 (`--type-body-strong`), `{colors.ink}`. 2줄까지, 넘치면 … (`line-clamp: 2`). 잘려도 링크 이름(화면 읽기 프로그램)은 전체 이름 |
-| 역할 | `{typography.caption}` `{colors.ink-muted}` (회장·운영진·회원) |
-| PENDING | 흰 면 없이 바탕색 그대로(회색으로 물러남) + hairline, 이름 `{colors.ink-muted}`, 역할 자리에 '대기중' (햄버거바 PENDING과 같은 색 규칙) |
-| 만들기·가입하기 | 바탕 없이 1px 점선 `{colors.input-border}`, 가운데 정렬, 제목 `--type-body-strong` + 설명 `{typography.caption}` `{colors.ink-muted}`. 점선은 '새로 놓는 자리'라는 관례 (와이어프레임과 같음) |
-| hover (마우스 기기만, 150ms) | 동아리 카드는 Level 1 그림자, 점선 카드는 바탕 `{colors.fill-subtle}` |
+| 배치 | 카드 최소 폭 200px(`--org-card-min-width`)으로 한 줄에 들어가는 만큼 (`repeat(auto-fill, minmax(…, 1fr))`), 사이 `{spacing.lg}`. 만들기·가입하기가 항상 앞, 그 뒤는 ORG-02 순서 |
+| 햄버거바를 여닫을 때 | **비율 고정 + 열 수 변동**: 1440에서 열림 5열 208×234, 닫힘 6열 209×235. 넓어진 폭은 카드를 하나 더 놓는 데 쓰고 카드 모양은 그대로. 열 수 고정(카드가 옆으로 늘어남)과 최대 폭 고정(닫으면 양옆이 빔)은 쓰지 않는다. `auto-fill`이라 0개일 때 두 장이 늘어나지 않는다 |
+| 카드 | 흰색, 테두리 없이 Level 1 그림자, `{rounded.xl}`, 가로:세로 8:9 (`--org-card-ratio`, 밴드 235×264) |
+| 색 띠 | 카드 위 56% (`--org-band-height`. 밴드 사진은 64%인데 이름 2줄 자리를 남기려고 줄임). 동아리 이름 첫 글자 40px weight 700 흰색, 장식이라 `aria-hidden`. 색은 sticker 6색(sky, purple, pink, orange, teal, green) 중 `orgId % 6`으로 고른다: 같은 동아리는 어디서든 늘 같은 색. purple은 밝아서 글자를 deep purple로 |
+| 이름·역할 | 띠 아래 여백 `{spacing.sm}` × `{spacing.md}`. 이름 `--type-body-strong` 2줄까지, 넘치면 … / 역할 `{typography.caption}` `{colors.ink-muted}`. **역할은 카드 아래(여백 `{spacing.sm}`)에 고정**해 이름이 1줄이든 2줄이든 모든 카드에서 같은 높이에 온다. 잘려도 링크 이름은 전체 이름 |
+| PENDING | 흰 면·그림자 없이 바탕색 + hairline, 띠는 `--color-fill-strong` 회색 + 글자 `{colors.ink-faint}`, 이름 `{colors.ink-muted}`, 역할 자리에 '대기중' |
+| 만들기·가입하기 | 동아리 카드와 같은 흰 카드 (밴드처럼 점선 없음). 가운데에 64px 원(`{colors.fill-subtle}`) 안 24px 선 아이콘(+ / 들어가는 화살표, `{colors.ink-secondary}`) → 제목 `--type-body-strong` → 설명 caption `{colors.ink-muted}`. 동아리 카드와는 색 띠 유무로 구분된다 |
+| hover (마우스 기기만, 150ms) | 흰 카드는 Level 2 그림자(떠오름), PENDING은 Level 1 |
 | Focus | 버튼과 같은 2px primary outline |
-| 로딩·실패 | 만들기·가입하기는 그대로 두고, 동아리 카드 자리에 `status-panel` (로딩, 500 + [다시 시도]) |
+| 로딩·실패 | 만들기·가입하기는 그대로 두고, 그 아래에 `status-panel` (로딩, 500 + [다시 시도]) |
 | 0개 | 만들기·가입하기 두 장만. 빈 목록 문구 없음 (화면정의서 SCR-ORG-01) |
 | 본문 제목 | 화면에는 두지 않는다 (화면정의서 "본문 제목 줄 없음"). 화면 읽기 프로그램용 `h1` '내 동아리'만 숨겨 둔다 (`.visually-hidden`) |

@@ -1,26 +1,29 @@
-/* SCR-ORG-01 메인. 값은 index.css의 :root만 쓴다 (client/DESIGN.md org-card) */
+/* SCR-ORG-01 메인. 값은 index.css의 :root만 쓴다 (client/DESIGN.md org-card, 네이버 밴드 비율) */
 
-/* 한 줄에 4개, 넘치면 다음 줄. minmax(0, 1fr): 긴 이름이 칸을 넓히지 않고 말줄임되게 */
+/* 비율 고정 + 열 수 변동: 최소 폭으로 들어가는 만큼 놓고 남는 폭은 나눠 가진다
+   auto-fill: 카드가 적어도 빈 칸을 남겨, 0개일 때 만들기·가입하기 두 장이 늘어나지 않는다 */
 .grid {
   display: grid;
-  grid-template-columns: repeat(var(--org-grid-columns), minmax(0, 1fr));
-  gap: var(--space-md);
+  grid-template-columns: repeat(auto-fill, minmax(var(--org-card-min-width), 1fr));
+  gap: var(--space-lg);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* 카드 공통 (feature-card): 모든 카드 같은 높이, 이름 → 역할 순서로 위에서부터 */
+/* 카드 공통: 흰 면 + Level 1 그림자, 가로:세로 8:9 */
 .orgCard,
 .actionCard {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
   width: 100%;
-  height: 100%;
-  min-height: var(--org-card-min-height);
-  padding: var(--space-lg);
-  border-radius: var(--radius-lg);
+  aspect-ratio: var(--org-card-ratio);
+  overflow: hidden; /* 색 띠가 둥근 모서리 밖으로 나가지 않게 */
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-xl);
+  background: var(--color-canvas);
+  box-shadow: var(--shadow-1);
   color: var(--color-ink);
   text-decoration: none;
   transition:
@@ -28,26 +31,74 @@
     box-shadow var(--duration-fast) ease;
 }
 
-/* ③ 동아리 카드: 흰 면 + hairline */
-.orgCard {
-  border: var(--border-width) solid var(--color-hairline);
-  background: var(--color-canvas);
+/* ③ 위 색 띠: 사진 자리. 첫 글자를 가운데에 */
+.band {
+  display: grid;
+  flex: 0 0 var(--org-band-height);
+  place-items: center;
+  color: var(--color-on-primary);
+  font: var(--type-org-initial) var(--font-sans);
 }
 
-/* ④ 대기중: 흰 면 없이 바탕색 그대로(회색으로 물러남), 글자 흐리게 */
+/* sticker 6색 (orgId % 6). 장식이라 상태·행동 색과 겹치지 않는다 */
+.band0 { background: var(--color-sticker-0); }
+.band1 { background: var(--color-sticker-1); color: var(--color-sticker-purple-deep); }
+.band2 { background: var(--color-sticker-2); }
+.band3 { background: var(--color-sticker-3); }
+.band4 { background: var(--color-sticker-4); }
+.band5 { background: var(--color-sticker-5); }
+
+/* 띠 아래: 이름(2줄까지) → 역할
+   flex: 1로 띠 아래 남은 높이를 모두 차지하고, 역할은 margin-top: auto로 맨 아래에 붙인다
+   → 이름이 1줄이든 2줄이든 역할은 모든 카드에서 같은 높이 */
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-xxs);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.body > :last-child {
+  margin-top: auto;
+}
+
+/* ④ 대기중: 흰 면·그림자 없이 바탕색 + hairline, 띠는 회색, 글자 흐리게 */
 .pending {
   background: transparent;
+  box-shadow: inset 0 0 0 var(--border-width) var(--color-hairline);
   color: var(--color-ink-muted);
 }
 
-/* ①② 만들기·가입하기: 점선 = '새로 놓는 자리'. 가운데 정렬 */
+.bandPending {
+  background: var(--color-fill-strong);
+  color: var(--color-ink-faint);
+}
+
+/* ①② 만들기·가입하기: 가운데 원 아이콘 + 제목 + 설명 */
 .actionCard {
   align-items: center;
   justify-content: center;
-  border: var(--border-width) dashed var(--color-input-border);
-  background: transparent;
+  gap: var(--space-xxs);
+  padding: var(--space-md);
   text-align: center;
   cursor: pointer;
+}
+
+.actionIcon {
+  display: grid;
+  place-items: center;
+  width: var(--org-action-icon-size);
+  height: var(--org-action-icon-size);
+  margin-bottom: var(--space-xs);
+  border-radius: var(--radius-full);
+  background: var(--color-fill-subtle);
+  color: var(--color-ink-secondary);
+}
+
+.icon {
+  width: var(--icon-size-lg);
+  height: var(--icon-size-lg);
 }
 
 /* 이름: 2줄까지, 넘치면 … */
@@ -65,13 +116,15 @@
   font: var(--type-caption) var(--font-sans);
 }
 
+/* hover: 흰 카드는 한 단계 떠오름(Level 2), 대기중은 Level 1 */
 @media (hover: hover) and (pointer: fine) {
-  .orgCard:hover {
-    box-shadow: var(--shadow-1);
+  .orgCard:hover,
+  .actionCard:hover {
+    box-shadow: var(--shadow-2);
   }
 
-  .actionCard:hover {
-    background: var(--color-fill-subtle);
+  .pending:hover {
+    box-shadow: var(--shadow-1);
   }
 }
 
