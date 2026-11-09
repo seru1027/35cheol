@@ -397,6 +397,19 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 본문 제목 줄 | `components/PageTitle.jsx`. 왼쪽 `{typography.heading-2}` 페이지명(동아리 홈은 동아리명), 오른쪽 행동 버튼 자리(회장·운영진만), 아래 간격 `{spacing.lg}`. 제목이 비어 있어도 한 줄 높이 32px(`--page-title-height`)를 지켜, 이름이 들어올 때 아래가 밀리지 않는다 |
 | 로딩·403·404·500 | `status-panel`을 하위 화면 자리에 (상단바·햄버거바는 그대로). 403·404·500은 화면에 다른 제목이 없으므로 패널 제목이 `h1` |
 
+### `home-box` — 동아리 홈 박스 (SCR-ORG-03)
+홈의 공지·멤버·가입 관리 박스 (`pages/HomeBox.jsx` 껍데기 + 박스마다 컴포넌트, 모양은 `OrgHomePage.module.css`). 박스마다 따로 불러오고 따로 실패한다. 동작은 Figma 03 SCR-ORG-03.
+
+| 부분 | 값 |
+|---|---|
+| 배치 | 2열 `minmax(0, 3fr) minmax(0, 2fr)` (`--home-columns`, 와이어프레임 비율), 사이 `{spacing.lg}`. 왼쪽 공지 / 오른쪽 가입 관리 → 멤버. 박스 높이는 내용만큼. 일반 회원은 가입 관리 박스가 없어 오른쪽에 멤버만 |
+| 상자 | 원본 `feature-card`: 흰색, 1px hairline, `{rounded.lg}`, 여백 `{spacing.lg}`, **그림자 없음** (박스 전체를 누르는 게 아니어서 메인 카드처럼 띄우지 않는다. 원본: "Default elevation is flat (hairline only)") |
+| 머리 | 제목 `--type-body-strong` + 오른쪽 버튼. 높이 32px로 고정해 박스끼리 첫 줄이 맞는다. 내용과 간격 `{spacing.sm}` |
+| → | 박스 전체 목록 링크. 32px 아이콘 버튼(☰와 같은 문법: 투명, `{rounded.md}`, hover `{colors.fill-subtle}`, 누르는 범위 40), 선 아이콘 20px. 이름은 aria-label '공지 전체 보기'·'회원 전체 보기' |
+| 작은 버튼 ([글쓰기], 박스 [다시 시도]) | 원본 `button-utility` (흰색, 1px hairline, `{rounded.md}`, 가로 14px, `{typography.button}`). 높이는 → 아이콘과 같은 32px (원본 여백 4px이면 34px라 머리 높이가 박스마다 달라졌다). hover `{colors.fill-subtle}`, 누름 `--color-fill-strong`. 박스 안이라 pill Primary는 쓰지 않는다 |
+| 목록 | 원본 `ex-cart-drawer` item-divider: 행 사이 hairline, 행 여백 `{spacing.xs}`. **공지 행**: 링크, 제목 `{typography.body-sm}` 한 줄 말줄임 + 오른쪽 '작성자 · 2026.04.02' caption `{colors.ink-muted}` 고정폭 숫자. hover 면은 글자보다 양옆 8px 넓게(글자는 박스 제목과 같은 선). **멤버 행**: 이름 body-sm + 역할 caption muted, 누를 수 없음 |
+| 로딩·빈·오류 | 박스 안 caption `{colors.ink-muted}`. 오류는 '불러오지 못했습니다' + 오른쪽 [다시 시도] (박스 머리는 그대로 두어 어느 박스가 실패했는지 보인다) |
+
 ### `org-card` — 메인 카드 목록 (SCR-ORG-01)
 레퍼런스: 네이버 밴드 '내 밴드' 카드(위 사진 + 아래 이름, 약 8:9)를 비율로 옮겼다. 원본 `feature-card`의 "colour-blocked illustration band from the sticker palette"(카드 위 색 띠) 문법으로, 사진 자리를 색 띠로 채운다. 동작·순서는 Figma 03 SCR-ORG-01. 2026-11-05에 A(기존 2:1)·B(3:2)·D(3:4)·E(2:3)·F(밴드형)를 열림·닫힘 스크린샷으로 비교해 F를 골랐다.
 

@@ -85,6 +85,14 @@ const MESSAGES = {
 
   // SCR-ORG-00 동아리 레이아웃 · SCR-ORG-03 동아리 홈. 프론트 전용
   ORG_HOME_FALLBACK_TITLE: '동아리 홈', // ORG-02 목록이 실패해 동아리명을 모를 때의 홈 제목
+  BOX_LOAD_FAILED: '불러오지 못했습니다', // 박스 하나 실패 (Figma 03 문구 그대로)
+  BOX_NOTICES: '공지',
+  BUTTON_WRITE: '글쓰기',
+  LINK_ALL_NOTICES: '공지 전체 보기', // → 아이콘의 이름 (화면 읽기 프로그램·마우스 title)
+  NOTICES_EMPTY: '아직 공지가 없어요',
+  BOX_MEMBERS: '멤버',
+  BOX_MEMBERS_COUNT: '멤버 {n}명',
+  LINK_ALL_MEMBERS: '회원 전체 보기',
 
   // SCR-COMMON-02 공통 상태 패널 (Figma 03 문구 그대로). 프론트 전용
   LOADING: '불러오는 중…',

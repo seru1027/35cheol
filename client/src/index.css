@@ -113,6 +113,9 @@
   --icon-size-xs: 16px; /* 위치 표시 구분 화살표 */
   --page-title-height: 32px; /* heading-2 한 줄 (26px × 1.23). 제목이 비어 있어도 이 높이 */
 
+  /* 동아리 홈 (DESIGN.md home-box) */
+  --home-columns: minmax(0, 3fr) minmax(0, 2fr); /* 왼쪽 공지 : 오른쪽 가입 관리·멤버 (와이어프레임 비율) */
+
   /* 메인 카드 목록 (DESIGN.md org-card, 네이버 밴드 비율) */
   --org-card-min-width: 200px; /* 1440에서 열림 5열 208, 닫힘 6열 209 */
   --org-card-ratio: 8 / 9; /* 밴드 카드 235×264 */
