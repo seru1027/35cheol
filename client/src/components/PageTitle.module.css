@@ -1,0 +1,24 @@
+/* 본문 제목 줄 (client/DESIGN.md org-layout). 값은 index.css의 :root만 쓴다 */
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+/* min-height: 제목이 비어 있어도(동아리명 응답 전) 한 줄 높이를 지켜, 이름이 들어올 때 아래 내용이 밀리지 않게 */
+.title {
+  min-width: 0;
+  min-height: var(--page-title-height);
+  margin: 0;
+  font: var(--type-heading-2) var(--font-sans);
+  letter-spacing: var(--tracking-heading-2);
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--space-xs);
+}

@@ -5,6 +5,8 @@ import StatusPanel from './components/StatusPanel.jsx';
 import AppLayout from './pages/AppLayout.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import MainPage from './pages/MainPage.jsx';
+import OrgHomePage from './pages/OrgHomePage.jsx';
+import OrgLayout from './pages/OrgLayout.jsx';
 
 // 토스트 모양 (client/DESIGN.md toast: 흰 카드 + Level 2 그림자, 성공 파랑·오류 빨강)
 // 라이브러리가 기본 모양을 인라인 style로 넣어서 .module.css로는 덮을 수 없다. 그래서 style 객체로 넘기되 값은 var(--...)만 쓴다
@@ -37,6 +39,12 @@ export default function App() {
           {/* 중첩 라우트: path 없는 부모가 레이아웃을 그리고, 자식 화면은 레이아웃 안의 <Outlet /> 자리에 들어간다 */}
           <Route element={<RequireAuth><AppLayout /></RequireAuth>}>
             <Route index element={<MainPage />} />
+            {/* 두 번째 겹: 동아리 레이아웃(SCR-ORG-00)이 ORG-03을 한 번 부르고, 자식 화면을 자기 <Outlet /> 자리에 그린다 */}
+            <Route path="orgs/:orgId" element={<OrgLayout />}>
+              <Route index element={<OrgHomePage />} />
+              {/* 아직 없는 하위 화면(/orgs/8/notices 등, F5~F7): ORG-03을 통과한 뒤 그 자리에 404 패널 */}
+              <Route path="*" element={<StatusPanel kind="notFound" titleAs="h1" />} />
+            </Route>
             {/* ④ 정의되지 않은 URL → 404 패널. 레이아웃 안에 두어서, 로그아웃 상태면 RequireAuth가 먼저 /login으로 보낸다 */}
             <Route path="*" element={<StatusPanel kind="notFound" titleAs="h1" />} />
           </Route>

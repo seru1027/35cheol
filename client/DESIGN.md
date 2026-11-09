@@ -387,6 +387,16 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | [다시 시도] | button-primary. 누르면 로딩 패널로 바뀌었다가 결과를 그림 |
 | 본문 제목 | 화면에 제목 줄이 있으면 남기고 그 아래에 패널 (어느 화면의 실패인지 보이게). 404처럼 화면 자체가 없으면 패널만 |
 
+### `org-layout` — 동아리 레이아웃 (SCR-ORG-00)
+`/orgs/:orgId` 아래를 감싸는 두 번째 틀(`pages/OrgLayout.jsx`). 자기 화면은 없고, 공통 레이아웃의 본문 자리 안에서 ORG-03 결과에 따라 하위 화면이나 `status-panel`을 그린다. 동작은 Figma 03 SCR-ORG-00.
+
+| 부분 | 값 |
+|---|---|
+| 위치 표시 | 상단바 서비스명 뒤에 구분 화살표(선 아이콘 16px `--icon-size-xs`, 굵기 1.5, `{colors.ink-faint}`, 장식이라 `aria-hidden`) + 동아리명. 동아리명은 `{typography.body-md}` `{colors.ink-secondary}`(서비스명 `title`보다 한 단계 작고 옅게: 워드마크와 지금 위치를 나눈다), 최대 320px(`--breadcrumb-max-width`) 넘으면 말줄임. 누르면 동아리 홈. 여백 `{spacing.xxs}` × `{spacing.xs}`, `{rounded.sm}`, hover `{colors.fill-subtle}` (햄버거바 행과 같은 utility 문법) |
+| 동아리명이 없을 때 | 서비스명만 (ORG-02 응답 전·실패, 목록에 없는 조직) |
+| 본문 제목 줄 | `components/PageTitle.jsx`. 왼쪽 `{typography.heading-2}` 페이지명(동아리 홈은 동아리명), 오른쪽 행동 버튼 자리(회장·운영진만), 아래 간격 `{spacing.lg}`. 제목이 비어 있어도 한 줄 높이 32px(`--page-title-height`)를 지켜, 이름이 들어올 때 아래가 밀리지 않는다 |
+| 로딩·403·404·500 | `status-panel`을 하위 화면 자리에 (상단바·햄버거바는 그대로). 403·404·500은 화면에 다른 제목이 없으므로 패널 제목이 `h1` |
+
 ### `org-card` — 메인 카드 목록 (SCR-ORG-01)
 레퍼런스: 네이버 밴드 '내 밴드' 카드(위 사진 + 아래 이름, 약 8:9)를 비율로 옮겼다. 원본 `feature-card`의 "colour-blocked illustration band from the sticker palette"(카드 위 색 띠) 문법으로, 사진 자리를 색 띠로 채운다. 동작·순서는 Figma 03 SCR-ORG-01. 2026-11-05에 A(기존 2:1)·B(3:2)·D(3:4)·E(2:3)·F(밴드형)를 열림·닫힘 스크린샷으로 비교해 F를 골랐다.
 

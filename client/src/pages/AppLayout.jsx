@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { Link, NavLink, Outlet } from 'react-router';
+import { Link, NavLink, Outlet, useMatch } from 'react-router';
 import { api } from '../api.js';
 import { useAuth } from '../auth.jsx';
 import { messageOf } from '../messages.js';
@@ -27,7 +27,7 @@ function saveNavOpen(open) {
 
 // SCR-COMMON-01 공통 레이아웃: 햄버거바 + 상단바 + 본문 자리(<Outlet />)
 // 로그인 이후 모든 화면을 감싼다. AUTH-03(로그인 사용자)은 auth.jsx, 여기서는 ORG-02·AUTH-04
-// F4: 상단바 '> 동아리명', /orgs/:orgId 동아리 레이아웃
+// 상단바 위치 표시 '> 동아리명'은 여기서, /orgs/:orgId 동아리 레이아웃(ORG-03)은 OrgLayout.jsx
 export default function AppLayout() {
   const { user, signOut } = useAuth();
   const [orgs, setOrgs] = useState(undefined); // undefined: 응답 전, null: 실패, 배열: 내 동아리
@@ -63,6 +63,12 @@ export default function AppLayout() {
   // useMemo: orgs가 바뀔 때만 다시 정렬한다 (메뉴를 여닫는 등 다른 state로 다시 그릴 때는 이전 결과를 그대로 씀)
   // undefined(응답 전)·null(실패)은 그대로 넘긴다
   const sortedOrgs = useMemo(() => (Array.isArray(orgs) ? sortPendingLast(orgs) : orgs), [orgs]);
+
+  // 상단바 위치 표시의 동아리명 (SCR-ORG-00 ①, 결정 P): ORG-03이 아니라 이 목록(ORG-02)에서 :orgId로 찾는다
+  // 레이아웃은 라우트 바깥쪽이라 useParams로는 :orgId를 못 읽는다 → useMatch로 지금 주소를 패턴에 맞춰 본다
+  // PENDING도 목록에 있으므로 이름이 나온다. 목록에 없으면(남의 조직·없는 조직·응답 전·실패) 서비스명만
+  const orgMatch = useMatch('/orgs/:orgId/*');
+  const currentOrg = Array.isArray(orgs) ? orgs.find((org) => String(org.orgId) === orgMatch?.params.orgId) : undefined;
 
   // ⑤ 바깥을 누르거나 Esc를 누르면 메뉴를 닫는다. 메뉴가 열려 있을 때만 document에 듣는 함수를 달고, 닫히면 뗀다
   useEffect(() => {
@@ -184,6 +190,13 @@ export default function AppLayout() {
             )}
             {/* ① 서비스명 → 메인 */}
             <Link to="/" className={styles.serviceName}>35cheol</Link>
+            {/* SCR-ORG-00 ① 위치 표시 '서비스명 > 동아리명'. 동아리 안(/orgs/:orgId/...)이고 목록에 이름이 있을 때만 */}
+            {currentOrg && (
+              <>
+                <ChevronIcon />
+                <Link to={`/orgs/${currentOrg.orgId}`} className={styles.orgName}>{currentOrg.name}</Link>
+              </>
+            )}
           </div>
 
           {/* ⑤ 프로필 아이콘 → ⑥ 프로필 메뉴 */}
@@ -256,6 +269,16 @@ function MenuIcon() {
   return (
     <svg className={styles.menuIcon} viewBox="0 0 20 20" aria-hidden="true" focusable="false">
       <path d="M3 5.5h14M3 10h14M3 14.5h14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+// 위치 표시 구분 '>': 글자 대신 선 아이콘 (글자 '>'는 글꼴마다 굵기·높이가 달라 서비스명과 줄이 어긋난다)
+// 장식이라 화면 읽기 프로그램에는 숨긴다 (링크 두 개가 차례로 읽힌다)
+function ChevronIcon() {
+  return (
+    <svg className={styles.chevron} viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+      <path d="m6 3.5 4.5 4.5L6 12.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

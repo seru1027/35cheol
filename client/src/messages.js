@@ -83,6 +83,9 @@ const MESSAGES = {
   BUTTON_JOINING: '신청 중…',
   JOIN_REQUEST_SUCCESS: '가입 신청을 보냈어요. 승인을 기다려 주세요', // 성공 토스트 (결정 I: 기다려야 하는 결과)
 
+  // SCR-ORG-00 동아리 레이아웃 · SCR-ORG-03 동아리 홈. 프론트 전용
+  ORG_HOME_FALLBACK_TITLE: '동아리 홈', // ORG-02 목록이 실패해 동아리명을 모를 때의 홈 제목
+
   // SCR-COMMON-02 공통 상태 패널 (Figma 03 문구 그대로). 프론트 전용
   LOADING: '불러오는 중…',
   PANEL_PENDING_TITLE: '가입 승인 대기중입니다',

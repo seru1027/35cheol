@@ -146,11 +146,12 @@
   padding-left: var(--space-xs);
 }
 
-/* 상단바 왼쪽: (접혔을 때) ☰ + 서비스명 */
+/* 상단바 왼쪽: (접혔을 때) ☰ + 서비스명 (+ 동아리 안이면 > 동아리명) */
 .headerStart {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
+  min-width: 0; /* 긴 동아리명이 상단바 오른쪽(프로필)을 밀지 않고 말줄임되게 */
 }
 
 /* ☰ (button-utility 문법: 투명 바탕, hover에 옅은 회색 면). 누르는 범위는 40px까지 넓힌다 */
@@ -185,6 +186,39 @@
   font: var(--type-title) var(--font-sans);
   letter-spacing: var(--tracking-title);
   text-decoration: none;
+}
+
+/* SCR-ORG-00 ① 위치 표시: 서비스명 > 동아리명 (DESIGN.md org-layout) */
+.chevron {
+  flex-shrink: 0;
+  width: var(--icon-size-xs);
+  height: var(--icon-size-xs);
+  color: var(--color-ink-faint);
+}
+
+/* 서비스명(title 20px)보다 한 단계 작고 옅게: 워드마크와 지금 위치를 나눈다 */
+.orgName {
+  overflow: hidden;
+  max-width: var(--breadcrumb-max-width);
+  padding: var(--space-xxs) var(--space-xs);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink-secondary);
+  font: var(--type-body) var(--font-sans);
+  white-space: nowrap;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  transition: background-color var(--duration-fast) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .orgName:hover {
+    background: var(--color-fill-subtle);
+  }
+}
+
+.orgName:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
 }
 
 /* 메뉴를 아이콘 기준으로 놓기 위한 기준점 */

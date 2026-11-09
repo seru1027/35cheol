@@ -10,7 +10,7 @@ import styles from './MainPage.module.css';
 // SCR-ORG-01 메인 (내 동아리 목록). 공통 레이아웃의 본문 자리 (/)
 // 목록은 직접 부르지 않고 공통 레이아웃이 부른 ORG-02를 같이 쓴다 (화면정의서 '데이터 출처', 햄버거바와 같은 목록)
 // 카드 모양은 네이버 밴드 비율 (DESIGN.md org-card): 위 색 띠 + 아래 이름·역할
-// 만들기 카드 → SCR-ORG-02 모달, 가입하기 카드 → SCR-JOIN-01 모달. F4: /orgs/:orgId 동아리 홈 (지금은 404 패널)
+// 만들기 카드 → SCR-ORG-02 모달, 가입하기 카드 → SCR-JOIN-01 모달. 카드 → /orgs/:orgId 동아리 홈 (SCR-ORG-03)
 export default function MainPage() {
   // useOutletContext: 부모 라우트(AppLayout)의 <Outlet context={...}>로 넘긴 값을 꺼낸다
   // orgs: undefined 응답 전, null 실패, 배열 내 동아리 (레이아웃이 대기중을 맨 뒤로 정렬해 넘김)

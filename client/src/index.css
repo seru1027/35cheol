@@ -108,6 +108,11 @@
   --icon-size-sm: 18px; /* 메뉴 행 안 아이콘 (15px 글자 옆) */
   --z-menu: 10; /* 본문 위에 뜨는 프로필 메뉴 */
 
+  /* 동아리 레이아웃 (DESIGN.md org-layout) */
+  --breadcrumb-max-width: 320px; /* 위치 표시의 동아리명. 넘으면 … (30자 이름도 상단바를 밀지 않게) */
+  --icon-size-xs: 16px; /* 위치 표시 구분 화살표 */
+  --page-title-height: 32px; /* heading-2 한 줄 (26px × 1.23). 제목이 비어 있어도 이 높이 */
+
   /* 메인 카드 목록 (DESIGN.md org-card, 네이버 밴드 비율) */
   --org-card-min-width: 200px; /* 1440에서 열림 5열 208, 닫힘 6열 209 */
   --org-card-ratio: 8 / 9; /* 밴드 카드 235×264 */
