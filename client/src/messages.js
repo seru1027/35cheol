@@ -117,7 +117,8 @@ const MESSAGES = {
   COL_NOTICE_CREATED_AT: '작성일',
 
   // SCR-NOTICE-02 공지 상세 (NOTICE-02, NOTICE-05). 확인창·토스트 문구는 Figma 03 그대로
-  BACK_TO_NOTICES: '공지 목록', // '← 공지 목록'
+  BACK_TO_NOTICES: '공지 목록', // '← 공지 목록' (상세, 작성)
+  BACK_TO_NOTICE: '공지 보기', // 수정 화면 '← 공지 보기' (그 공지 상세로)
   NOTICE_EDITED: '수정됨', // 작성 정보 뒤 '· 수정됨 2026.04.03 09:10'
   BUTTON_EDIT: '수정',
   BUTTON_DELETE: '삭제',

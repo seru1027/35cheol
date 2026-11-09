@@ -1,7 +1,8 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useNavigate, useOutletContext, useParams } from 'react-router';
+import { useBlocker, useNavigate, useOutletContext, useParams } from 'react-router';
 import { api } from '../api.js';
+import BackLink from '../components/BackLink.jsx';
 import Modal from '../components/Modal.jsx';
 import modalStyles from '../components/Modal.module.css';
 import PageTitle from '../components/PageTitle.jsx';
@@ -31,6 +32,8 @@ export default function NoticeFormPage() {
 
   return (
     <section>
+      {/* 화면정의서에는 없음. 이탈 확인이 모든 이동을 막게 된 뒤 더했다 (F5, 2026-11-09) */}
+      <BackLink to={`/orgs/${orgId}/notices`} label={messageOf('BACK_TO_NOTICES')} replace />
       {/* ① 오른쪽 행동 버튼 없음 (저장·취소는 폼 아래) */}
       <PageTitle title={messageOf('NOTICE_FORM_NEW_TITLE')} />
       <NoticeForm orgId={orgId} initial={EMPTY} />
@@ -68,6 +71,7 @@ function EditNotice({ orgId, noticeId }) {
 
   return (
     <section>
+      <BackLink to={`/orgs/${orgId}/notices/${noticeId}`} label={messageOf('BACK_TO_NOTICE')} replace />
       <PageTitle title={messageOf('NOTICE_FORM_EDIT_TITLE')} />
       {!loaded || loaded.status === 401 ? (
         <StatusPanel kind="loading" />
@@ -97,7 +101,7 @@ function NoticeForm({ orgId, noticeId, initial }) {
   const [errors, setErrors] = useState({}); // { title?: 코드, content?: 코드 }
   const [formError, setFormError] = useState(null); // 칸 하나에 속하지 않는 실패 (수정 404)
   const [submitting, setSubmitting] = useState(false);
-  const [leaveOpen, setLeaveOpen] = useState(false);
+  const savedRef = useRef(false); // 저장에 성공해 상세로 가는 이동은 막지 않는다
   const titleRef = useRef(null);
   const contentRef = useRef(null);
   const id = useId(); // 칸·문구 id (라벨·aria-describedby 연결)
@@ -114,6 +118,29 @@ function NoticeForm({ orgId, noticeId, initial }) {
   const dirty = title !== initial.title || content !== initial.content;
   // ④ 글자 수: 서버와 같은 기준(코드 포인트). 입력한 그대로 센다 (앞뒤 공백 제거는 저장할 때)
   const count = [...content].length;
+
+  // 이탈 확인 (결정 S를 넓힘, F5 2026-11-09): [취소]·← 링크·햄버거바·상단바·브라우저 뒤로 가기 등 앱 안의 모든 이동이 여기를 지난다
+  // useBlocker: 라우터가 주소를 바꾸기 직전에 이 함수를 불러, true면 이동을 멈추고 blocker.state를 'blocked'로 둔다
+  // 그때 확인창을 띄우고, [계속 쓰기] = reset()(이동 취소), [나가기] = proceed()(멈춘 이동을 그대로 계속)
+  const blocker = useBlocker(({ currentLocation, nextLocation }) => (
+    dirty
+    && !savedRef.current
+    && currentLocation.pathname !== nextLocation.pathname
+    // 로그인 만료(401)로 /login에 가는 이동은 막지 않는다: 막아도 다시 저장할 수 없다 (Refresh Token 단계에서 해결)
+    && nextLocation.pathname !== '/login'
+  ));
+
+  // 새로고침·탭 닫기·주소창 입력은 앱 밖으로 나가는 이동이라 우리 확인창을 띄울 수 없다
+  // beforeunload에서 preventDefault하면 브라우저가 자기 경고창을 띄운다 (문구는 브라우저가 정함)
+  useEffect(() => {
+    if (!dirty) return undefined;
+    function warn(event) {
+      event.preventDefault();
+      event.returnValue = ''; // 예전 브라우저용
+    }
+    window.addEventListener('beforeunload', warn);
+    return () => window.removeEventListener('beforeunload', warn);
+  }, [dirty]);
 
   function changeTitle(event) {
     setTitle(event.target.value);
@@ -153,6 +180,7 @@ function NoticeForm({ orgId, noticeId, initial }) {
     if (status === (isEdit ? 200 : 201)) {
       // 그 공지 상세로. replace: 뒤로 가기로 다 쓴 폼에 돌아오지 않게. 토스트 없음 (상세가 결과, 결정 I)
       // 상세는 NOTICE-02를 다시 부른다 (PUT 응답을 넘기지 않음, F5 결정 4)
+      savedRef.current = true; // 저장이 끝났으니 잃는 것이 없다: 이탈 확인을 건너뛴다
       navigate(`/orgs/${orgId}/notices/${isEdit ? noticeId : data.noticeId}`, { replace: true });
       return;
     }
@@ -175,14 +203,9 @@ function NoticeForm({ orgId, noticeId, initial }) {
     toast.error(messageOf(code));
   }
 
-  // ⑤ 취소: 입력이 있으면 확인창(결정 S), 없으면 바로 나간다
+  // ⑤ 취소: 그냥 돌아가는 곳으로 이동한다. 입력이 있으면 위의 blocker가 멈추고 확인창을 띄운다 (확인 코드는 한 곳)
+  // replace: 뒤로 가기로 버린 폼에 돌아오지 않게 ([나가기]로 proceed해도 replace 그대로)
   function cancel() {
-    if (dirty) setLeaveOpen(true);
-    else leave();
-  }
-
-  // 나가기도 replace: 뒤로 가기로 버린 폼에 돌아오지 않게
-  function leave() {
     navigate(backPath, { replace: true });
   }
 
@@ -247,14 +270,15 @@ function NoticeForm({ orgId, noticeId, initial }) {
         </button>
       </div>
 
-      {/* 나가기 확인창: Modal을 칸 없이. 커서는 [계속 쓰기] (잃는 쪽이 기본이 되지 않게), [나가기]는 입력을 버리므로 Danger */}
-      {leaveOpen && (
-        <Modal title={messageOf('MODAL_LEAVE_TITLE')} onClose={() => setLeaveOpen(false)}>
+      {/* 나가기 확인창: blocker가 이동을 멈췄을 때만. Modal을 칸 없이, 커서는 [계속 쓰기] (잃는 쪽이 기본이 되지 않게)
+          [나가기]는 입력을 버리므로 Danger. Esc·바깥 누르기는 [계속 쓰기]와 같다 */}
+      {blocker.state === 'blocked' && (
+        <Modal title={messageOf('MODAL_LEAVE_TITLE')} onClose={() => blocker.reset()}>
           <div className={modalStyles.actions}>
-            <button type="button" className={modalStyles.secondary} onClick={() => setLeaveOpen(false)}>
+            <button type="button" className={modalStyles.secondary} onClick={() => blocker.reset()}>
               {messageOf('BUTTON_KEEP_WRITING')}
             </button>
-            <button type="button" className={modalStyles.danger} onClick={leave}>
+            <button type="button" className={modalStyles.danger} onClick={() => blocker.proceed()}>
               {messageOf('BUTTON_LEAVE')}
             </button>
           </div>
