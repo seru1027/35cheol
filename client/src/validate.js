@@ -59,3 +59,15 @@ export function validateSignup({ loginId, name, password, passwordConfirm }) {
 
   return errors;
 }
+
+// NOTICE-03·04 공지 작성·수정 폼 전체 검사 (결정 H: 저장을 누를 때 한 번에, 칸마다 오류)
+// 제목 1~100자, 본문 1~5,000자. 둘 다 앞뒤 공백을 지운 뒤 센다 (공백만 쓰면 REQUIRED)
+// 돌려주는 것: { errors: { 칸 이름: 코드 }, value: { title, content } (정리된 값, 오류가 없을 때 보냄) }
+export function validateNotice({ title, content }) {
+  const errors = {};
+  const t = validateString(title, { field: 'TITLE', min: 1, max: 100 });
+  if (t.code) errors.title = t.code;
+  const c = validateString(content, { field: 'CONTENT', min: 1, max: 5000 });
+  if (c.code) errors.content = c.code;
+  return { errors, value: { title: t.value, content: c.value } };
+}

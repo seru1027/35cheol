@@ -6,6 +6,7 @@ import AppLayout from './pages/AppLayout.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import MainPage from './pages/MainPage.jsx';
 import NoticeDetailPage from './pages/NoticeDetailPage.jsx';
+import NoticeFormPage from './pages/NoticeFormPage.jsx';
 import NoticeListPage from './pages/NoticeListPage.jsx';
 import OrgHomePage from './pages/OrgHomePage.jsx';
 import OrgLayout from './pages/OrgLayout.jsx';
@@ -45,6 +46,8 @@ export default function App() {
             <Route path="orgs/:orgId" element={<OrgLayout />}>
               <Route index element={<OrgHomePage />} />
               <Route path="notices" element={<NoticeListPage />} />
+              {/* new는 :noticeId보다 먼저 맞춰진다 (고정 경로가 변수 경로보다 우선) */}
+              <Route path="notices/new" element={<NoticeFormPage />} />
               <Route path="notices/:noticeId" element={<NoticeDetailPage />} />
               {/* 아직 없는 하위 화면(공지 상세·작성, 회원, 가입 신청 등): ORG-03을 통과한 뒤 그 자리에 404 패널 */}
               <Route path="*" element={<StatusPanel kind="notFound" titleAs="h1" />} />

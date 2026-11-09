@@ -128,6 +128,28 @@ const MESSAGES = {
   NOTICE_ALREADY_DELETED: '이미 삭제된 공지예요', // 삭제 404: 다른 운영진이 먼저 삭제 → 같은 결과라 목록으로
   INSUFFICIENT_ROLE: '권한이 없습니다', // 버튼 동작 중 403 (그사이 역할이 바뀜) → 토스트 (F5 결정 5)
 
+  // SCR-NOTICE-03 공지 작성·수정 (NOTICE-03, NOTICE-04). 제목 칸 문구는 Figma 03 그대로
+  NOTICE_FORM_NEW_TITLE: '공지 쓰기',
+  NOTICE_FORM_EDIT_TITLE: '공지 수정',
+  LABEL_NOTICE_TITLE: '제목',
+  PLACEHOLDER_NOTICE_TITLE: '제목을 입력하세요',
+  LABEL_NOTICE_CONTENT: '본문',
+  NOTICE_CONTENT_COUNT: '{n} / 5,000', // 본문 글자 수 (화면정의서 ④)
+  REQUIRED_TITLE: '제목을 입력하세요',
+  INVALID_TITLE_TYPE: '입력값을 확인하세요',
+  INVALID_TITLE_LENGTH: '제목은 100자 이하로 입력하세요',
+  REQUIRED_CONTENT: '본문을 입력하세요',
+  INVALID_CONTENT_TYPE: '입력값을 확인하세요',
+  INVALID_CONTENT_LENGTH: '본문은 5,000자 이하로 입력하세요',
+  NOTICE_NOT_FOUND: '이미 삭제된 공지입니다', // 수정 저장 404: 버튼 위 문구 (Figma 03 그대로)
+  BUTTON_POST: '올리기',
+  BUTTON_POSTING: '올리는 중…',
+  BUTTON_SAVE: '저장',
+  BUTTON_SAVING: '저장 중…',
+  MODAL_LEAVE_TITLE: '작성 중인 내용이 사라져요', // 입력이 있을 때 [취소] (결정 S)
+  BUTTON_KEEP_WRITING: '계속 쓰기',
+  BUTTON_LEAVE: '나가기',
+
   // SCR-COMMON-02 공통 상태 패널 (Figma 03 문구 그대로). 프론트 전용
   LOADING: '불러오는 중…',
   PANEL_PENDING_TITLE: '가입 승인 대기중입니다',

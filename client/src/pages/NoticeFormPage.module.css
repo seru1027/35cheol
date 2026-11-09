@@ -1,0 +1,36 @@
+/* SCR-NOTICE-03 공지 작성·수정 (client/DESIGN.md notice). 값은 index.css의 :root만 쓴다
+   칸·라벨·오류·버튼은 Modal.module.css의 form-field·버튼을 그대로 쓰고, 여기에는 큰 입력칸과 글자 수만 둔다 */
+
+/* 바탕 위에 상자 없이 칸을 쌓는다 (흰 입력칸이 따뜻한 바탕과 구분된다). 칸끼리 간격 md (form-field) */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* 본문 칸: form-field 칸과 같은 모양 + 처음 높이 420px, 세로로만 늘릴 수 있다 */
+.textarea {
+  composes: input from '../components/Modal.module.css';
+  min-height: var(--notice-content-height);
+  resize: vertical;
+}
+
+/* ④ 글자 수: 도움말 자리 (칸 아래 왼쪽). 숫자 폭을 같게 해 글자를 칠 때 흔들리지 않게 */
+.count {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font: var(--type-caption) var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+
+.countOver {
+  color: var(--color-danger);
+}
+
+/* 버튼 줄: 오른쪽 [취소] [올리기]. 칸과 간격은 gap(md) + xs = lg (modal 버튼 줄과 같은 간격) */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+  margin-top: var(--space-xs);
+}
