@@ -395,6 +395,7 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 위치 표시 | 상단바 서비스명 뒤에 구분 화살표(선 아이콘 16px `--icon-size-xs`, 굵기 1.5, `{colors.ink-faint}`, 장식이라 `aria-hidden`) + 동아리명. 동아리명은 `{typography.body-md}` `{colors.ink-secondary}`(서비스명 `title`보다 한 단계 작고 옅게: 워드마크와 지금 위치를 나눈다), 최대 320px(`--breadcrumb-max-width`) 넘으면 말줄임. 누르면 동아리 홈. 여백 `{spacing.xxs}` × `{spacing.xs}`, `{rounded.sm}`, hover `{colors.fill-subtle}` (햄버거바 행과 같은 utility 문법) |
 | 동아리명이 없을 때 | 서비스명만 (ORG-02 응답 전·실패, 목록에 없는 조직) |
 | 본문 제목 줄 | `components/PageTitle.jsx`. 왼쪽 `{typography.heading-2}` 페이지명(동아리 홈은 동아리명), 오른쪽 행동 버튼 자리(회장·운영진만), 아래 간격 `{spacing.lg}`. 제목이 비어 있어도 한 줄 높이 32px(`--page-title-height`)를 지켜, 이름이 들어올 때 아래가 밀리지 않는다. 줄 전체는 버튼 유무와 관계없이 40px(`--page-title-row-height`, 제목 줄 Primary 버튼 높이): 회장·운영진과 회원 화면에서 아래 내용이 같은 자리에서 시작한다 (2026-11-09 F5) |
+| 상위 링크 | 하위 화면(공지 목록·상세, F6·F7 목록) 맨 위, 제목 줄 위에 '← 상위 화면' 한 줄 (`components/BackLink.jsx`). 선 아이콘 16px(`--icon-size-xs`, 굵기 1.5) + `{typography.caption}` `{colors.ink-muted}`, 사이 `{spacing.xxs}`, 제목 줄과 간격 `{spacing.lg}`(공지 상세 와이어프레임). hover 글자 `{colors.ink}`, 누르는 범위는 위아래로 40px. 브라우저 뒤로 가기가 아니라 **늘 같은 곳**(목록 → 동아리 홈, 상세 → 공지 목록)으로 간다. 공지 목록 카드에는 없지만, 상단바 동아리명만으로는 홈으로 가는 길이 잘 보이지 않아 더했다 (2026-11-09, 위치 표시 3단계·‹ 아이콘과 스크린샷 비교 후 결정). 작성·수정 화면은 [취소]가 돌아가는 길이라 두지 않는다 |
 | 로딩·403·404·500 | `status-panel`을 하위 화면 자리에 (상단바·햄버거바는 그대로). 403·404·500은 화면에 다른 제목이 없으므로 패널 제목이 `h1` |
 
 ### `home-box` — 동아리 홈 박스 (SCR-ORG-03)

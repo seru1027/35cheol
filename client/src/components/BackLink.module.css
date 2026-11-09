@@ -1,0 +1,41 @@
+/* 하위 화면 위 '← 상위' 링크 (client/DESIGN.md org-layout). 값은 index.css의 :root만 쓴다 */
+
+/* 제목 줄보다 한참 작고 옅게: 길 안내일 뿐 화면의 주인공이 아니다. 제목 줄과 간격은 상세 카드 와이어프레임대로 lg */
+.link {
+  position: relative;
+  /* 한 줄을 차지하되(inline이면 줄 높이 때문에 아래 간격이 늘어남) 폭은 글자만큼: 줄 전체가 눌리지 않게 */
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: var(--space-xxs);
+  margin-bottom: var(--space-lg);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink-muted);
+  font: var(--type-caption) var(--font-sans);
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
+}
+
+/* 누르는 범위: 보이는 높이(20px)는 그대로 두고 위아래만 40px까지 넓힌다 (DESIGN.md motion) */
+.link::after {
+  content: '';
+  position: absolute;
+  inset: calc((100% - var(--hit-area-min)) / 2) 0;
+}
+
+.arrow {
+  width: var(--icon-size-xs);
+  height: var(--icon-size-xs);
+  flex-shrink: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    color: var(--color-ink);
+  }
+}
+
+.link:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}

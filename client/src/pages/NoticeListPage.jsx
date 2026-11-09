@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useOutletContext } from 'react-router';
 import { api } from '../api.js';
+import BackLink from '../components/BackLink.jsx';
 import PageTitle from '../components/PageTitle.jsx';
 import StatusPanel from '../components/StatusPanel.jsx';
 import { formatDate } from '../format.js';
@@ -35,6 +36,8 @@ export default function NoticeListPage() {
 
   return (
     <section>
+      {/* 동아리 홈으로 가는 길 (화면정의서 카드에는 없음. 상세의 '← 공지 목록'과 같은 문법으로 더함, 2026-11-09) */}
+      <BackLink to={`/orgs/${orgId}`} label={messageOf('BACK_TO_ORG_HOME')} />
       {/* ① 제목 줄은 로딩·오류 중에도 남긴다 (어느 화면의 실패인지 보이게, DESIGN.md status-panel) */}
       <PageTitle
         title={messageOf('NOTICE_LIST_TITLE')}
