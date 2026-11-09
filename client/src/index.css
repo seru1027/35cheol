@@ -112,11 +112,15 @@
   --breadcrumb-max-width: 320px; /* 위치 표시의 동아리명. 넘으면 … (30자 이름도 상단바를 밀지 않게) */
   --icon-size-xs: 16px; /* 위치 표시 구분 화살표 */
   --page-title-height: 32px; /* heading-2 한 줄 (26px × 1.23). 제목이 비어 있어도 이 높이 */
+  --page-title-row-height: 40px; /* 제목 줄 전체. 오른쪽 Primary 버튼(8 + 24 + 8) 높이라 버튼 유무와 관계없이 같다 */
 
   /* 동아리 홈 (DESIGN.md home-box) */
   --home-columns: minmax(0, 3fr) minmax(0, 2fr); /* 왼쪽 공지 : 오른쪽 가입 관리·멤버 (와이어프레임 비율) */
   --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace; /* 초대 코드. 시스템 글꼴만 */
   --tracking-code: 1px; /* 8자리 코드를 한 글자씩 읽기 쉽게 */
+
+  /* 공지 (DESIGN.md notice) */
+  --notice-col-width: 120px; /* 목록의 작성자·작성일 칸 (와이어프레임 값) */
 
   /* 메인 카드 목록 (DESIGN.md org-card, 네이버 밴드 비율) */
   --org-card-min-width: 200px; /* 1440에서 열림 5열 208, 닫힘 6열 209 */

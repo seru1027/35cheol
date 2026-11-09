@@ -1,7 +1,9 @@
 /* 본문 제목 줄 (client/DESIGN.md org-layout). 값은 index.css의 :root만 쓴다 */
 
+/* min-height: 오른쪽 버튼(Primary 40px)이 있든 없든 줄 높이를 같게 둔다. 역할에 따라 아래 내용이 8px 오르내리지 않게 */
 .row {
   display: flex;
+  min-height: var(--page-title-row-height);
   align-items: center;
   justify-content: space-between;
   gap: var(--space-md);

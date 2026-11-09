@@ -109,6 +109,12 @@ const MESSAGES = {
   JOIN_REQUESTS_COUNT: '대기 중인 가입 신청 {n}건',
   JOIN_REQUESTS_EMPTY: '대기 중인 신청 없음',
 
+  // SCR-NOTICE-01 공지 목록 (NOTICE-01). 프론트 전용. [글쓰기]·빈 목록 문구는 홈 박스와 같이 쓴다
+  NOTICE_LIST_TITLE: '공지',
+  COL_NOTICE_TITLE: '제목',
+  COL_NOTICE_AUTHOR: '작성자',
+  COL_NOTICE_CREATED_AT: '작성일',
+
   // SCR-COMMON-02 공통 상태 패널 (Figma 03 문구 그대로). 프론트 전용
   LOADING: '불러오는 중…',
   PANEL_PENDING_TITLE: '가입 승인 대기중입니다',

@@ -394,7 +394,7 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 |---|---|
 | 위치 표시 | 상단바 서비스명 뒤에 구분 화살표(선 아이콘 16px `--icon-size-xs`, 굵기 1.5, `{colors.ink-faint}`, 장식이라 `aria-hidden`) + 동아리명. 동아리명은 `{typography.body-md}` `{colors.ink-secondary}`(서비스명 `title`보다 한 단계 작고 옅게: 워드마크와 지금 위치를 나눈다), 최대 320px(`--breadcrumb-max-width`) 넘으면 말줄임. 누르면 동아리 홈. 여백 `{spacing.xxs}` × `{spacing.xs}`, `{rounded.sm}`, hover `{colors.fill-subtle}` (햄버거바 행과 같은 utility 문법) |
 | 동아리명이 없을 때 | 서비스명만 (ORG-02 응답 전·실패, 목록에 없는 조직) |
-| 본문 제목 줄 | `components/PageTitle.jsx`. 왼쪽 `{typography.heading-2}` 페이지명(동아리 홈은 동아리명), 오른쪽 행동 버튼 자리(회장·운영진만), 아래 간격 `{spacing.lg}`. 제목이 비어 있어도 한 줄 높이 32px(`--page-title-height`)를 지켜, 이름이 들어올 때 아래가 밀리지 않는다 |
+| 본문 제목 줄 | `components/PageTitle.jsx`. 왼쪽 `{typography.heading-2}` 페이지명(동아리 홈은 동아리명), 오른쪽 행동 버튼 자리(회장·운영진만), 아래 간격 `{spacing.lg}`. 제목이 비어 있어도 한 줄 높이 32px(`--page-title-height`)를 지켜, 이름이 들어올 때 아래가 밀리지 않는다. 줄 전체는 버튼 유무와 관계없이 40px(`--page-title-row-height`, 제목 줄 Primary 버튼 높이): 회장·운영진과 회원 화면에서 아래 내용이 같은 자리에서 시작한다 (2026-11-09 F5) |
 | 로딩·403·404·500 | `status-panel`을 하위 화면 자리에 (상단바·햄버거바는 그대로). 403·404·500은 화면에 다른 제목이 없으므로 패널 제목이 `h1` |
 
 ### `home-box` — 동아리 홈 박스 (SCR-ORG-03)
@@ -413,6 +413,18 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 로딩·빈·오류 | 박스 안 caption `{colors.ink-muted}`. 오류는 '불러오지 못했습니다' + 오른쪽 [다시 시도] (박스 머리는 그대로 두어 어느 박스가 실패했는지 보인다) |
 
 **확인창** (`modal`을 칸 없이 쓴다, 코드 재발급·F5 공지 삭제): 제목 `{typography.title}` → 설명 `{typography.body-sm}` `{colors.ink-secondary}` → 버튼 줄 [취소] Secondary · [주 행동] Primary (`modal` 버튼 줄 그대로). 열리면 커서는 [취소] (잃는 쪽이 기본이 되지 않게). 요청 중에는 Esc·바깥 닫기와 두 버튼을 막고 문구를 바꾼다('재발급 중…'). 성공하면 닫고 연 버튼으로 커서를 돌려준다. 500은 토스트로 알리고 확인창은 연 채로 둔다. 재발급은 Danger가 아니라 Primary (Danger는 지우는 행동에 남긴다)
+
+### `notice` — 공지 목록·상세·작성 (SCR-NOTICE-01~03)
+공지 화면들(`pages/Notice*Page.jsx`, 화면마다 `.module.css`). 동작·문구는 Figma 03 각 카드. 홈 공지 박스(`home-box`)의 행 문법을 넓혀 쓴다.
+
+| 부분 | 값 |
+|---|---|
+| 제목 줄 버튼 | [글쓰기] Primary (화면의 주 행동, `Modal.module.css`의 `.primary`를 `composes`로 가져온다). 회장·운영진만 |
+| 목록 | 와이어프레임대로 **표**: 흰 상자(원본 `feature-card`, 1px hairline, `{rounded.lg}`, 그림자 없음 = 홈 박스와 같은 면) 안에 머리 줄 + 행. 칸은 제목(남는 폭) · 작성자 · 작성일(각 120px `--notice-col-width`, 와이어프레임 값). 칸 여백 `{spacing.sm}` × `{spacing.md}` |
+| 머리 줄 | `{typography.caption}` `{colors.ink-muted}`, 아래 hairline. 눈으로 보는 칸 이름이라 `aria-hidden` (행 링크가 세 칸을 모두 읽어 준다) |
+| 행 | 행 전체가 링크 하나. 제목 `{typography.body-sm}` `{colors.ink}` 한 줄 말줄임, 작성자·작성일 caption muted 고정폭 숫자. 행 사이 hairline, hover `{colors.fill-subtle}` (상자 모서리 안에서 잘림). Focus는 상자가 바깥을 자르므로 행 안쪽에 2px primary outline |
+| 로딩·500 | 제목 줄은 남기고 목록 자리에 `status-panel` |
+| 0건 | 흰 상자 안 caption muted '아직 공지가 없어요' (머리 줄 없이) |
 
 ### `org-card` — 메인 카드 목록 (SCR-ORG-01)
 레퍼런스: 네이버 밴드 '내 밴드' 카드(위 사진 + 아래 이름, 약 8:9)를 비율로 옮겼다. 원본 `feature-card`의 "colour-blocked illustration band from the sticker palette"(카드 위 색 띠) 문법으로, 사진 자리를 색 띠로 채운다. 동작·순서는 Figma 03 SCR-ORG-01. 2026-11-05에 A(기존 2:1)·B(3:2)·D(3:4)·E(2:3)·F(밴드형)를 열림·닫힘 스크린샷으로 비교해 F를 골랐다.

@@ -5,6 +5,7 @@ import StatusPanel from './components/StatusPanel.jsx';
 import AppLayout from './pages/AppLayout.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import MainPage from './pages/MainPage.jsx';
+import NoticeListPage from './pages/NoticeListPage.jsx';
 import OrgHomePage from './pages/OrgHomePage.jsx';
 import OrgLayout from './pages/OrgLayout.jsx';
 
@@ -42,7 +43,8 @@ export default function App() {
             {/* 두 번째 겹: 동아리 레이아웃(SCR-ORG-00)이 ORG-03을 한 번 부르고, 자식 화면을 자기 <Outlet /> 자리에 그린다 */}
             <Route path="orgs/:orgId" element={<OrgLayout />}>
               <Route index element={<OrgHomePage />} />
-              {/* 아직 없는 하위 화면(/orgs/8/notices 등, F5~F7): ORG-03을 통과한 뒤 그 자리에 404 패널 */}
+              <Route path="notices" element={<NoticeListPage />} />
+              {/* 아직 없는 하위 화면(공지 상세·작성, 회원, 가입 신청 등): ORG-03을 통과한 뒤 그 자리에 404 패널 */}
               <Route path="*" element={<StatusPanel kind="notFound" titleAs="h1" />} />
             </Route>
             {/* ④ 정의되지 않은 URL → 404 패널. 레이아웃 안에 두어서, 로그아웃 상태면 RequireAuth가 먼저 /login으로 보낸다 */}
