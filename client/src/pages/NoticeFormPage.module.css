@@ -27,6 +27,18 @@
   color: var(--color-danger);
 }
 
+/* 수정 404 '이미 삭제된 공지입니다': 버튼 줄 바로 위 오른쪽 (버튼과 같은 쪽에 붙어 '저장의 결과'로 읽힌다) */
+.formError {
+  margin: var(--space-xs) 0 0;
+  color: var(--color-danger);
+  font: var(--type-caption) var(--font-sans);
+  text-align: right;
+}
+
+.formError + .actions {
+  margin-top: 0;
+}
+
 /* 버튼 줄: 오른쪽 [취소] [올리기]. 칸과 간격은 gap(md) + xs = lg (modal 버튼 줄과 같은 간격) */
 .actions {
   display: flex;

@@ -47,8 +47,10 @@ export default function App() {
               <Route index element={<OrgHomePage />} />
               <Route path="notices" element={<NoticeListPage />} />
               {/* new는 :noticeId보다 먼저 맞춰진다 (고정 경로가 변수 경로보다 우선) */}
-              <Route path="notices/new" element={<NoticeFormPage />} />
+              {/* 작성·수정은 같은 컴포넌트. key가 달라야 작성 ↔ 수정으로 옮길 때 입력값이 새로 시작된다 */}
+              <Route path="notices/new" element={<NoticeFormPage key="new" />} />
               <Route path="notices/:noticeId" element={<NoticeDetailPage />} />
+              <Route path="notices/:noticeId/edit" element={<NoticeFormPage key="edit" />} />
               {/* 아직 없는 하위 화면(공지 상세·작성, 회원, 가입 신청 등): ORG-03을 통과한 뒤 그 자리에 404 패널 */}
               <Route path="*" element={<StatusPanel kind="notFound" titleAs="h1" />} />
             </Route>
