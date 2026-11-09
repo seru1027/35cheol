@@ -422,7 +422,7 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 |---|---|
 | 제목 줄 버튼 | [글쓰기] Primary (화면의 주 행동, `Modal.module.css`의 `.primary`를 `composes`로 가져온다). 회장·운영진만 |
 | 목록 | 와이어프레임대로 **표**: 흰 상자(원본 `feature-card`, 1px hairline, `{rounded.lg}`, 그림자 없음 = 홈 박스와 같은 면) 안에 머리 줄 + 행. 칸은 제목(남는 폭) · 작성자 · 작성일(각 120px `--notice-col-width`, 와이어프레임 값). 칸 여백 `{spacing.sm}` × `{spacing.md}` |
-| 머리 줄 | `{typography.caption}` `{colors.ink-muted}`, 아래 hairline. 눈으로 보는 칸 이름이라 `aria-hidden` (행 링크가 세 칸을 모두 읽어 준다) |
+| 머리 줄 | `{typography.eyebrow}`(12px 600) `{colors.ink-faint}`, 위아래 여백 `{spacing.xs}`(높이 약 33, 행 44보다 낮게), 아래 선 `{colors.input-border}`(hairline보다 한 단계 진하게). 처음엔 caption muted 같은 높이였는데 첫 공지 행처럼 보여서 바꿨다 (2026-11-09, 바탕색 안과 스크린샷 비교 후 결정). 눈으로 보는 칸 이름이라 `aria-hidden` (행 링크가 세 칸을 모두 읽어 준다) |
 | 행 | 행 전체가 링크 하나. 제목 `{typography.body-sm}` `{colors.ink}` 한 줄 말줄임, 작성자·작성일 caption muted 고정폭 숫자. 행 사이 hairline, hover `{colors.fill-subtle}` (상자 모서리 안에서 잘림). Focus는 상자가 바깥을 자르므로 행 안쪽에 2px primary outline |
 | 로딩·500 | 제목 줄은 남기고 목록 자리에 `status-panel` |
 | 0건 | 흰 상자 안 caption muted '아직 공지가 없어요' (머리 줄 없이) |

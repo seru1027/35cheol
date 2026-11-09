@@ -37,10 +37,14 @@
   transition: background-color var(--duration-fast) ease;
 }
 
+/* 머리 줄: 행보다 작고(12px 굵게, 햄버거바 묶음 제목과 같은 단계) 낮고 흐리게, 아래 선은 한 단계 진하게
+   행과 같은 크기면 첫 공지처럼 보였다 (2026-11-09 F5, 바탕색 안과 비교 후 결정) */
 .head {
-  border-bottom: var(--border-width) solid var(--color-hairline);
-  color: var(--color-ink-muted);
-  font: var(--type-caption) var(--font-sans);
+  padding-block: var(--space-xs);
+  border-bottom: var(--border-width) solid var(--color-input-border);
+  color: var(--color-ink-faint);
+  font: var(--type-eyebrow) var(--font-sans);
+  letter-spacing: var(--tracking-eyebrow);
 }
 
 /* 제목이 길면 한 줄 말줄임 (화면정의서 ③) */
