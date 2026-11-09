@@ -149,6 +149,13 @@
   background: var(--color-canvas-soft);
 }
 
+/* Danger: Secondary 모양에 빨간 글자 (DESIGN.md 버튼). 지우는 행동 전용, 확인창 필수
+   composes: 같은 파일의 secondary를 그대로 받아 hover·누름·focus·잠금 규칙도 함께 쓴다 */
+.danger {
+  composes: secondary;
+  color: var(--color-danger);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .primary:not(:disabled):hover {
     background: var(--color-primary-active);

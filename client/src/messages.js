@@ -116,6 +116,18 @@ const MESSAGES = {
   COL_NOTICE_AUTHOR: '작성자',
   COL_NOTICE_CREATED_AT: '작성일',
 
+  // SCR-NOTICE-02 공지 상세 (NOTICE-02, NOTICE-05). 확인창·토스트 문구는 Figma 03 그대로
+  BACK_TO_NOTICES: '공지 목록', // '← 공지 목록'
+  NOTICE_EDITED: '수정됨', // 작성 정보 뒤 '· 수정됨 2026.04.03 09:10'
+  BUTTON_EDIT: '수정',
+  BUTTON_DELETE: '삭제',
+  BUTTON_DELETING: '삭제 중…',
+  MODAL_DELETE_NOTICE_TITLE: '이 공지를 삭제할까요?',
+  MODAL_DELETE_NOTICE_DESC: '삭제하면 되돌릴 수 없어요.',
+  NOTICE_DELETED: '공지를 삭제했어요', // 성공 토스트 (결정 I: 사라지는 결과)
+  NOTICE_ALREADY_DELETED: '이미 삭제된 공지예요', // 삭제 404: 다른 운영진이 먼저 삭제 → 같은 결과라 목록으로
+  INSUFFICIENT_ROLE: '권한이 없습니다', // 버튼 동작 중 403 (그사이 역할이 바뀜) → 토스트 (F5 결정 5)
+
   // SCR-COMMON-02 공통 상태 패널 (Figma 03 문구 그대로). 프론트 전용
   LOADING: '불러오는 중…',
   PANEL_PENDING_TITLE: '가입 승인 대기중입니다',

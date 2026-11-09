@@ -12,3 +12,14 @@ export function formatDate(iso) {
   const parts = Object.fromEntries(dateParts.formatToParts(new Date(iso)).map((p) => [p.type, p.value]));
   return `${parts.year}.${parts.month}.${parts.day}`;
 }
+
+// 상세용: 시·분까지. hourCycle 'h23': 0~23시 24시간제 ('오후 6:30'이 아니라 '18:30')
+const dateTimeParts = new Intl.DateTimeFormat('ko-KR', {
+  year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+});
+
+// '2026-04-02T09:30:00.000Z' → '2026.04.02 18:30' (한국 시간)
+export function formatDateTime(iso) {
+  const parts = Object.fromEntries(dateTimeParts.formatToParts(new Date(iso)).map((p) => [p.type, p.value]));
+  return `${parts.year}.${parts.month}.${parts.day} ${parts.hour}:${parts.minute}`;
+}

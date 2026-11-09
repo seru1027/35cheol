@@ -1,0 +1,54 @@
+/* SCR-NOTICE-02 공지 상세 (client/DESIGN.md notice). 값은 index.css의 :root만 쓴다 */
+
+/* 제목 줄 버튼: [수정] Secondary, [삭제] Danger (모달 버튼을 composes로 가져온다) */
+.edit {
+  composes: secondary from '../components/Modal.module.css';
+  display: inline-block;
+  text-decoration: none;
+}
+
+.delete {
+  composes: danger from '../components/Modal.module.css';
+}
+
+/* 흰 상자: 목록·홈 박스와 같은 면 (feature-card, hairline, 그림자 없음) */
+.box {
+  padding: var(--space-lg);
+  border: var(--border-width) solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  background: var(--color-canvas);
+}
+
+/* 공백 없는 긴 글자(링크 주소 등)도 상자 밖으로 나가지 않게 아무 곳에서나 줄을 바꾼다 */
+.title {
+  margin: 0;
+  font: var(--type-title) var(--font-sans);
+  letter-spacing: var(--tracking-title);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+/* 작성 정보 → 아래 구분선. 간격은 와이어프레임대로 sm */
+.meta {
+  margin: var(--space-sm) 0 0;
+  padding-bottom: var(--space-sm);
+  border-bottom: var(--border-width) solid var(--color-hairline);
+  color: var(--color-ink-muted);
+  font: var(--type-caption) var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 본문: 입력한 줄바꿈·연속 공백을 그대로 (pre-wrap). 줄 끝에서는 자동으로 접힌다 */
+.content {
+  margin-top: var(--space-md);
+  font: var(--type-body) var(--font-sans);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* 확인창 설명 (Modal 안, 칸 대신). 홈 재발급 확인창과 같은 모양 */
+.confirmDesc {
+  margin: 0;
+  color: var(--color-ink-secondary);
+  font: var(--type-body-sm) var(--font-sans);
+}

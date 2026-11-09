@@ -298,7 +298,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 | Primary | 원본 `button-primary`. 여백 `{spacing.xs}` × `{spacing.md}` (원본에 값 없음) | 화면의 주 행동 (로그인, 가입하기, 다시 시도). 폼 안에서는 폼 폭을 꽉 채운다 |
 | Secondary | 원본 `button-secondary` (흰색 pill + Level 1 그림자) | 보조 행동 (취소, 메인으로) |
 | Utility | 원본 `button-utility` (흰색, 1px hairline, `{rounded.md}`, 4px × 14px) | 목록·도구 안의 작은 행동 |
-| Danger | Secondary 모양에 글자 `{colors.danger}` | 삭제처럼 위험한 행동. 확인창 필수 (Figma 04 규칙) |
+| Danger | Secondary 모양에 글자 `{colors.danger}` (`Modal.module.css`의 `.danger`가 `.secondary`를 `composes`) | 삭제처럼 위험한 행동. 확인창 필수 (Figma 04 규칙) |
 
 | 상태 | 모양 |
 |---|---|
@@ -426,6 +426,11 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 행 | 행 전체가 링크 하나. 제목 `{typography.body-sm}` `{colors.ink}` 한 줄 말줄임, 작성자·작성일 caption muted 고정폭 숫자. 행 사이 hairline, hover `{colors.fill-subtle}` (상자 모서리 안에서 잘림). Focus는 상자가 바깥을 자르므로 행 안쪽에 2px primary outline |
 | 로딩·500 | 제목 줄은 남기고 목록 자리에 `status-panel` |
 | 0건 | 흰 상자 안 caption muted '아직 공지가 없어요' (머리 줄 없이) |
+| 상세 배치 | '← 공지 목록'(`org-layout` 상위 링크) → 제목 줄 '공지' + [수정] Secondary · [삭제] Danger (회장·운영진만, 내용을 불러온 뒤에만) → 흰 상자(목록과 같은 면, 여백 `{spacing.lg}`). 와이어프레임은 상자 없이 바탕 위에 바로였지만, 목록·홈 박스와 같은 흰 면으로 맞췄다 (F5 결정 3) |
+| 상세 상자 안 | 제목 `{typography.title}` (`h2`, 페이지 `h1`은 제목 줄 '공지') → 간격 `{spacing.sm}` → 작성 정보 caption muted 고정폭 숫자 '작성자 · 2026.04.02 18:30', 수정된 적이 있으면 뒤에 '· 수정됨 2026.04.03 09:10' → 간격 `{spacing.sm}` 뒤 hairline → 간격 `{spacing.md}` → 본문 `{typography.body}` `white-space: pre-wrap`(줄바꿈·연속 공백 유지). 제목·본문 모두 `overflow-wrap: anywhere`(공백 없는 긴 글자도 상자 안에서 접힘) |
+| 본문 출력 | React 기본 출력(`{content}`)만. 글자가 escape되어 `<script>`도 글자로 보인다. `dangerouslySetInnerHTML` 금지 (XSS) |
+| 삭제 확인창 | `home-box` 확인창 문법 그대로, 주 버튼만 Danger: '이 공지를 삭제할까요?' / '삭제하면 되돌릴 수 없어요.' [취소] Secondary · [삭제] Danger, 커서는 [취소]. 요청 중 '삭제 중…' + 두 버튼·Esc·바깥 닫기 잠금. 200·404 → 목록으로 replace + 토스트 / 403·500 → **확인창을 닫고** 토스트 (재발급은 연 채로 두지만, 공지 삭제는 화면정의서 ⑦대로 닫는다) |
+| 로딩·500 | '← 공지 목록'과 제목 줄은 남기고 상자 자리에 `status-panel` / 404·400은 화면 자체가 없으므로 패널만(`h1`) |
 
 ### `org-card` — 메인 카드 목록 (SCR-ORG-01)
 레퍼런스: 네이버 밴드 '내 밴드' 카드(위 사진 + 아래 이름, 약 8:9)를 비율로 옮겼다. 원본 `feature-card`의 "colour-blocked illustration band from the sticker palette"(카드 위 색 띠) 문법으로, 사진 자리를 색 띠로 채운다. 동작·순서는 Figma 03 SCR-ORG-01. 2026-11-05에 A(기존 2:1)·B(3:2)·D(3:4)·E(2:3)·F(밴드형)를 열림·닫힘 스크린샷으로 비교해 F를 골랐다.
