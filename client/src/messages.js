@@ -24,7 +24,7 @@ const MESSAGES = {
   // SCR-AUTH-01 화면별 제목·부제, 로그인 ↔ 회원가입 링크
   AUTH_LOGIN_TITLE: '다시 오셨네요',
   AUTH_LOGIN_SUB: '아이디와 비밀번호를 입력하세요.',
-  AUTH_SIGNUP_TITLE: '35cheol 시작하기',
+  AUTH_SIGNUP_TITLE: '계정 만들기', // 바로 위 서비스명 '35cheol'과 겹치지 않게 (2026-11-09)
   AUTH_SIGNUP_SUB: '가입하면 초대 코드로 동아리에 들어갈 수 있어요.',
   AUTH_NO_ACCOUNT: '계정이 없나요?',
   AUTH_HAS_ACCOUNT: '이미 계정이 있나요?',
