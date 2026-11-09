@@ -93,6 +93,21 @@ const MESSAGES = {
   BOX_MEMBERS: '멤버',
   BOX_MEMBERS_COUNT: '멤버 {n}명',
   LINK_ALL_MEMBERS: '회원 전체 보기',
+  BOX_JOIN: '가입 관리',
+  // LABEL_INVITE_CODE('초대 코드')는 가입하기 모달과 같이 쓴다
+  INVITE_CODE_EMPTY: '아직 초대 코드가 없어요',
+  BUTTON_COPY: '복사',
+  BUTTON_ISSUE: '코드 발급',
+  BUTTON_ISSUING: '발급 중…',
+  BUTTON_REISSUE: '재발급',
+  BUTTON_REISSUING: '재발급 중…',
+  INVITE_CODE_COPIED: '코드를 복사했어요', // 성공 토스트 (같은 화면에 머무는 결과, 결정 I)
+  INVITE_CODE_COPY_FAILED: '복사하지 못했어요. 코드를 직접 선택해 복사하세요', // 클립보드 권한 거부 등 (결정 7)
+  INVITE_CODE_CREATED: '새 코드를 만들었어요', // 발급·재발급 성공 토스트
+  MODAL_REISSUE_TITLE: '초대 코드 재발급', // 확인창 제목 (결정 8)
+  MODAL_REISSUE_DESC: '새 코드를 만들면 지금 코드는 더 이상 쓸 수 없어요. 이미 들어온 신청은 그대로예요',
+  JOIN_REQUESTS_COUNT: '대기 중인 가입 신청 {n}건',
+  JOIN_REQUESTS_EMPTY: '대기 중인 신청 없음',
 
   // SCR-COMMON-02 공통 상태 패널 (Figma 03 문구 그대로). 프론트 전용
   LOADING: '불러오는 중…',

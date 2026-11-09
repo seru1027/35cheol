@@ -115,6 +115,8 @@
 
   /* 동아리 홈 (DESIGN.md home-box) */
   --home-columns: minmax(0, 3fr) minmax(0, 2fr); /* 왼쪽 공지 : 오른쪽 가입 관리·멤버 (와이어프레임 비율) */
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace; /* 초대 코드. 시스템 글꼴만 */
+  --tracking-code: 1px; /* 8자리 코드를 한 글자씩 읽기 쉽게 */
 
   /* 메인 카드 목록 (DESIGN.md org-card, 네이버 밴드 비율) */
   --org-card-min-width: 200px; /* 1440에서 열림 5열 208, 닫힘 6열 209 */

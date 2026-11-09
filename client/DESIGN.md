@@ -406,9 +406,13 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 상자 | 원본 `feature-card`: 흰색, 1px hairline, `{rounded.lg}`, 여백 `{spacing.lg}`, **그림자 없음** (박스 전체를 누르는 게 아니어서 메인 카드처럼 띄우지 않는다. 원본: "Default elevation is flat (hairline only)") |
 | 머리 | 제목 `--type-body-strong` + 오른쪽 버튼. 높이 32px로 고정해 박스끼리 첫 줄이 맞는다. 내용과 간격 `{spacing.sm}` |
 | → | 박스 전체 목록 링크. 32px 아이콘 버튼(☰와 같은 문법: 투명, `{rounded.md}`, hover `{colors.fill-subtle}`, 누르는 범위 40), 선 아이콘 20px. 이름은 aria-label '공지 전체 보기'·'회원 전체 보기' |
-| 작은 버튼 ([글쓰기], 박스 [다시 시도]) | 원본 `button-utility` (흰색, 1px hairline, `{rounded.md}`, 가로 14px, `{typography.button}`). 높이는 → 아이콘과 같은 32px (원본 여백 4px이면 34px라 머리 높이가 박스마다 달라졌다). hover `{colors.fill-subtle}`, 누름 `--color-fill-strong`. 박스 안이라 pill Primary는 쓰지 않는다 |
+| 작은 버튼 ([글쓰기], [복사], [재발급], [코드 발급], 박스 [다시 시도]) | 원본 `button-utility` (흰색, 1px hairline, `{rounded.md}`, 가로 14px, `{typography.button}`). 높이는 → 아이콘과 같은 32px (원본 여백 4px이면 34px라 머리 높이가 박스마다 달라졌다). hover `{colors.fill-subtle}`, 누름 `--color-fill-strong`. 박스 안이라 pill Primary는 쓰지 않는다 |
 | 목록 | 원본 `ex-cart-drawer` item-divider: 행 사이 hairline, 행 여백 `{spacing.xs}`. **공지 행**: 링크, 제목 `{typography.body-sm}` 한 줄 말줄임 + 오른쪽 '작성자 · 2026.04.02' caption `{colors.ink-muted}` 고정폭 숫자. hover 면은 글자보다 양옆 8px 넓게(글자는 박스 제목과 같은 선). **멤버 행**: 이름 body-sm + 역할 caption muted, 누를 수 없음 |
+| 초대 코드 | 라벨 eyebrow `{colors.ink-muted}` → 코드 `{typography.title}` 고정폭 시스템 글꼴(`--font-mono`), 자간 1px, 한 번 누르면 전체 선택(복사 실패 때 직접 고르기) + [복사][재발급]. 코드가 없으면 caption muted '아직 초대 코드가 없어요' + [코드 발급] |
+| 대기 신청 줄 | 박스 맨 아래, 위 hairline + 간격 `{spacing.md}`. 행 전체가 링크 '대기 중인 가입 신청 n건 →' (0건 '대기 중인 신청 없음'), `{typography.body-sm}`, hover `{colors.fill-subtle}` |
 | 로딩·빈·오류 | 박스 안 caption `{colors.ink-muted}`. 오류는 '불러오지 못했습니다' + 오른쪽 [다시 시도] (박스 머리는 그대로 두어 어느 박스가 실패했는지 보인다) |
+
+**확인창** (`modal`을 칸 없이 쓴다, 코드 재발급·F5 공지 삭제): 제목 `{typography.title}` → 설명 `{typography.body-sm}` `{colors.ink-secondary}` → 버튼 줄 [취소] Secondary · [주 행동] Primary (`modal` 버튼 줄 그대로). 열리면 커서는 [취소] (잃는 쪽이 기본이 되지 않게). 요청 중에는 Esc·바깥 닫기와 두 버튼을 막고 문구를 바꾼다('재발급 중…'). 성공하면 닫고 연 버튼으로 커서를 돌려준다. 500은 토스트로 알리고 확인창은 연 채로 둔다. 재발급은 Danger가 아니라 Primary (Danger는 지우는 행동에 남긴다)
 
 ### `org-card` — 메인 카드 목록 (SCR-ORG-01)
 레퍼런스: 네이버 밴드 '내 밴드' 카드(위 사진 + 아래 이름, 약 8:9)를 비율로 옮겼다. 원본 `feature-card`의 "colour-blocked illustration band from the sticker palette"(카드 위 색 띠) 문법으로, 사진 자리를 색 띠로 채운다. 동작·순서는 Figma 03 SCR-ORG-01. 2026-11-05에 A(기존 2:1)·B(3:2)·D(3:4)·E(2:3)·F(밴드형)를 열림·닫힘 스크린샷으로 비교해 F를 골랐다.
