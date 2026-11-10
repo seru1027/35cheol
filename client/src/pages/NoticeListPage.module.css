@@ -42,7 +42,7 @@
 .head {
   padding-block: var(--space-xs);
   border-bottom: var(--border-width) solid var(--color-input-border);
-  color: var(--color-ink-faint);
+  color: var(--color-ink-muted); /* 읽는 글자라 muted (faint는 2.6:1, 2026-11-10) */
   font: var(--type-eyebrow) var(--font-sans);
   letter-spacing: var(--tracking-eyebrow);
 }
