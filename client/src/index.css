@@ -123,6 +123,11 @@
   --notice-col-width: 120px; /* 목록의 작성자·작성일 칸 (와이어프레임 값) */
   --notice-content-height: 420px; /* 작성·수정 본문 칸 처음 높이 (와이어프레임 값). 더 늘릴 수 있음 */
 
+  /* 회원 목록 칸 (DESIGN.md list-table). 와이어프레임 값. 이름 칸은 남는 폭 */
+  --member-col-login-id: 220px;
+  --member-col-date: 160px;
+  --member-col-role: 160px;
+
   /* 메인 카드 목록 (DESIGN.md org-card, 네이버 밴드 비율) */
   --org-card-min-width: 200px; /* 1440에서 열림 5열 208, 닫힘 6열 209 */
   --org-card-ratio: 8 / 9; /* 밴드 카드 235×264 */

@@ -5,6 +5,7 @@ import StatusPanel from './components/StatusPanel.jsx';
 import AppLayout from './pages/AppLayout.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import MainPage from './pages/MainPage.jsx';
+import MemberListPage from './pages/MemberListPage.jsx';
 import NoticeDetailPage from './pages/NoticeDetailPage.jsx';
 import NoticeFormPage from './pages/NoticeFormPage.jsx';
 import NoticeListPage from './pages/NoticeListPage.jsx';
@@ -51,7 +52,8 @@ export default function App() {
               <Route path="notices/new" element={<NoticeFormPage key="new" />} />
               <Route path="notices/:noticeId" element={<NoticeDetailPage />} />
               <Route path="notices/:noticeId/edit" element={<NoticeFormPage key="edit" />} />
-              {/* 아직 없는 하위 화면(공지 상세·작성, 회원, 가입 신청 등): ORG-03을 통과한 뒤 그 자리에 404 패널 */}
+              <Route path="members" element={<MemberListPage />} />
+              {/* 없는 하위 화면(가입 신청 등): ORG-03을 통과한 뒤 그 자리에 404 패널 */}
               <Route path="*" element={<StatusPanel kind="notFound" titleAs="h1" />} />
             </Route>
             {/* ④ 정의되지 않은 URL → 404 패널. 레이아웃 안에 두어서, 로그아웃 상태면 RequireAuth가 먼저 /login으로 보낸다 */}

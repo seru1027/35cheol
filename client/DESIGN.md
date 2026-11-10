@@ -450,6 +450,7 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 첫 칸 | 제목·이름: 남는 폭, `{typography.body-sm}` `{colors.ink}` 한 줄 말줄임 (`.main`) |
 | 나머지 칸 | caption muted 고정폭 숫자, 길면 말줄임 (`.meta`) |
 | hover·Focus | 누를 수 있는 행(링크)만. 누를 수 없는 행(회원 목록)은 hover 없음 |
+| 회원 목록 (SCR-MEMBER-01) | 칸은 응답에 온 항목만: 회장·운영진 이름(남는 폭) · 아이디 220 · 가입일 160 · 역할 160 / 일반 회원 이름 · 역할 160 (`--member-col-*`, 와이어프레임 값). 칸 수가 응답에 따라 달라 칸 나눔은 `.jsx`가 style로 넘긴다. 행은 `li` 글자라 hover·focus 없음, 머리 줄도 화면 읽기 프로그램에 읽힌다(`aria-hidden` 없음). 와이어프레임 행 높이 38 대신 다른 표와 같은 44 |
 | 제목 줄 개수 | `PageTitle`의 `count`: h1 안, 제목 뒤 `{spacing.sm}`, `{typography.caption}` `{colors.ink-muted}` 고정폭 숫자 ('회원 6명', '가입 신청 3건'). 목록을 불러온 뒤에만 보인다 |
 
 ### `org-card` — 메인 카드 목록 (SCR-ORG-01)

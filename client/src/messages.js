@@ -116,6 +116,14 @@ const MESSAGES = {
   COL_NOTICE_AUTHOR: '작성자',
   COL_NOTICE_CREATED_AT: '작성일',
 
+  // SCR-MEMBER-01 회원 목록 (MEMBER-01). 프론트 전용. 칸 이름은 와이어프레임 그대로
+  MEMBER_LIST_TITLE: '회원',
+  MEMBER_COUNT: '{n}명', // 제목 옆 인원 수 (목록 길이)
+  COL_MEMBER_NAME: '이름',
+  COL_MEMBER_LOGIN_ID: '아이디',
+  COL_MEMBER_JOINED_AT: '가입일',
+  COL_MEMBER_ROLE: '역할',
+
   // SCR-NOTICE-02 공지 상세 (NOTICE-02, NOTICE-05). 확인창·토스트 문구는 Figma 03 그대로
   BACK_TO_NOTICES: '공지 목록', // '← 공지 목록' (상세, 작성)
   BACK_TO_NOTICE: '공지 보기', // 수정 화면 '← 공지 보기' (그 공지 상세로)
