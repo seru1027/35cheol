@@ -3,6 +3,8 @@ import toast from 'react-hot-toast';
 import { Link, NavLink, Outlet, useMatch } from 'react-router';
 import { api } from '../api.js';
 import { useAuth } from '../auth.jsx';
+import Modal from '../components/Modal.jsx';
+import modalStyles from '../components/Modal.module.css';
 import { messageOf } from '../messages.js';
 import styles from './AppLayout.module.css';
 
@@ -35,6 +37,14 @@ export default function AppLayout() {
   const [orgsOpen, setOrgsOpen] = useState(true); // ④ 기본은 펼침
   const [menuOpen, setMenuOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [leaveConfirmOpen, setLeaveConfirmOpen] = useState(false); // 작성 중 로그아웃 확인창 (F8 M3)
+  // 본문 화면에 저장하지 않은 입력이 있는지. 공지 작성·수정 화면이 setUnsaved로 알려 준다 (Outlet context)
+  // 다시 그릴 필요가 없는 값이라 state가 아니라 ref (입력할 때마다 레이아웃 전체가 다시 그려지지 않게)
+  const unsavedRef = useRef(false);
+  const setUnsaved = useCallback((value) => {
+    unsavedRef.current = value;
+  }, []);
+  const focusProfileRef = useRef(false); // 확인창을 닫은 뒤 커서를 프로필 아이콘으로 (연 메뉴 항목은 이미 사라졌으므로)
   const profileRef = useRef(null); // 프로필 아이콘 + 메뉴를 감싼 요소. 바깥 클릭 판단에 쓴다
   const profileButtonRef = useRef(null); // Esc로 닫은 뒤 포커스를 돌려줄 곳
   const logoutRef = useRef(null);
@@ -120,13 +130,37 @@ export default function AppLayout() {
   }
 
   // ⑥ 로그아웃 (AUTH-04): 확인창 없이 요청 → 200이면 로그인 상태를 비운다 → RequireAuth가 /login으로
+  // 단, 작성 중인 입력이 있으면 먼저 확인창 (F8 M3: 잃는 것이 있을 때만 확인창, 공지 폼의 나가기 확인과 같은 문구)
+  // 폼의 useBlocker로는 막을 수 없다: 로그인 상태가 비면 RequireAuth가 폼째 내려 blocker가 동작할 틈이 없다
+  function requestLogout() {
+    setMenuOpen(false);
+    if (unsavedRef.current) setLeaveConfirmOpen(true);
+    else logout();
+  }
+
   async function logout() {
     setLoggingOut(true);
     const { status, code } = await api('/api/auth/logout', { method: 'POST' });
     setLoggingOut(false);
-    if (status === 200) signOut();
-    else toast.error(messageOf(code)); // 500·네트워크 (버튼 동작이라 토스트)
+    if (status === 200) {
+      signOut();
+      return;
+    }
+    // 500·네트워크 (버튼 동작이라 토스트). 확인창을 거쳤다면 닫고 쓰던 화면 그대로 (입력은 남아 있다)
+    if (leaveConfirmOpen) closeLeaveConfirm();
+    toast.error(messageOf(code));
   }
+
+  function closeLeaveConfirm() {
+    setLeaveConfirmOpen(false);
+    focusProfileRef.current = true;
+  }
+
+  useEffect(() => {
+    if (leaveConfirmOpen || !focusProfileRef.current) return;
+    focusProfileRef.current = false;
+    profileButtonRef.current?.focus();
+  }, [leaveConfirmOpen]);
 
   return (
     // id="app-shell": 모달이 열린 동안 이 안 전체에 inert를 건다 (components/Modal.jsx). 모달은 이 밖(body)에 그려진다
@@ -223,7 +257,7 @@ export default function AppLayout() {
                   </div>
                 </div>
                 <hr className={styles.menuDivider} />
-                <button type="button" ref={logoutRef} className={styles.menuItem} onClick={logout} disabled={loggingOut}>
+                <button type="button" ref={logoutRef} className={styles.menuItem} onClick={requestLogout} disabled={loggingOut}>
                   <LogoutIcon />
                   {/* 요청 중에는 문구로도 알린다 (로그인 버튼과 같은 규칙) */}
                   {messageOf(loggingOut ? 'BUTTON_LOGGING_OUT' : 'BUTTON_LOGOUT')}
@@ -235,9 +269,24 @@ export default function AppLayout() {
 
         {/* ⑧ 본문 자리. 자식 라우트의 화면이 여기에 들어간다. 동아리 목록과 다시 불러오기를 함께 넘긴다 */}
         <main className={styles.content}>
-          <Outlet context={{ orgs: sortedOrgs, reloadOrgs: loadOrgs }} />
+          <Outlet context={{ orgs: sortedOrgs, reloadOrgs: loadOrgs, setUnsaved }} />
         </main>
       </div>
+
+      {/* 작성 중 로그아웃 확인창 (F8 M3). 공지 폼의 나가기 확인창과 같은 모양·문구, 커서는 [계속 쓰기]
+          [나가기]는 입력을 버리므로 Danger. 요청 중에는 닫히지 않는다 */}
+      {leaveConfirmOpen && (
+        <Modal title={messageOf('MODAL_LEAVE_TITLE')} onClose={closeLeaveConfirm} closable={!loggingOut}>
+          <div className={modalStyles.actions}>
+            <button type="button" className={modalStyles.secondary} onClick={closeLeaveConfirm} disabled={loggingOut}>
+              {messageOf('BUTTON_KEEP_WRITING')}
+            </button>
+            <button type="button" className={modalStyles.danger} onClick={logout} disabled={loggingOut}>
+              {messageOf('BUTTON_LEAVE')}
+            </button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

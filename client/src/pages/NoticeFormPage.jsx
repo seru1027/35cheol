@@ -153,6 +153,14 @@ function NoticeForm({ orgId, noticeId, initial }) {
     return () => window.removeEventListener('beforeunload', warn);
   }, [dirty]);
 
+  // 프로필 메뉴의 로그아웃도 입력을 잃는 이동이다 (F8 M3). 레이아웃(AppLayout)에 '입력 있음'을 알려 확인창을 띄우게 한다
+  // 이 화면을 떠나면(저장 성공 포함) 정리 함수가 false로 되돌린다
+  const { setUnsaved } = useOutletContext();
+  useEffect(() => {
+    setUnsaved(dirty);
+    return () => setUnsaved(false);
+  }, [dirty, setUnsaved]);
+
   function changeTitle(event) {
     setTitle(event.target.value);
     setErrors((prev) => ({ ...prev, title: undefined })); // 그 칸을 고치면 그 칸 오류만 사라진다 (결정 H)
