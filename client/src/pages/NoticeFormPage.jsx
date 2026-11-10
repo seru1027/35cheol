@@ -104,6 +104,8 @@ function NoticeForm({ orgId, noticeId, initial }) {
   const savedRef = useRef(false); // 저장에 성공해 상세로 가는 이동은 막지 않는다
   const titleRef = useRef(null);
   const contentRef = useRef(null);
+  const submitRef = useRef(null);
+  const refocusRef = useRef(null); // 요청 실패 뒤 커서를 줄 곳 (titleRef·contentRef·submitRef 중 하나)
   const id = useId(); // 칸·문구 id (라벨·aria-describedby 연결)
 
   // ⑤ 돌아가는 곳: 작성은 목록, 수정은 그 공지 상세
@@ -113,6 +115,15 @@ function NoticeForm({ orgId, noticeId, initial }) {
   useEffect(() => {
     titleRef.current?.focus();
   }, []);
+
+  // 요청 실패 뒤 커서 (F8 M1). 요청 중에는 칸과 버튼이 모두 disabled라 focus()가 듣지 않고 커서는 body로 떨어진다
+  // → 잠금이 풀려 다시 그린 뒤에 옮긴다 (F7 가입 신청 목록과 같은 방식)
+  useEffect(() => {
+    if (submitting || !refocusRef.current) return;
+    const target = refocusRef.current;
+    refocusRef.current = null;
+    target.current?.focus();
+  }, [submitting]);
 
   // 입력이 있는지: 처음 값과 다르면 (작성은 빈 값, 수정은 불러온 값과 비교). 계산할 수 있는 값이라 state로 두지 않는다
   const dirty = title !== initial.title || content !== initial.content;
@@ -188,12 +199,14 @@ function NoticeForm({ orgId, noticeId, initial }) {
     setSubmitting(false);
     if (status === 401) return; // 공통 처리 → /login (쓰던 내용은 사라짐: Refresh Token 단계에서 해결)
     if (status === 400 && (code.includes('TITLE') || code.includes('CONTENT'))) {
-      // 화면 검사와 같은 규칙이라 보통 나오지 않는다
+      // 화면 검사와 같은 규칙이라 보통 나오지 않는다. 칸이 아직 disabled라 커서는 잠금이 풀린 뒤에 (위 effect)
       const found = code.includes('TITLE') ? { title: code } : { content: code };
       setErrors(found);
-      focusFirstError(found);
+      refocusRef.current = found.title ? titleRef : contentRef;
       return;
     }
+    // 그 밖의 실패는 버튼 동작의 실패: 커서가 body로 떨어졌으면 [올리기]·[저장]으로 돌려 다시 누를 수 있게
+    if (document.activeElement === document.body) refocusRef.current = submitRef;
     if (isEdit && code === 'NOTICE_NOT_FOUND') {
       // 수정 중 다른 운영진이 삭제: 폼 안의 실패라 버튼 위 문구 (결정 K). 입력값은 그대로 둬서 복사할 수 있게
       setFormError(code);
@@ -262,7 +275,7 @@ function NoticeForm({ orgId, noticeId, initial }) {
         <button type="button" className={modalStyles.secondary} onClick={cancel} disabled={submitting}>
           {messageOf('BUTTON_CANCEL')}
         </button>
-        <button type="submit" className={modalStyles.primary} disabled={submitting}>
+        <button type="submit" ref={submitRef} className={modalStyles.primary} disabled={submitting}>
           {/* ⑥ 버튼 글자: 작성 '올리기' / 수정 '저장' */}
           {messageOf(isEdit
             ? (submitting ? 'BUTTON_SAVING' : 'BUTTON_SAVE')

@@ -28,12 +28,24 @@ export default function JoinBox() {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const copyButtonRef = useRef(null);
   const focusCopyRef = useRef(false); // 첫 발급 뒤 [코드 발급] 버튼이 사라지므로 커서를 [복사]로 옮긴다
+  const issueButtonRef = useRef(null); // [코드 발급]
+  const confirmButtonRef = useRef(null); // 확인창의 [재발급]
+  const refocusRef = useRef(null); // 실패 뒤 커서를 돌려줄 버튼 (위 두 ref 중 하나)
 
   useEffect(() => {
     if (!focusCopyRef.current || !data?.inviteCode) return;
     focusCopyRef.current = false;
     copyButtonRef.current?.focus();
   }, [data?.inviteCode]);
+
+  // 실패 뒤 커서 돌려주기 (F7 가입 신청 목록과 같은 규칙, F8 M1)
+  // 요청 중에는 버튼이 disabled라 커서가 body로 떨어진다. 잠금이 풀려 다시 그린 뒤에 그 버튼으로 옮긴다
+  useEffect(() => {
+    if (issuing || !refocusRef.current) return;
+    const target = refocusRef.current;
+    refocusRef.current = null;
+    target.current?.focus();
+  }, [issuing]);
 
   // ⑦ JOIN-01 발급 (첫 발급·재발급 같은 API). 201 → 새 코드로 바꿔 보여주고 토스트 (같은 화면에 머무는 결과, 결정 I)
   // 실패(500·네트워크)는 토스트, 기존 코드 그대로 (화면정의서). 확인창은 연 채로 둬서 다시 누르거나 취소할 수 있게 (F3 모달과 같음)
@@ -48,6 +60,8 @@ export default function JoinBox() {
       toast.success(messageOf('INVITE_CODE_CREATED'));
     } else if (resStatus !== 401) {
       toast.error(messageOf(code));
+      // 커서가 body로 떨어졌을 때만 (그사이 사용자가 다른 곳으로 옮겼으면 건드리지 않는다)
+      if (document.activeElement === document.body) refocusRef.current = first ? issueButtonRef : confirmButtonRef;
     }
   }
 
@@ -87,7 +101,13 @@ export default function JoinBox() {
         // 코드가 null(아직 발급 안 함): 문구 + [코드 발급]만. 잃는 것이 없어 확인창 없이 바로
         <div className={styles.codeRow}>
           <span className={styles.note}>{messageOf('INVITE_CODE_EMPTY')}</span>
-          <button type="button" className={styles.utility} onClick={() => issue({ first: true })} disabled={issuing}>
+          <button
+            type="button"
+            ref={issueButtonRef}
+            className={styles.utility}
+            onClick={() => issue({ first: true })}
+            disabled={issuing}
+          >
             {messageOf(issuing ? 'BUTTON_ISSUING' : 'BUTTON_ISSUE')}
           </button>
         </div>
@@ -111,7 +131,7 @@ export default function JoinBox() {
             <button type="button" className={modalStyles.secondary} onClick={() => setConfirmOpen(false)} disabled={issuing}>
               {messageOf('BUTTON_CANCEL')}
             </button>
-            <button type="button" className={modalStyles.primary} onClick={() => issue()} disabled={issuing}>
+            <button type="button" ref={confirmButtonRef} className={modalStyles.primary} onClick={() => issue()} disabled={issuing}>
               {messageOf(issuing ? 'BUTTON_REISSUING' : 'BUTTON_REISSUE')}
             </button>
           </div>
