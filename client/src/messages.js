@@ -124,6 +124,18 @@ const MESSAGES = {
   COL_MEMBER_JOINED_AT: '가입일',
   COL_MEMBER_ROLE: '역할',
 
+  // SCR-JOIN-02 가입 신청 목록 (JOIN-03, JOIN-04). 토스트·빈 목록 문구는 Figma 03 그대로. 칸 이름(이름·아이디)은 회원 목록과 같이 쓴다
+  JOIN_REQUEST_LIST_TITLE: '가입 신청',
+  JOIN_REQUEST_COUNT: '{n}건', // 제목 옆 건수 (목록 길이)
+  COL_JOIN_REQUESTED_AT: '신청 시각',
+  BUTTON_APPROVE: '승인',
+  BUTTON_APPROVING: '승인 중…',
+  JOIN_REQUEST_APPROVED: '{name} 님을 승인했어요', // 성공 토스트 (결정 I: 행이 사라지는 결과)
+  JOIN_REQUEST_ALREADY_PROCESSED: '이미 처리된 신청이에요', // 409: 다른 운영진이 먼저 처리 → 행을 빼고 토스트
+  JOIN_REQUEST_NOT_FOUND: '이미 처리된 신청이에요', // 404: 신청이 사라짐 → 409와 같은 처리 (화면정의서 ④)
+  JOIN_REQUESTS_PAGE_EMPTY: '대기 중인 가입 신청이 없어요',
+  JOIN_REQUESTS_PAGE_EMPTY_DESC: '동아리 홈의 가입 관리 박스에서 초대 코드를 공유하세요',
+
   // SCR-NOTICE-02 공지 상세 (NOTICE-02, NOTICE-05). 확인창·토스트 문구는 Figma 03 그대로
   BACK_TO_NOTICES: '공지 목록', // '← 공지 목록' (상세, 작성)
   BACK_TO_NOTICE: '공지 보기', // 수정 화면 '← 공지 보기' (그 공지 상세로)

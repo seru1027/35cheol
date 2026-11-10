@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router';
 import { GuestOnly, RequireAuth, useAuth } from './auth.jsx';
 import StatusPanel from './components/StatusPanel.jsx';
 import AppLayout from './pages/AppLayout.jsx';
+import JoinRequestListPage from './pages/JoinRequestListPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import MainPage from './pages/MainPage.jsx';
 import MemberListPage from './pages/MemberListPage.jsx';
@@ -53,7 +54,8 @@ export default function App() {
               <Route path="notices/:noticeId" element={<NoticeDetailPage />} />
               <Route path="notices/:noticeId/edit" element={<NoticeFormPage key="edit" />} />
               <Route path="members" element={<MemberListPage />} />
-              {/* 없는 하위 화면(가입 신청 등): ORG-03을 통과한 뒤 그 자리에 404 패널 */}
+              <Route path="join-requests" element={<JoinRequestListPage />} />
+              {/* 없는 하위 화면: ORG-03을 통과한 뒤 그 자리에 404 패널 */}
               <Route path="*" element={<StatusPanel kind="notFound" titleAs="h1" />} />
             </Route>
             {/* ④ 정의되지 않은 URL → 404 패널. 레이아웃 안에 두어서, 로그아웃 상태면 RequireAuth가 먼저 /login으로 보낸다 */}

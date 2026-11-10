@@ -1,0 +1,76 @@
+/* SCR-JOIN-02 가입 신청 목록 (client/DESIGN.md list-table). 값은 index.css의 :root만 쓴다
+   표 모양은 components/ListTable.module.css, [승인]은 홈 박스의 utility 버튼을 composes로 가져온다 */
+
+.box {
+  composes: box from '../components/ListTable.module.css';
+}
+
+.list {
+  composes: list from '../components/ListTable.module.css';
+}
+
+/* 칸: 이름(남는 폭) · 아이디 · 신청 시각 · 행동 (와이어프레임 값) */
+.row {
+  composes: row from '../components/ListTable.module.css';
+  grid-template-columns:
+    minmax(0, 1fr) var(--join-col-login-id) var(--join-col-date)
+    var(--join-col-action);
+}
+
+.head {
+  composes: head from '../components/ListTable.module.css';
+}
+
+/* 버튼(32px)이 있는 행: 세로 여백을 6px로 줄여 다른 표의 행과 같은 높이 44를 지킨다. 글자는 버튼과 세로 가운데
+   .row.requestRow (class 두 개): ListTable의 .row 여백을 이기게. class 하나면 CSS 파일이 묶이는 순서에 따라 결과가 달라진다 */
+.row.requestRow {
+  align-items: center;
+  padding-block: var(--space-input);
+}
+
+.name {
+  composes: main from '../components/ListTable.module.css';
+}
+
+.meta {
+  composes: meta from '../components/ListTable.module.css';
+}
+
+/* 행동 칸: 버튼을 오른쪽 끝에 (와이어프레임) */
+.action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* [승인]: 목록 안의 작은 행동이라 utility 32px (홈 박스 [복사]·[재발급]과 같은 버튼) */
+.approve {
+  composes: utility from './OrgHomePage.module.css';
+}
+
+/* ⑥ 0건: 상자 안 가운데 두 줄 (와이어프레임) */
+.empty {
+  padding: var(--space-section) var(--space-lg);
+  text-align: center;
+}
+
+/* 승인으로 커서가 옮겨 올 때만 받는 자리라 outline은 키보드로 왔을 때만 */
+.empty:focus {
+  outline: none;
+}
+
+.empty:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(var(--focus-offset) * -1 - var(--border-width) * 2);
+}
+
+.emptyTitle {
+  margin: 0;
+  color: var(--color-ink);
+  font: var(--type-body-sm-strong) var(--font-sans);
+}
+
+.emptyDesc {
+  margin: var(--space-xs) 0 0;
+  color: var(--color-ink-muted);
+  font: var(--type-caption) var(--font-sans);
+}
