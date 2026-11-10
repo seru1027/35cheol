@@ -148,7 +148,7 @@ export default function AppLayout() {
     }
     // 500·네트워크 (버튼 동작이라 토스트). 확인창을 거쳤다면 닫고 쓰던 화면 그대로 (입력은 남아 있다)
     if (leaveConfirmOpen) closeLeaveConfirm();
-    toast.error(messageOf(code));
+    toast.error(messageOf(code), { id: messageOf(code) });
   }
 
   function closeLeaveConfirm() {

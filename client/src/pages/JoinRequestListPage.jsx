@@ -99,7 +99,7 @@ function JoinRequests({ orgId }) {
       toast(messageOf(code));
     } else if (status !== 401) {
       // 403(그사이 역할이 바뀜)·500·네트워크: 토스트, 행과 버튼은 그대로 (결정 K). 401은 공통 처리가 /login으로
-      toast.error(messageOf(code));
+      toast.error(messageOf(code), { id: messageOf(code) });
       // 잠긴 동안 커서가 body로 떨어졌으면 다시 누를 수 있게 그 버튼으로 돌려준다
       // 지금은 버튼이 아직 disabled라 focus()가 듣지 않는다 → 잠금이 풀려 다시 그린 뒤(아래 effect)에 옮긴다
       if (document.activeElement === document.body) refocusRef.current = membershipId;

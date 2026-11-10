@@ -62,7 +62,7 @@ export default function NoticeDetailPage() {
     if (status === 401) return; // 공통 처리 → /login
     // 403(그사이 역할이 바뀜)·500·네트워크: 확인창을 닫고 토스트, 공지는 그대로 (화면정의서 ⑦)
     setConfirmOpen(false);
-    toast.error(messageOf(code));
+    toast.error(messageOf(code), { id: messageOf(code) });
   }
 
   const loaded = result && result.noticeId === noticeId ? result : null;

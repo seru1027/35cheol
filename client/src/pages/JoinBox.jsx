@@ -59,7 +59,7 @@ export default function JoinBox() {
       setConfirmOpen(false);
       toast.success(messageOf('INVITE_CODE_CREATED'));
     } else if (resStatus !== 401) {
-      toast.error(messageOf(code));
+      toast.error(messageOf(code), { id: messageOf(code) });
       // 커서가 body로 떨어졌을 때만 (그사이 사용자가 다른 곳으로 옮겼으면 건드리지 않는다)
       if (document.activeElement === document.body) refocusRef.current = first ? issueButtonRef : confirmButtonRef;
     }
@@ -73,7 +73,7 @@ export default function JoinBox() {
       toast.success(messageOf('INVITE_CODE_COPIED'));
     } catch {
       // navigator.clipboard가 없을 때(TypeError)와 권한 거부(NotAllowedError)를 함께 받는다
-      toast.error(messageOf('INVITE_CODE_COPY_FAILED'));
+      toast.error(messageOf('INVITE_CODE_COPY_FAILED'), { id: messageOf('INVITE_CODE_COPY_FAILED') });
     }
   }
 

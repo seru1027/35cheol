@@ -335,6 +335,7 @@ Product screenshots are framed in rounded `{rounded.lg}` / `{rounded.xl}` wells,
 | 부분 | 값 |
 |---|---|
 | 자리·시간 | 화면 오른쪽 아래, 3초 |
+| 쌓임 | 같은 문구의 오류는 하나만 (`toast.error(문구, { id: 문구 })`, 500·네트워크처럼 코드가 달라도 문구가 같으면 하나, 다시 나면 그 토스트가 3초를 새로 센다). 쌓인 토스트가 오른쪽 아래 폼 버튼(공지 [올리기])을 가렸기 때문 [추가함, F8]. 성공 토스트는 결과마다 달라 쌓아 둔다 |
 | 상자 | 흰색, 1px hairline, `{rounded.lg}`, Level 2 그림자, 여백 `{spacing.sm}` × `{spacing.md}` |
 | 글자 | `{typography.caption}`, `{colors.ink}` |
 | 아이콘 | 성공 `{colors.primary}`, 오류 `{colors.danger}` |

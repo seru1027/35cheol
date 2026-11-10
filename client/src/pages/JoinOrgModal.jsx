@@ -50,7 +50,7 @@ export default function JoinOrgModal({ onClose, onJoined }) {
     setSubmitting(false);
     // 400(빈 값)·404(없는 코드·재발급으로 무효)·409(이미 대기중·이미 회원): 고쳐야 하는 오류라 칸 아래 (결정 K)
     if (status === 400 || status === 404 || status === 409) setError(resultCode);
-    else if (status !== 401) toast.error(messageOf(resultCode)); // 500·네트워크: 토스트, 모달과 입력값 유지
+    else if (status !== 401) toast.error(messageOf(resultCode), { id: messageOf(resultCode) }); // 500·네트워크: 토스트, 모달과 입력값 유지
   }
 
   const describedBy = error ? 'invite-code-help invite-code-error' : 'invite-code-help';

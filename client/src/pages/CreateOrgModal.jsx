@@ -46,7 +46,7 @@ export default function CreateOrgModal({ onClose, onCreated }) {
     }
     setSubmitting(false);
     if (status === 400) setError(code); // 화면 검사와 같은 규칙이라 보통 나오지 않음
-    else if (status !== 401) toast.error(messageOf(code)); // 500·네트워크: 토스트, 모달과 입력값은 그대로 (서버가 롤백했으니 다시 눌러도 중복 없음)
+    else if (status !== 401) toast.error(messageOf(code), { id: messageOf(code) }); // 500·네트워크: 토스트, 모달과 입력값은 그대로 (서버가 롤백했으니 다시 눌러도 중복 없음)
     // 401은 api.js 공통 처리 → 로그인 화면 (레이아웃째 사라진다)
   }
 

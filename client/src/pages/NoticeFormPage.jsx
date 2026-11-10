@@ -221,7 +221,7 @@ function NoticeForm({ orgId, noticeId, initial }) {
       return;
     }
     // 403(그사이 역할이 바뀜)·500·네트워크: 토스트, 입력값 그대로 (다시 누를 수 있게)
-    toast.error(messageOf(code));
+    toast.error(messageOf(code), { id: messageOf(code) });
   }
 
   // ⑤ 취소: 그냥 돌아가는 곳으로 이동한다. 입력이 있으면 위의 blocker가 멈추고 확인창을 띄운다 (확인 코드는 한 곳)

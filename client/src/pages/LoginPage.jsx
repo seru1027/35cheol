@@ -90,7 +90,7 @@ export default function LoginPage({ mode }) {
       setErrors({ [fieldOfCode(code)]: code });
       focusErrorRef.current = true;
     } else {
-      toast.error(messageOf(code)); // 500·네트워크. 입력값은 그대로 둔다
+      toast.error(messageOf(code), { id: messageOf(code) }); // 500·네트워크. 입력값은 그대로 둔다
     }
   }
 
@@ -120,7 +120,7 @@ export default function LoginPage({ mode }) {
       // 이 401은 INVALID_LOGIN_ID_OR_PASSWORD라 api.js의 공통 401 처리(code가 UNAUTHORIZED일 때만)에 걸리지 않는다 (⑦)
       setLoginError(code);
     } else {
-      toast.error(messageOf(code)); // 500·네트워크. 입력값은 그대로 둔다
+      toast.error(messageOf(code), { id: messageOf(code) }); // 500·네트워크. 입력값은 그대로 둔다
     }
   }
 

@@ -15,6 +15,8 @@ import OrgLayout from './pages/OrgLayout.jsx';
 
 // 토스트 모양 (client/DESIGN.md toast: 흰 카드 + Level 2 그림자, 성공 파랑·오류 빨강)
 // 라이브러리가 기본 모양을 인라인 style로 넣어서 .module.css로는 덮을 수 없다. 그래서 style 객체로 넘기되 값은 var(--...)만 쓴다
+// 오류 토스트는 화면마다 toast.error(문구, { id: 문구 })로 띄운다: 같은 문구는 쌓이지 않고 하나가 다시 3초를 센다
+// (500과 네트워크 오류처럼 코드가 달라도 문구가 같으면 하나로. 같은 실패가 연달아 나면 토스트가 위로 쌓여 오른쪽 아래 버튼을 가렸다, F8)
 const TOAST_OPTIONS = {
   duration: 3000,
   style: {
