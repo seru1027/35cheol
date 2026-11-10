@@ -29,6 +29,17 @@ export default function OrgLayout() {
     };
   }, [orgId, attempt]);
 
+  // 목록(ORG-02)과 ORG-03이 어긋날 때 목록을 다시 부른다 (F8 M2)
+  // 햄버거바·메인의 목록은 AppLayout이 처음 한 번 불러 둔 것이라, 그 뒤 회장·운영진이 승인해도 '대기중'으로 남는다
+  // ORG-03이 200(이제 회원)인데 목록에는 아직 PENDING이면, 들고 있는 목록이 낡은 것이므로 그때만 다시 부른다
+  // 다시 불러 ACTIVE가 되면 조건이 거짓이 되어 더 부르지 않는다 (계속 도는 일 없음)
+  const { orgs, reloadOrgs } = parent;
+  const listedStatus = Array.isArray(orgs) ? orgs.find((org) => String(org.orgId) === orgId)?.myStatus : undefined;
+  const joined = result?.orgId === orgId && result.status === 200;
+  useEffect(() => {
+    if (joined && listedStatus === 'PENDING') reloadOrgs();
+  }, [joined, listedStatus, reloadOrgs]);
+
   // [다시 시도]: 결과를 비워 '불러오는 중…'을 보인 뒤 다시 요청
   function retry() {
     setResult(null);
