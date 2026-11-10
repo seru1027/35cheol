@@ -19,6 +19,15 @@
   letter-spacing: var(--tracking-heading-2);
 }
 
+/* 제목 옆 개수 ('회원 6명'): 작고 흐리게, 제목과 같은 글자 기준선. 숫자 폭을 같게 해 건수가 바뀌어도 흔들리지 않게 */
+.count {
+  margin-left: var(--space-sm);
+  color: var(--color-ink-muted);
+  font: var(--type-caption) var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: normal;
+}
+
 .actions {
   display: flex;
   flex-shrink: 0;

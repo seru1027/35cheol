@@ -421,7 +421,7 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 부분 | 값 |
 |---|---|
 | 제목 줄 버튼 | [글쓰기] Primary (화면의 주 행동, `Modal.module.css`의 `.primary`를 `composes`로 가져온다). 회장·운영진만 |
-| 목록 | 와이어프레임대로 **표**: 흰 상자(원본 `feature-card`, 1px hairline, `{rounded.lg}`, 그림자 없음 = 홈 박스와 같은 면) 안에 머리 줄 + 행. 칸은 제목(남는 폭) · 작성자 · 작성일(각 120px `--notice-col-width`, 와이어프레임 값). 칸 여백 `{spacing.sm}` × `{spacing.md}` |
+| 목록 | 와이어프레임대로 **표** (모양은 `list-table`로 옮김): 흰 상자(원본 `feature-card`, 1px hairline, `{rounded.lg}`, 그림자 없음 = 홈 박스와 같은 면) 안에 머리 줄 + 행. 칸은 제목(남는 폭) · 작성자 · 작성일(각 120px `--notice-col-width`, 와이어프레임 값). 칸 여백 `{spacing.sm}` × `{spacing.md}` |
 | 머리 줄 | `{typography.eyebrow}`(12px 600) `{colors.ink-muted}`, 위아래 여백 `{spacing.xs}`(높이 약 33, 행 44보다 낮게), 아래 선 `{colors.input-border}`(hairline보다 한 단계 진하게). 처음엔 caption muted 같은 높이였는데 첫 공지 행처럼 보여서 바꿨다 (2026-11-09, 바탕색 안과 스크린샷 비교 후 결정). 글자색은 처음 `{colors.ink-faint}`였지만 2.6:1이라 보조 글자 색 규칙(읽는 글자는 muted)의 예외가 되어 `{colors.ink-muted}`로 바꿨다. 행과의 구분은 크기·높이·아래 선이 맡는다 (2026-11-10 F6 전). 눈으로 보는 칸 이름이라 `aria-hidden` (행 링크가 세 칸을 모두 읽어 준다) |
 | 행 | 행 전체가 링크 하나. 제목 `{typography.body-sm}` `{colors.ink}` 한 줄 말줄임, 작성자·작성일 caption muted 고정폭 숫자. 행 사이 hairline, hover `{colors.fill-subtle}` (상자 모서리 안에서 잘림). Focus는 상자가 바깥을 자르므로 행 안쪽에 2px primary outline |
 | 로딩·500 | 제목 줄은 남기고 목록 자리에 `status-panel` |
@@ -440,6 +440,17 @@ Figma 03 배치: 왼쪽 햄버거바는 화면 높이 전체, 오른쪽 위에 �
 | 회원이 주소로 들어옴 | 폼 대신 `status-panel` 권한 없음(`h1`) + [동아리 홈으로]. 수정 주소면 NOTICE-02도 부르지 않는다 |
 | 수정 불러오기 | NOTICE-02 응답 전에는 제목 줄 아래 `status-panel` 로딩 (빈 폼을 먼저 그리지 않는다: 빈 값으로 덮어쓰기 방지). 404·400은 패널만(`h1`), 500은 [다시 시도] |
 | 수정 404 (저장 중 다른 운영진이 삭제) | 버튼 줄 바로 위 오른쪽 caption danger '이미 삭제된 공지입니다' `role="alert"`, 입력값은 그대로 (복사할 수 있게). 칸 하나의 잘못이 아니라 칸 아래에 두지 않는다 |
+
+### `list-table` — 목록 표 (공지·회원·가입 신청)
+`notice` 목록 표를 `components/ListTable.module.css`로 옮겨 세 화면이 `composes`로 쓴다 (2026-11-10 F6 전). 세 표는 행 안 내용이 링크(공지) / 글자(회원) / 버튼(가입 신청)으로 달라, 모양(CSS)만 함께 쓰고 JSX 부품은 만들지 않았다. 칸 나눔(`grid-template-columns`)은 화면마다 정한다.
+
+| 부분 | 값 |
+|---|---|
+| 상자·머리 줄·행·0건 | `notice` 목록 표 그대로 (흰 상자, 머리 줄 eyebrow muted 약 33, 행 44, 행 사이 hairline, 칸 여백 `{spacing.sm}` × `{spacing.md}`) |
+| 첫 칸 | 제목·이름: 남는 폭, `{typography.body-sm}` `{colors.ink}` 한 줄 말줄임 (`.main`) |
+| 나머지 칸 | caption muted 고정폭 숫자, 길면 말줄임 (`.meta`) |
+| hover·Focus | 누를 수 있는 행(링크)만. 누를 수 없는 행(회원 목록)은 hover 없음 |
+| 제목 줄 개수 | `PageTitle`의 `count`: h1 안, 제목 뒤 `{spacing.sm}`, `{typography.caption}` `{colors.ink-muted}` 고정폭 숫자 ('회원 6명', '가입 신청 3건'). 목록을 불러온 뒤에만 보인다 |
 
 ### `org-card` — 메인 카드 목록 (SCR-ORG-01)
 레퍼런스: 네이버 밴드 '내 밴드' 카드(위 사진 + 아래 이름, 약 8:9)를 비율로 옮겼다. 원본 `feature-card`의 "colour-blocked illustration band from the sticker palette"(카드 위 색 띠) 문법으로, 사진 자리를 색 띠로 채운다. 동작·순서는 Figma 03 SCR-ORG-01. 2026-11-05에 A(기존 2:1)·B(3:2)·D(3:4)·E(2:3)·F(밴드형)를 열림·닫힘 스크린샷으로 비교해 F를 골랐다.

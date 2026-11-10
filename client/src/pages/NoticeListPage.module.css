@@ -1,4 +1,5 @@
-/* SCR-NOTICE-01 공지 목록 (client/DESIGN.md notice). 값은 index.css의 :root만 쓴다 */
+/* SCR-NOTICE-01 공지 목록 (client/DESIGN.md notice, list-table). 값은 index.css의 :root만 쓴다
+   표 모양은 components/ListTable.module.css를 composes로 가져오고, 여기서는 칸 나눔만 정한다 */
 
 /* [글쓰기]: 화면의 주 행동이라 Primary (모달의 버튼을 그대로 가져온다: composes) */
 .write {
@@ -7,81 +8,33 @@
   text-decoration: none;
 }
 
-/* 흰 상자: 원본 feature-card (홈 박스와 같은 면, 그림자 없음). 행 hover 면이 모서리 밖으로 나가지 않게 자른다 */
 .box {
-  overflow: hidden;
-  border: var(--border-width) solid var(--color-hairline);
-  border-radius: var(--radius-lg);
-  background: var(--color-canvas);
+  composes: box from '../components/ListTable.module.css';
 }
 
 .list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  composes: list from '../components/ListTable.module.css';
 }
 
-/* 행 사이 hairline (홈 공지 박스와 같은 문법) */
-.list > li + li {
-  border-top: var(--border-width) solid var(--color-hairline);
-}
-
-/* 머리 줄과 행이 같은 칸 나눔을 쓴다: 제목(남는 폭) · 작성자 · 작성일 */
+/* 칸: 제목(남는 폭) · 작성자 · 작성일 */
 .row {
-  display: grid;
+  composes: row from '../components/ListTable.module.css';
   grid-template-columns: minmax(0, 1fr) var(--notice-col-width) var(--notice-col-width);
-  align-items: baseline;
-  padding: var(--space-sm) var(--space-md);
-  color: var(--color-ink);
-  text-decoration: none;
-  transition: background-color var(--duration-fast) ease;
 }
 
-/* 머리 줄: 행보다 작고(12px 굵게, 햄버거바 묶음 제목과 같은 단계) 낮고 흐리게, 아래 선은 한 단계 진하게
-   행과 같은 크기면 첫 공지처럼 보였다 (2026-11-09 F5, 바탕색 안과 비교 후 결정) */
 .head {
-  padding-block: var(--space-xs);
-  border-bottom: var(--border-width) solid var(--color-input-border);
-  color: var(--color-ink-muted); /* 읽는 글자라 muted (faint는 2.6:1, 2026-11-10) */
-  font: var(--type-eyebrow) var(--font-sans);
-  letter-spacing: var(--tracking-eyebrow);
+  composes: head from '../components/ListTable.module.css';
 }
 
 /* 제목이 길면 한 줄 말줄임 (화면정의서 ③) */
 .title {
-  overflow: hidden;
-  padding-right: var(--space-md);
-  font: var(--type-body-sm) var(--font-sans);
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  composes: main from '../components/ListTable.module.css';
 }
 
-/* 작성자·작성일: 숫자 폭을 같게 해 날짜가 줄마다 같은 자리에 온다. 긴 이름은 말줄임 */
 .meta {
-  overflow: hidden;
-  color: var(--color-ink-muted);
-  font: var(--type-caption) var(--font-sans);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  composes: meta from '../components/ListTable.module.css';
 }
 
 .empty {
-  margin: 0;
-  padding: var(--space-lg);
-  color: var(--color-ink-muted);
-  font: var(--type-caption) var(--font-sans);
-}
-
-/* hover는 마우스 기기만 (DESIGN.md motion) */
-@media (hover: hover) and (pointer: fine) {
-  a.row:hover {
-    background: var(--color-fill-subtle);
-  }
-}
-
-/* 상자가 overflow: hidden이라 바깥 outline이 잘린다. 행 안쪽으로 그린다 */
-a.row:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: calc(var(--focus-offset) * -1 - var(--border-width) * 2);
+  composes: empty from '../components/ListTable.module.css';
 }
